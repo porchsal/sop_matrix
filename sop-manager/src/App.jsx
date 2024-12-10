@@ -1,37 +1,39 @@
+
 import './App.css'
+import './styles/SignIn.css'
+//import { UserProvider } from './components/UserContext'
+import Sites from './components/Sites'
+import Departments from './components/Department'
+import Positions from './components/Position'
+import Employees from './components/Employee'
+import Sop from './components/Sop'
+import Training from './components/Training'
+//import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import SignIn from './components/SignIn'
+import Dashboard from './components/Dashboard'
+
 
 function App() {
   
+ 
 
   return (
-    <>
-      <header className='title'>SOP Managing System</header>
-      <section>
-          <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-            <form className="space-y-4 md:space-y-6">
-              <div className="flex items-center justify-between">
-                <label htmlFor="user" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User:</label>
-                <input type="text" name="user" id="user" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="User ID" required=""/>
 
-                
-              </div>
-              <div>
-                <label >Password:</label>
-                <input type="text"  />
-                
-              </div>
-              <button type="submit">Login</button>
-            </form>
+    <BrowserRouter> 
+      <Routes>
+          <Route path="/" element={<SignIn />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/sites" element={<Sites />} />
+          <Route path="/departments" element={<Departments />} />
+          <Route path="/positions" element={<Positions />} />
+          <Route path="/employees" element={<Employees />} />
+          <Route path="/sop" element={<Sop />} />
+          <Route path="/training" element={<Training />} />
+      </Routes>
+    </BrowserRouter>  
 
-          </div>
-            <p className='read-the-docs'>
-              Chief Medical Supplies
-            </p>
-
-          
-          </section>    
-    </>
   )
 }
 
-export default App
+export default App;
