@@ -6,6 +6,7 @@ const sitesRouter = require("./database/routes/sites_routes.js"); // Import our 
 const departmentRouter = require("./database/routes/department_routes.js"); // Import our department router
 const positionRouter = require("./database/routes/position_routes.js"); // Import our position router
 const employeeRouter = require("./database/routes/employee_routes.js"); // Import our employee router
+const sopRouter = require("./database/routes/sop_routes.js"); // Import our sop router
 //Configurate cors
 
 app.use(cors({ origin: 'http://localhost:5173' 
@@ -18,6 +19,7 @@ app.use("/api", sitesRouter); // Use our sites router
 app.use("/api", departmentRouter); // Use our department router
 app.use("/api", positionRouter); // Use our position router
 app.use("/api", employeeRouter); // Use our employee router
+app.use("/api", sopRouter); // Use our sop router
 //console.log(positionRouter);
 
 app.listen(port, function () {
