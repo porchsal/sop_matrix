@@ -1,18 +1,19 @@
 const db = require("../connection");
-console.log(db);
-const getAllSites = (req, res) => {
-  db.query("SELECT * FROM sites", (err, rows) => {
-    if (err) {
-      return res.status(500).json({
-        error: "Internal Server Error"
-      });
-    }
 
-    res.json(rows);
-  });
-}
+const getAllSites = () => { 
+    return new Promise((resolve, reject) => { 
+        db.query('SELECT * FROM sites', (err, rows) => { 
+            if (err) { 
+                console.error('Database query error:', err); 
+                return reject(err); 
+            } 
+            //console.log('Query result:', rows);
+             resolve(rows);
+             });        
+        });
+};  
 
-console.log(getAllSites);
+
 module.exports = {
   getAllSites
 };

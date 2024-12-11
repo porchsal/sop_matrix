@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'; 
+import { useState, useEffect } from 'react'; 
 import axios from 'axios';
 
 function Sites() {
@@ -7,21 +7,16 @@ function Sites() {
   const [error, setError] = useState(null);
   
     useEffect(() => { 
-      axios.get('/api/sites') 
-      .then(response => { 
-        if (Array.isArray(response.data)) 
-          { setSites(response.data); } 
-        else { 
-            throw new Error('Response is not an array'); 
-          } 
-            setLoading(false); 
-          })
-      .catch(error => { 
-        setError(error); 
-        setLoading(false); 
-        });
-       }, []) 
-       
+      const fetchData = async () => { 
+        try { const response = await axios.get('http://localhost:3010/api/sites'); 
+          setSites(response.data); 
+          setLoading(false);
+        } catch (error) { 
+          setError(error); 
+          setLoading(false); 
+        } 
+      }; fetchData(); },
+      []); 
        if (loading) 
         { return <p>Loading...</p>; } 
        if (error) 
@@ -31,11 +26,12 @@ function Sites() {
   
   return (
     <div>
-    <h2>Sites</h2>
-     <div> <h1>List of Sites</h1> 
+    <h1>Sites</h1>
+     <div> <h2>List of Sites</h2> 
             <ul> 
               {sites.map(site => ( 
-                <li key={site.id}>{site.name}</li> 
+                //console.log(site),
+                <li key={site.id}>{site.site_name}</li> 
               ))}
               
             </ul>
@@ -44,4 +40,4 @@ function Sites() {
       )
 }
 
-export default Sites;
+export default Sites

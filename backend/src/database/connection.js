@@ -1,12 +1,15 @@
-var mysql = require('mysql2');
+const mysql = require('mysql2');
 
-var con = mysql.createConnection({
+const db = mysql.createConnection({
   host: "localhost",
   user: "porchsal",
-  password: "porchdev"
+  password: "porchdev",
+  database: 'sop_catalog'
 });
 
-con.connect(function(err) {
+db.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
 });
+
+module.exports = db;
