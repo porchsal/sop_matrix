@@ -10,19 +10,24 @@ import Sop from './components/Sop'
 import Training from './components/Training'
 //import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import SignIn from './components/SignIn'
+//import SignIn from './components/SignIn'
 import Dashboard from './components/Dashboard'
+// import Sidenav from './components/Sidenav'
 
-
+import Home from './components/Home'
 function App() {
   
  
 
   return (
-
+    <div className="App">
+     
+    
     <BrowserRouter> 
       <Routes>
-          <Route path="/" element={<SignIn />} />
+          <Route path="/" element={<Home />} />
+          
+          {/* <Route path="/" element={<SignIn />} /> */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/sites" element={<Sites />} />
           <Route path="/departments" element={<Department />} />
@@ -32,8 +37,8 @@ function App() {
           <Route path="/training" element={<Training />} />
       </Routes>
     </BrowserRouter>  
-
+    </div>
   )
 }
 
-export default App
+export default App;
