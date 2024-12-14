@@ -183,7 +183,7 @@ function Sidenav() {
                 <ListItemText primary="SOP" sx={[open ? { opacity: 1, } : { opacity: 0, },]} />
               </ListItemButton>
             </ListItem>
-            <ListItem disablePadding sx={{ display: 'block' }}>
+            <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/training")}}>
               <ListItemButton
                 sx={[
                   {
@@ -219,7 +219,7 @@ function Sidenav() {
                 <ListItemText primary="Training" sx={[open ? { opacity: 1, } : { opacity: 0, },]} />
               </ListItemButton>
             </ListItem> 
-            <ListItem disablePadding sx={{ display: 'block' }}>
+            <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/employee")}}>
               <ListItemButton
                 sx={[
                   {
