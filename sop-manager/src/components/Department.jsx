@@ -30,7 +30,7 @@ function Department() {
      <div> <h2>List of Departments</h2> 
             <ul> 
               {departments.map(department => ( 
-                console.log(departments),
+                
                 <li key={department.id}>{department.dep_name}</li> 
               ))}
               

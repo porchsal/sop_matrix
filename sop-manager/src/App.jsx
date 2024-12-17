@@ -8,13 +8,16 @@ import Position from './components/Position'
 import Employee from './components/Employee'
 import Sop from './components/Sop'
 import Training from './components/Training'
+import NewTraining from './components/NewTraining'
 //import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 //import SignIn from './components/SignIn'
 import Dashboard from './components/Dashboard'
 // import Sidenav from './components/Sidenav'
 
+import Topics from './components/Topics'
 import Home from './components/Home'
+
 function App() {
   
  
@@ -35,6 +38,8 @@ function App() {
           <Route path="/employee" element={<Employee />} />
           <Route path="/sop" element={<Sop />} />
           <Route path="/training" element={<Training />} />
+          <Route path="/NewTraining" element={<NewTraining />} />
+          <Route path="/topics" element={<Topics />} />
       </Routes>
     </BrowserRouter>  
     </div>

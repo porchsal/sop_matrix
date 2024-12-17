@@ -7,13 +7,25 @@ const getAllPositions = () => {
                 console.error('Database query error:', err); 
                 return reject(err); 
             } 
-            console.log('Query result:', rows);
+             console.log('Query result:', rows);
              resolve(rows);
              });        
         });
 };  
 
-
+const getAllPositionsNames = () => {
+    return new Promise((resolve, reject) => {
+        db.query('SELECT position_name FROM position', (err, rows) => {
+            if (err) {
+                console.error('Database query error:', err);
+                return reject(err);
+            }
+            // console.log('Query result:', rows);
+            resolve(rows);
+        });
+    });
+}
 module.exports = {
-  getAllPositions
+  getAllPositions,
+  getAllPositionsNames
 };

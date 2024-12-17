@@ -7,7 +7,7 @@ const getAllDepartments = () => {
                 console.error('Database query error:', err); 
                 return reject(err); 
             } 
-            //console.log('Query result:', rows);
+            
              resolve(rows);
              });        
         });

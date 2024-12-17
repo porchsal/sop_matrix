@@ -11,4 +11,15 @@ router.get("/position", (req, res) => {
     });
 });
 
+router.get("/position/name", (req, res) => {
+    positionQueries.getAllPositionsNames()    
+    .then((position) => {
+        console.log(position);
+        res.json(position);
+    return;
+    })
+    .catch((err) => {
+        console.error('Error getting positions:', err);
+    });
+});
 module.exports = router;

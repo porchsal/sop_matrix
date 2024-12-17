@@ -8,6 +8,7 @@ const positionRouter = require("./database/routes/position_routes.js"); // Impor
 const employeeRouter = require("./database/routes/employee_routes.js"); // Import our employee router
 const sopRouter = require("./database/routes/sop_routes.js"); // Import our sop router
 const trainingRouter = require("./database/routes/training_routes.js"); // Import our training router
+const topicRouter = require("./database/routes/topic_routes.js"); // Import our topic router
 //Configurate cors
 
 app.use(cors({ origin: 'http://localhost:5173' 
@@ -22,6 +23,7 @@ app.use("/api", positionRouter); // Use our position router
 app.use("/api", employeeRouter); // Use our employee router
 app.use("/api", sopRouter); // Use our sop router
 app.use("/api", trainingRouter); // Use our training router
+app.use("/api", topicRouter); // Use our topic router
 //console.log(positionRouter);
 
 app.listen(port, function () {

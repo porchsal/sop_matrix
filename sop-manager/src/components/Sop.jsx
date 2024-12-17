@@ -65,8 +65,8 @@ import TablePagination from '@mui/material/TablePagination';
               <List> 
               
                   <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                  <TableContainer sx={{ maxHeight: 440 }}>
-                    <Table sx={{ minWidth: 650 }} stickyHeader aria-label="sticky table">
+                  <TableContainer sx={{ maxHeight: 800 }}>
+                    <Table sx={{ minWidth: 800 }} stickyHeader aria-label="sticky table">
                       <TableHead>
                         <TableRow>
                           <TableCell>SOP Number</TableCell>
@@ -76,31 +76,30 @@ import TablePagination from '@mui/material/TablePagination';
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {sopList.map((sopL) => (
-                        <TableRow
-                            key={sopL.id}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            hover onClick={() => handleSelect(sopL)}
-                          >
-                            <TableCell component="th" scope="row">{sopL.sop_number}</TableCell>
-                            <TableCell align="center">{sopL.sop_title}</TableCell>
-                            <TableCell align="right">{sopL.topic}</TableCell>
-    {/* <TableCell align="right">{sopL.effective_date}</TableCell> */}
-
+                        {sopList
+                          .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                          .map((sopL) => (
+                            <TableRow
+                              key={sopL.id}
+                              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                              hover onClick={() => handleSelect(sopL)}
+                            >
+                              <TableCell component="th" scope="row">{sopL.sop_number}</TableCell>
+                              <TableCell align="center">{sopL.sop_title}</TableCell>
+                              <TableCell align="right">{sopL.topic}</TableCell>
                             <Button onClick={() => handleSelect(sopL)}>Select Trainings</Button>
-                          <Button align="right" onClick={handleNew}>New Training</Button>
-                          </TableRow>
-                          
-                          
-                        
+                            <Button align="right" onClick={handleNew}>New Training</Button>
+                            </TableRow>
                         ))}
                       </TableBody>
+                      
                     </Table>  
+                    
                   </TableContainer>
                   {tablePaginationComponent}
                   
                 </Paper>
-                
+                <Button>New SOP</Button>
                 
               </List>
         </div>
