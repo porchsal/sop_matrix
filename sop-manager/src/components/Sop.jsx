@@ -10,6 +10,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button, List } from "@mui/material";
 import TablePagination from '@mui/material/TablePagination';
+import { useNavigate } from "react-router-dom";
+//import NewSopModal from './NewSop';
 
    function Sop() {
     const [sopList, setSopList] = useState([]); 
@@ -17,7 +19,9 @@ import TablePagination from '@mui/material/TablePagination';
     const [error, setError] = useState(null);
     const [page, setPage] = useState(0); 
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    
+    //const [open, setOpen] = useState(false);
+    const navigate = useNavigate();
+
     useEffect(() => { 
         const fetchData = async () => { 
           try { const response = await axios.get('http://localhost:3010/api/sop'); 
@@ -44,6 +48,14 @@ import TablePagination from '@mui/material/TablePagination';
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
     }
+
+    // const handleClose = () => {
+    //   setOpen(false);
+    // };
+
+    // const handleAddSop = (newSop) => {
+    //   setSopList([...sopList, newSop]);
+    // };
 
     const handleChangeRowsPerPage = (event) => {
       setRowsPerPage(event.target.value);
@@ -99,12 +111,12 @@ import TablePagination from '@mui/material/TablePagination';
                   {tablePaginationComponent}
                   
                 </Paper>
-                <Button>New SOP</Button>
-                
+                <Button variant="contained" color="primary" onClick={()=>{navigate("/sop/newsop")}} >New SOP</Button>
+                {/* <NewSopModal open={open} handleClose={handleClose} addSop={handleAddSop} /> */}
               </List>
         </div>
       </div>
     )
   }
     
-    export default Sop;
+    export default Sop

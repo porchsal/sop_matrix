@@ -36,17 +36,17 @@ router.put('/employee/:id', async (req, res) => {
     }
 });
 
-router.put('/employee/new', async (req, res) => {
-    const { name, date_of_hire, active, trainer, position_id, department_id, site_id } = req.body;
-    //employeeQueries.addEmployee(name, date_of_hire, active, trainer, position_id, department_id, site_id)
-    try {
-        const result = await employeeQueries.addEmployee(name, date_of_hire, active, trainer, position_id, department_id, site_id);
-        res.status(200).send({ message: 'Employee added successfully', result });
-    } catch (error) {
-        console.error('Error adding employee:', error);
-        res.status(500).send({ message: 'Error adding employee', error });
-    }
-});
+// router.put('/employee/new', async (req, res) => {
+//     const { name, date_of_hire, active, trainer, position_id, department_id, site_id } = req.body;
+//     //employeeQueries.addEmployee(name, date_of_hire, active, trainer, position_id, department_id, site_id)
+//     try {
+//         const result = await employeeQueries.addEmployee(name, date_of_hire, active, trainer, position_id, department_id, site_id);
+//         res.status(200).send({ message: 'Employee added successfully', result });
+//     } catch (error) {
+//         console.error('Error adding employee:', error);
+//         res.status(500).send({ message: 'Error adding employee', error });
+//     }
+// });
 
 router.post('/employee/new', async (req, res) => {
     const { name, date_of_hire, active, trainer, position_id, department_id, site_id } = req.body;

@@ -22,4 +22,14 @@ router.get("/NewTraining", (req, res) => {
     res.send("New Training");
 });
 
+router.post("/training/newtraining", async (req, res) => {
+    const { training_name, sop_number, sop_name, trainer_name, comments, site_name, position_name, department_name, training_date, employee_name } = req.body;
+    try {
+        const result = await trainingQueries.addTraining(training_name, sop_number, sop_name, trainer_name, comments, site_name, position_name, department_name, training_date, employee_name);
+        res.status(200).send({ message: 'Training added successfully', result });
+    } catch (error) {
+        console.error('Error adding Training:', error);
+        res.status(500).send({ message: 'Error adding Training', error });
+    }
+});
 module.exports = router;

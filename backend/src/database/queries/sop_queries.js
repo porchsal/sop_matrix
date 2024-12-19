@@ -12,7 +12,21 @@ const getAllSop = () => {
         });
 };  
 
+const addSop = (sop_number, sop_tittle, topic, sop_effective_date, link, comment, active) => {
+    return new Promise((resolve, reject) => {
+        db.query('INSERT INTO sop (sop_number, sop_tittle, topic, sop_effective_date, link, comment, active) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            [sop_number, sop_tittle, topic, sop_effective_date, link, comment, active],
+            (err, result) => {
+                if (err) {
+                    console.error('Database query error:', err);
+                    return reject(err);
+                }
+                resolve(result);
+            });
+    });
+}
 
 module.exports = {
-  getAllSop
+  getAllSop,
+    addSop
 };

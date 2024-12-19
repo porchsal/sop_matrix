@@ -10,4 +10,16 @@ router.get("/sop", (req, res) => {
     });
 });
 
+
+router.post("/sop/newsop", async (req, res) => {
+    const { sop_number, sop_tittle, topic, sop_effective_date, link, comment, active } = req.body;
+    try {
+        const result = await sopQueries.addSop(sop_number, sop_tittle, topic, sop_effective_date, link, comment, active);
+        res.status(200).send({ message: 'SOP added successfully', result });
+    } catch (error) {
+        console.error('Error adding SOP:', error);
+        res.status(500).send({ message: 'Error adding SOP', error });
+    }
+});
+
 module.exports = router;

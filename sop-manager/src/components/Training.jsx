@@ -22,7 +22,7 @@ function Training() {
   const navigate = useNavigate();
 
   const handleNewTraining = (sopNumber) => {
-    //console.log(sopNumber);
+    console.log(sopNumber);
     navigate("/NewTraining");
   }
 

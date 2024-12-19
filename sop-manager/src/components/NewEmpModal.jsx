@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import React from 'react';
+//import React from 'react';
 import { Modal, TextField, Box, Typography, Button, TableContainer, TableBody, TableCell, TableRow, Select, MenuItem } from '@mui/material';
 import axios from 'axios';
 
@@ -16,6 +16,7 @@ const style = {
 };
 
 
+// eslint-disable-next-line react/prop-types
 const NewEmpModal = ({ open, handleClose, addEmployee }) => {
     const [name, setName] = useState();
     const [date_of_hire, setDate_of_hire] = useState();
@@ -62,9 +63,10 @@ useEffect(() => {
             site_id: siteId
         };
         try {
+            // eslint-disable-next-line no-unused-vars
             const response = await axios.post('http://localhost:3010/api/employee/new', newEmployee);
             // const response = await axios.put(`http://localhost:3010/api/employee/${employee.id}`, newEmployee);
-            console.log("Response from server:", response.data);
+            //console.log("Response from server:", response.data);
             addEmployee(newEmployee);
             handleClose();
          } catch (error) {
