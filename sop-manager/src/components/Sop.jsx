@@ -42,8 +42,9 @@ import { useNavigate } from "react-router-dom";
       console.log("SOP Selected", sop);
     }
     
-    const handleNew = () => {
-      console.log("New SOP");
+    const handleNewTraining = (sopNumber) => {
+      console.log(sopNumber);
+      navigate("/NewTraining");
     }
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
@@ -100,7 +101,7 @@ import { useNavigate } from "react-router-dom";
                               <TableCell align="center">{sopL.sop_title}</TableCell>
                               <TableCell align="right">{sopL.topic}</TableCell>
                             <Button onClick={() => handleSelect(sopL)}>Select Trainings</Button>
-                            <Button align="right" onClick={handleNew}>New Training</Button>
+                            <Button align="right" >New Training</Button>
                             </TableRow>
                         ))}
                       </TableBody>

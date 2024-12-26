@@ -32,7 +32,7 @@ function Training() {
         const response = await axios.get('http://localhost:3010/api/training');
         setTrainingList(response.data);
         setLoading(false);
-        console.log(response.data);
+        //console.log(response.data);
       } catch (error) {
         setError(error);
         setLoading(false);
@@ -69,7 +69,7 @@ function Training() {
               <TableCell>{training.training_name}</TableCell>
               <TableCell>{training.sop_number}</TableCell>
               <TableCell>{training.sop_name}</TableCell>
-              <TableCell><Button variant="contained" color="primary">Details</Button></TableCell>
+              <TableCell><Button variant="contained" color="primary" onClick={() => {console.log(training.sop_number)}}>Details</Button></TableCell>
               <TableCell><Button onClick={()=>handleNewTraining(training.sop_number)}>New Training</Button></TableCell>
             </TableRow>
           ))}

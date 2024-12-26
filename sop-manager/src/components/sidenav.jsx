@@ -17,6 +17,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import SettingsIcon from '@mui/icons-material/Settings';
 import GroupIcon from '@mui/icons-material/Group';
 import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
 import { useNavigate } from 'react-router-dom';
@@ -254,7 +255,43 @@ function Sidenav() {
                 </ListItemIcon>
                 <ListItemText primary="Employee" sx={[open ? { opacity: 1, } : { opacity: 0, },]} />
               </ListItemButton>
-            </ListItem>    
+            </ListItem>
+            <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/settings")}} >
+              <ListItemButton
+                sx={[
+                  {
+                    minHeight: 48,
+                    px: 2.5,
+                  },
+                  open
+                    ? {
+                        justifyContent: 'initial',
+                      }
+                    : {
+                        justifyContent: 'center',
+                      },
+                ]}
+              >
+                <ListItemIcon
+                  sx={[
+                    {
+                      minWidth: 0,
+                      justifyContent: 'center',
+                    },
+                    open
+                      ? {
+                          mr: 3,
+                        }
+                      : {
+                          mr: 'auto',
+                        },
+                  ]}
+                >
+                  {<SettingsIcon />} 
+                </ListItemIcon>
+                <ListItemText primary="Settings" sx={[open ? { opacity: 1, } : { opacity: 0, },]} />
+              </ListItemButton>
+            </ListItem>   
         </List>
       </Drawer>
   

@@ -51,12 +51,48 @@ const addEmployee = (name, date_of_hire, active, trainer, position_id, departmen
 }
 
 
+// const getEmployeeBySiteAndPosition = (site_id, position_id) => {
+//     return new Promise((resolve, reject) => {
+//         db.query('SELECT  * FROM employee WHERE site_id = ? AND position_id = ?', [site_id, position_id], (err, rows) => {
+//             if (err) {
+//                 console.error('Database query error:', err);
+//                 return reject(err);
+//             }
+//             resolve(rows);
+//         });
+//     })
+// }
 
+// const getEmployeeBySiteAndPosition = () => {
+//     return new Promise((resolve, reject) => {
+//         let query = 'SELECT * FROM employee WHERE 1=1'; // Base query
+//         const params = [];
+
+//         if (site_ids && site_ids.length > 0) {
+//             query += ' AND site_id IN (?)';
+//             params.push(site_ids);
+//         }
+
+//         if (position_ids && position_ids.length > 0) {
+//             query += ' AND position_id IN (?)';
+//             params.push(position_ids);
+//         }
+
+//         db.query(query, params, (err, rows) => {
+//             if (err) {
+//                 console.error('Database query error:', err);
+//                 return reject(err);
+//             }
+//             resolve(rows);
+//         });
+//     });
+// };
 
 
 module.exports = {
   getAllEmployees,
     updateEmployee,
     getEmployeeById,
-    addEmployee
+    addEmployee,
+  //  getEmployeeBySiteAndPosition
 };

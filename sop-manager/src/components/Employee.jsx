@@ -35,7 +35,7 @@ function Employee() {
   const handleEditEmployee = (employee) => { 
     setSelectedEmployee(employee); 
     setOpen(true); 
-    console.log('Selected Employee:', employee);
+    // console.log('Selected Employee:', employee);
   };
     
   const handleClose = () => {
@@ -44,7 +44,7 @@ function Employee() {
   }; 
 
   const handleCloseNew = () => {
-    console.log('Close New Employee');
+    // console.log('Close New Employee');
     setOpenNew(false);
 
   }; 

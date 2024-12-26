@@ -226,7 +226,7 @@ return (
                         >
                             Save
                         </Button>
-                        <Button variant="contained" sx={{ mt: 2 }} >Close</Button>
+                        <Button variant="contained" color="secondary" sx={{ mt: 2 }} onClick={() => navigate(-1)} >Close</Button>
                     </TableContainer>
                 </Table>
             </Box>

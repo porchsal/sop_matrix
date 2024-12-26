@@ -18,6 +18,7 @@ import Dashboard from './components/Dashboard'
 import Topics from './components/Topics'
 import Home from './components/Home'
 import NewSop from './components/NewSop'
+//import FilterEmp from './components/FilterEmp'
 
 function App() {
   
@@ -42,6 +43,7 @@ function App() {
           <Route path="/NewTraining" element={<NewTraining />} />
           <Route path="/topics" element={<Topics />} />
           <Route path="/sop/newsop" element={<NewSop />} />
+          {/* <Route path="/employee/filter" element={<FilterEmp />} /> */}
       </Routes>
     </BrowserRouter>  
     </div>
