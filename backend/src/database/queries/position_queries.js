@@ -7,7 +7,6 @@ const getAllPositions = () => {
                 console.error('Database query error:', err); 
                 return reject(err); 
             } 
-            //  console.log('Query result:', rows);
              resolve(rows);
              });        
         });
@@ -20,7 +19,6 @@ const getAllPositionsNames = () => {
                 console.error('Database query error:', err);
                 return reject(err);
             }
-            // console.log('Query result:', rows);
             resolve(rows);
         });
     });
@@ -34,7 +32,6 @@ const getAllPositionsByDep = (departments) => {
                 console.error('Database query error:', err);
                 return reject(err);
             }
-            // console.log('Query result:', rows);
             resolve(rows);
         }); 
     });
@@ -51,7 +48,6 @@ const getPositionsByIds = (positionIds) => {
                 console.error('Database query error:', err);
                 return reject(err);
             }
-            //console.log('Query result:', rows);
             resolve(rows);
         });
     });

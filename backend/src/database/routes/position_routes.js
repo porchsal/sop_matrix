@@ -5,7 +5,6 @@ const positionQueries = require("../queries/position_queries");
 router.get("/position", (req, res) => {
     positionQueries.getAllPositions()    
     .then((position) => {
-        console.log(position);
         res.json(position);
     return;
     });
@@ -14,7 +13,6 @@ router.get("/position", (req, res) => {
 router.get("/position/name", (req, res) => {
     positionQueries.getAllPositionsNames()    
     .then((position) => {
-        console.log(position);
         res.json(position);
     return;
     })

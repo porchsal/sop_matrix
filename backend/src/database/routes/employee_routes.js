@@ -60,16 +60,20 @@ router.post('/employee/new', async (req, res) => {
     }
 });
 
-// router.get('/employee/filter', async (req, res) => {
-//     const { site_id, position_id } = req.query;
-//     console.log('Request query:', req.query);
-//     try {
-//         const result = await employeeQueries.getEmployeeBySiteAndPosition(site_id, position_id);
-//         res.json(result);
-//     } catch (error) {
-//         console.error('Error getting employee:', error);
-//         res.status(500).send({ message: 'Error getting employee', error });
-//     }
-// });
+router.get('/employee/filter', async (req, res) => {
+    const { site_id, position_id } = req.query;
+    console.log('Received site_id:', site_id); 
+    console.log('Received position_id:', position_id);
+
+    console.log('Request query:', req.query);
+    try {
+        const result = await employeeQueries.getEmployeeBySiteAndPosition(site_id, position_id);
+        console.log('Employees fetched:', result);
+        res.json(result);
+    } catch (error) {
+        console.error('Error getting employee:', error);
+        res.status(500).send({ message: 'Error getting employee', error });
+    }
+});
 
 module.exports = router;

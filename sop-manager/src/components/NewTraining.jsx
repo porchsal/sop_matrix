@@ -5,6 +5,7 @@ import { Box, Paper, TableContainer, Typography, Table, TableCell, TextField, Ta
 import { Checkbox, FormControlLabel, Button } from '@mui/material';
 import DatePickerComponent from './DatePickerComponent';
 import axios from 'axios';
+// import { use } from 'express/lib/application';
 //import FilterEmp from './FilterEmp';
 
 const NewTraining = () =>{
@@ -19,6 +20,7 @@ const NewTraining = () =>{
     const [selectedDepartment, setSelectedDepartment] = useState([]);
     const [selectedPosition, setSelectedPosition] = useState([]);
     const [filteredPositions, setFilteredPositions] = useState([]);
+    const [filteredEmployees, setFilteredEmployees] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,6 +52,32 @@ const NewTraining = () =>{
         }
     }, [selectedDepartment, positions]);
 
+    useEffect(() => {
+        const fetchEmployees = async () => {
+            console.log('Selected Sites:', selectedSites);
+            console.log('Selected Positions:', selectedPosition);
+            if (selectedSites.length > 0 || selectedPosition.length > 0) {
+                try {
+                    console.log('Fetching employees ...');
+                    const response = await axios.get('http://localhost:3010/api/employee/filter', {
+                        params: {
+                            site_id: selectedSites,
+                            position_id: selectedPosition,
+                        },
+                    });
+                    setFilteredEmployees(response.data);
+                    console.log("Response data: ", response.data);
+                } catch (error) {
+                    console.error('Error fetching employees:', error);
+                    alert('Failed to load employees, please try again.');
+                }
+            } else {
+                setFilteredEmployees([]);
+            }
+        };
+        fetchEmployees();
+    }, [selectedSites, selectedPosition]);
+           
     //const navigate = useNavigate();
     const handleSiteChange = (event) => {
         const siteId = Number(event.target.value);
@@ -209,11 +237,22 @@ const NewTraining = () =>{
                                         </Box>
                                     )}
                                 <Box sx={{mt:3}}>
-                                {/* <Typography variant="h6">Related Employees</Typography> */}
+                                    <Typography variant="h6">Related Employees</Typography>
+                                     {console.log("Filter: ", filteredEmployees)}   
+                                    {/* <FilterEmp sites={selectedSites} positions={selectedPosition}  /> */}
+                                    {filteredEmployees.length > 0 ? (
+                                        filteredEmployees.map((employee) => (
+                                            <Typography key={employee.id}>{employee.name}</Typography>
+                                        ))
+                                    ) : (
+                                        <Typography variant="body1">No employees found</Typography>
+                                    )}
 
-                                {/* <FilterEmp sites={selectedSites} positions={selectedPosition}  /> */}
-                                {console.log(selectedSites, selectedPosition)}
-                            </Box>
+
+
+
+                                    {console.log(selectedSites, selectedPosition)}
+                                </Box>
                         </Box>
                     </TableBody>
                     <TableBody>
