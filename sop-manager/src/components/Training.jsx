@@ -19,7 +19,6 @@ function Training() {
   const navigate = useNavigate();
 
   const handleNewTraining = (training) => {
-    //console.log(sopNumber);
     navigate('/NewTraining', {state: {training}});
   }
 
@@ -29,7 +28,7 @@ function Training() {
         const response = await axios.get('http://localhost:3010/api/training');
         setTrainingList(response.data);
         setLoading(false);
-        //console.log(response.data);
+       
       } catch (error) {
         setError(error);
         setLoading(false);

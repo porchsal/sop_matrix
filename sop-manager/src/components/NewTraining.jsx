@@ -91,8 +91,7 @@ useEffect(() => {
         };
         fetchEmployees();
     }, [selectedSites, selectedPosition]);
-           
-    //const navigate = useNavigate();
+
     const handleSiteChange = (event) => {
         const siteId = Number(event.target.value);
         setSelectedSites((prev) =>
@@ -250,8 +249,9 @@ useEffect(() => {
                                 />
                             </TableCell>
                         </TableRow>
-                        
-                            <Typography variant="h6">Select Employees</Typography>
+                        <Box sx={{ p: 3 }}> 
+                            <Paper sx={{ p: 2 }}>
+                            <Typography variant="h4" gutterBottom>Select Employees</Typography>
 
                             <Box sx={{ display: 'flex', flexDirection: 'row', gap: '16px' }}>
                                 <Typography variant="h6">Related to:</Typography>
@@ -347,9 +347,13 @@ useEffect(() => {
                                             </TableBody>
                                         </Table>
                                     </Box>
+
+                                    
                             </Box>
-                    
+                            </Paper>
+                        </Box>
                     </TableBody>
+                    
         </Paper>
         </Box>
                     <TableBody>
@@ -362,7 +366,6 @@ useEffect(() => {
                     </TableBody>
     
     </>
-    
   );
 };
 

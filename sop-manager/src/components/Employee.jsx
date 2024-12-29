@@ -6,7 +6,7 @@ import { Container, Box, Typography, Paper,  Button, TablePagination } from '@mu
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import EmpModal from './EmpModal';
 import NewEmpModal from './NewEmpModal';
-
+import formatDateTimeForSQL from '../helpers/formatDateTimeForSQL';
 function Employee() {
 
   const columnNames = { 
@@ -28,10 +28,22 @@ function Employee() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [open, setOpen] = useState(false);
   const [openNew, setOpenNew] = useState(false);	
+  const [trainByEmployee, setTrainByEmployee] = useState({});
   const handleSelectEmployee = (employee) => {
     setSelectedEmployee(employee);
+    console.log('Selected Employee:', employee);
+    const fetchTrainings = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3010/api/training/byEmployee/${employee.id}`);
+        setTrainByEmployee(response.data);
+        console.log('Training by Employee:', response.data);
+      } catch (error) {
+        console.error('Error fetching training:', error);
+      }
+    };
+    fetchTrainings();
   };
-
+  
   const handleEditEmployee = (employee) => { 
     setSelectedEmployee(employee); 
     setOpen(true); 
@@ -66,7 +78,6 @@ function Employee() {
 
   const handleAddEmployee = (newEmployee) => {
     setEmployees([...employees, newEmployee]);
-    console.log('New Employee:', newEmployee);
   };
 
   useEffect(() => { 
@@ -156,10 +167,39 @@ function Employee() {
                         <Typography variant="h6" gutterBottom>Trainings</Typography>
                         </TableHead>
                         <TableBody>
-                          <TableRow>
-                            <TableCell>Training</TableCell>
-                            <TableCell>Completed</TableCell>
-                          </TableRow>
+                          <TableHead>
+                            <TableCell>SOP Name</TableCell>
+                            <TableCell>SOP Number</TableCell>
+                            <TableCell>Training Date</TableCell>
+                          </TableHead>     
+                            {Array.isArray(trainByEmployee) && trainByEmployee.length > 0 ? (
+                            <TableBody>
+                              {trainByEmployee.map((training) => (
+                                <TableRow key={training.training_id}>
+                                  <TableCell>{training.sop_name}</TableCell>
+                                  <TableCell>{training.sop_number}</TableCell>
+                                  <TableCell>{formatDateTimeForSQL(training.training_date)}</TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          ) : (
+                            <TableBody>
+                              <TableRow>
+                                <TableCell colSpan={2}>No training found</TableCell>
+                              </TableRow>
+                            </TableBody>
+                          )  
+                          }
+
+
+
+                          {/* {trainByEmployee.map((training) => (
+                            <TableRow key={training.training_id}>
+                              <TableCell>{training.training_name}</TableCell>
+                              <TableCell>{training.training_date}</TableCell>
+                            </TableRow>
+                          ))} */}
+
                         </TableBody>
                       </Table>
                     </TableContainer>

@@ -26,6 +26,17 @@ const getTrainingById = (trainingId) => {
         });
 };
 
+const getTrainingByEmployeeId = (employeeId) => {
+    return new Promise((resolve, reject) => {
+        db.query('SELECT * FROM training WHERE employee_id = ?', [employeeId], (err, rows) => {
+            if (err) {
+                console.error('Database query error:', err);
+                return reject(err);
+            }
+            resolve(rows);
+        });
+    });
+};
 
 const getAllTrainingById = () => { 
     return new Promise((resolve, reject) => { 
@@ -118,5 +129,6 @@ module.exports = {
   getTrainingById,
   getAllTrainingById,
   addTraining,
-  maxTrainingId
+  maxTrainingId,
+  getTrainingByEmployeeId
 };

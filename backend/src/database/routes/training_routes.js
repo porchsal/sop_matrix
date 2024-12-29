@@ -18,6 +18,14 @@ router.get("/training/:trainingId", (req, res) => {
     });
 });
 
+router.get("/training/byEmployee/:employeeId", (req, res) => {
+    trainingQueries.getTrainingByEmployeeId(req.params.employeeId)
+    .then((training) => {
+        res.json(training);
+    return;
+    });
+});
+
 router.get("/NewTraining", (req, res) => {
     res.send("New Training");
 });
@@ -32,4 +40,6 @@ router.post("/training/newtraining", async (req, res) => {
         res.status(500).send({ message: 'Error adding Training', error });
     }
 });
+
+
 module.exports = router;
