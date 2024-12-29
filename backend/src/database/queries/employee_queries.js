@@ -2,13 +2,12 @@ const db = require("../connection");
 
 const getAllEmployees = () => { 
     return new Promise((resolve, reject) => { 
-        //db.query('SELECT id AS ID, name AS Name, date_of_hire AS "Date of Hire", active AS Active, trainer AS Trainer, position_id AS Position, department_id AS Department, site_id AS Site FROM employee;', (err, rows) => { 
         db.query('SELECT * FROM employee', (err, rows) => {    
             if (err) { 
                 console.error('Database query error:', err); 
                 return reject(err); 
             } 
-            // console.log('Query result:', rows);
+            
              resolve(rows);
              });        
         });
@@ -72,7 +71,7 @@ const getEmployeeBySiteAndPosition = (site_ids = [], position_ids = []) => {
             query += ' AND site_id IN (?)';
             params.push(site_ids);
         }
-
+        
         if (position_ids.length > 0) {
             query += ' AND position_id IN (?)';
             params.push(position_ids);
@@ -88,11 +87,24 @@ const getEmployeeBySiteAndPosition = (site_ids = [], position_ids = []) => {
     });
 };
 
+const getEmployeesTrainers = () => {
+    return new Promise((resolve, reject) => {
+        db.query('SELECT * FROM employee WHERE trainer = "Yes"', (err, rows) => {
+            if (err) {
+                console.error('Database query error:', err);
+                return reject(err);
+            }
+            resolve(rows);
+        });
+    });
+}
+
 
 module.exports = {
   getAllEmployees,
     updateEmployee,
     getEmployeeById,
     addEmployee,
-    getEmployeeBySiteAndPosition
+    getEmployeeBySiteAndPosition,
+    getEmployeesTrainers
 };

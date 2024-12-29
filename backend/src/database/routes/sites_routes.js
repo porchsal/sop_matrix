@@ -11,4 +11,7 @@ router.get("/sites", (req, res) => {
     });
 });
 
+router.get('/sites/saludo', (req, res) => {
+    res.send('Hola desde la ruta de sitios');
+});
 module.exports = router;

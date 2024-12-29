@@ -22,4 +22,12 @@ router.post("/sop/newsop", async (req, res) => {
     }
 });
 
+router.get("/sop/:sopId", (req, res) => {
+    sopQueries.getSopByNumber(req.params.sopId)
+    .then((sop) => {
+        res.json(sop);
+    return;
+    });
+});
+
 module.exports = router;

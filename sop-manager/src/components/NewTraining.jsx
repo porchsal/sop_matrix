@@ -1,28 +1,31 @@
 import Sidenav from './sidenav';
-//import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Box, Paper, TableContainer, Typography, Table, TableCell, TextField, TableBody, TableRow, FormControl, FormLabel, FormGroup } from '@mui/material';
-import { Checkbox, FormControlLabel, Button } from '@mui/material';
+import { Box, Paper, Typography, Table, TableCell, TextField, TableBody, TableRow, FormControl, FormLabel, FormGroup, Select } from '@mui/material';
+import { Checkbox, FormControlLabel, Button, MenuItem,  } from '@mui/material';
 import DatePickerComponent from './DatePickerComponent';
 import axios from 'axios';
-// import { use } from 'express/lib/application';
-//import FilterEmp from './FilterEmp';
 
 const NewTraining = () =>{
+    
     const [positions, setPositions] = useState([]);
     const [departments, setDepartments] = useState([]);
     const [sites, setSites] = useState([]);
-    //const [sopNumber, setSopNumber] = useState('');
     const [trainingDate, setTrainingDate] = useState(null);
     const [trainingName, setTrainingName] = useState('');
-    const [sopNumbers, setSopNumbers] = useState([]);
     const [selectedSites, setSelectedSites] = useState([]);
     const [selectedDepartment, setSelectedDepartment] = useState([]);
     const [selectedPosition, setSelectedPosition] = useState([]);
+    const [selectedEmployee, setSelectedEmployee] = useState([]);
     const [filteredPositions, setFilteredPositions] = useState([]);
     const [filteredEmployees, setFilteredEmployees] = useState([]);
-
-  useEffect(() => {
+    const [empTrainer, setEmpTrainer] = useState([]);
+    const [selectedTrainer, setSelectedTrainer] = useState([]);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const originalTraining = location.state?.training;
+  
+    useEffect(() => {
     const fetchData = async () => {
         try {
             const [positionsRes, departmentsRes, sitesRes] = await Promise.all([
@@ -41,6 +44,20 @@ const NewTraining = () =>{
     fetchData();
 }, []);
 
+useEffect(() => {
+    const fetchEmpTrainer = async () => {
+        try {
+            const response = await axios.get('http://localhost:3010/api/employee/trainer');
+            setEmpTrainer(response.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            alert('Failed to load data. Please try again later.');
+        }
+    };
+    fetchEmpTrainer();
+    
+}, []);
+
     useEffect(() => {
         if(selectedDepartment.length > 0) {
             const filtered = positions.filter(position =>
@@ -54,11 +71,9 @@ const NewTraining = () =>{
 
     useEffect(() => {
         const fetchEmployees = async () => {
-            console.log('Selected Sites:', selectedSites);
-            console.log('Selected Positions:', selectedPosition);
+            
             if (selectedSites.length > 0 || selectedPosition.length > 0) {
                 try {
-                    console.log('Fetching employees ...');
                     const response = await axios.get('http://localhost:3010/api/employee/filter', {
                         params: {
                             site_id: selectedSites,
@@ -66,7 +81,6 @@ const NewTraining = () =>{
                         },
                     });
                     setFilteredEmployees(response.data);
-                    console.log("Response data: ", response.data);
                 } catch (error) {
                     console.error('Error fetching employees:', error);
                     alert('Failed to load employees, please try again.');
@@ -98,29 +112,46 @@ const NewTraining = () =>{
         );
     };
 
+    const handleEmployeeChange = (event) => {
+        const employeeId = Number(event.target.value);
+        setSelectedEmployee((prev) =>
+            event.target.checked ? [...prev, employeeId] : prev.filter(id => id !== employeeId)
+        );
+    };
+
+    const handleTrainerChange = (event) => {
+        const trainerId = Number(event.target.value);
+        setSelectedTrainer(trainerId);
+    };
+
     const formatDateTimeForSQL = (dateTime) => {
         const date = new Date(dateTime);
         return date.toISOString().slice(0, 10);
     };
+
+
 
     const handleSave = async () => {
         if (!trainingDate || !trainingName || selectedSites.length === 0 || selectedDepartment.length === 0) {
             alert('Please fill in all required fields!');
             return;
           }
-    const formattedDate = formatDateTimeForSQL(trainingDate);    
+        const formattedDate = formatDateTimeForSQL(trainingDate);    
         const newTraining = {
-            training_date: formattedDate,
             training_name: trainingName,
-            sop_number: sopNumbers,
-            site_id: selectedSites,
-            department_id: selectedDepartment
+            sop_number: originalTraining.sop_number,
+            sop_name: originalTraining.sop_name,
+            trainer_name: selectedTrainer,
+            comments: 'Comments',
+            training_date: formattedDate,
+            employee_ids:  selectedEmployee,
         };
-        console.log(newTraining);
+       
         try {
+            // eslint-disable-next-line no-unused-vars
             const response = await axios.post('http://localhost:3010/api/training/newtraining', newTraining);
             alert('Training added successfully');
-            console.log('New Training:', response.data);
+            navigate('/Training');
         } catch (error) {
             console.error('Error adding Training:', error);
             alert('Failed to add Training. Please try again later');
@@ -131,47 +162,99 @@ const NewTraining = () =>{
     return (
    <>
     <Sidenav /> 
-    <Box>
-        {/* <Typography variant="h6">SOP Number: {sopNumber}</Typography> */}
+        <Box >
+
         <Paper>
-            <TableContainer>
-                <Table>
-                <Typography variant="h4">New Training</Typography>
+
+                    <Typography variant="h4">New Training</Typography>
                     <TableBody>
                         <TableRow>
-                            <TableCell>Training Date</TableCell>
-                            <TableCell>
-                                    <DatePickerComponent date={trainingDate} setDate={setTrainingDate} />
-                                    {console.log(trainingDate)}
+                            <TableCell> 
+                                <TextField 
+                                    label="Training Name" 
+                                    onChange={(e) => setTrainingName(e.target.value)} 
+                                    margin="normal" 
+                                    variant="outlined" // Cambiar a variante "outlined" para un aspecto más moderno 
+                                    sx={{ mt: 2, // Agregar margen superior 
+                                        width: '70%', // Asegurar que el TextField ocupe todo el espacio disponible 
+                                        '& .MuiInputBase-root': { 
+                                            fontSize: '1.25rem', // Aumentar el tamaño de la fuente
+                                            }, 
+                                        '& .MuiInputLabel-root': { 
+                                            fontSize: '1.25rem', // Aumentar el tamaño de la etiqueta 
+                                            } 
+                                        }} // Agregar un poco de margen superior para el espaciado 
+                                /> 
+                            </TableCell>
+                            <TableCell 
+                                sx={{ mt: 2, // Agregar margen superior 
+                                    width: '50%', // Asegurar que el TextField ocupe todo el espacio disponible 
+                                    '& .MuiInputBase-root': { 
+                                        fontSize: '1.25rem', // Aumentar el tamaño de la fuente
+                                        }, 
+                                    '& .MuiInputLabel-root': { 
+                                        fontSize: '1.25rem', // Aumentar el tamaño de la etiqueta 
+                                        } 
+                                    }}
+                                    >
+                                <DatePickerComponent date={trainingDate} setDate={setTrainingDate} />
                             </TableCell>
                         </TableRow>
-                    </TableBody>
-                    <TableBody>
                         <TableRow>
-                        <TableCell>Training Name</TableCell>
-                            <TableCell>
-                                <TextField
-                                    label="Training Name"
-                                    onChange={(e) => setTrainingName(e.target.value)}
-                                    fullWidth
-                                    margin="normal"
-                                    
-                                    />
-                            </TableCell>
-                            <TableCell>SOP Numbers:</TableCell>
                             <TableCell>
                                 <TextField
                                     label="Sop Number"
-                                    value={sopNumbers}
-                                    onChange={(e) => setSopNumbers(e.target.value)}
+                                    value={originalTraining.sop_number}
+                                    width="70%"
+                                    margin="normal"
+                                />
+                            </TableCell>   
+                            <TableCell>
+                                <FormControl fullWidth>
+                                    <FormLabel component="legend">Trainer</FormLabel>
+                                    <Select 
+                                        labelId='Trainer'
+                                        value={selectedTrainer}
+                                        label="Trainer"
+                                        width="50%"
+                                        variant="outlined"
+                                        required
+                                        onChange={handleTrainerChange}
+                                    >
+                                        {empTrainer.map((trainer) => (
+                                            <MenuItem key={trainer.id} value={trainer.id}>
+                                            {trainer.name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl> 
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>
+                                <TextField
+                                    label="Sop Name"
+                                    value={originalTraining.sop_name}
                                     fullWidth
                                     margin="normal"
-                                    />
-                            </TableCell>    
+                                />
+                            </TableCell>
                         </TableRow>
-                        <Box sx={{ display: 'flex', flexDirection: 'row', gap: '16px' }}>
-                            <Typography variant="h6">Related to:</Typography>
-                          
+                        <TableRow>
+                            <TableCell>
+                                <TextField
+                                    label="Comments"
+                                    fullWidth
+                                    margin="normal"
+                                    variant="outlined"
+                                />
+                            </TableCell>
+                        </TableRow>
+                        
+                            <Typography variant="h6">Select Employees</Typography>
+
+                            <Box sx={{ display: 'flex', flexDirection: 'row', gap: '16px' }}>
+                                <Typography variant="h6">Related to:</Typography>
                                     <FormControl component="fieldset">
                                         <FormLabel component="legend">Main Site</FormLabel>
                                         <FormGroup  >
@@ -191,25 +274,24 @@ const NewTraining = () =>{
                                                 ))}
                                         </FormGroup>
                                     </FormControl>
-                             
                                     <FormControl component="fieldset">
                                         <FormLabel component="legend">Departments:</FormLabel>
-                                        <FormGroup  >
-                                            {departments.map((department) => (
-                                                <FormControlLabel
-                                                    key={department.id}
-                                                    control={
-                                                    <Checkbox
-                                                        checked={selectedDepartment.includes(department.id)}
-                                                        onChange={handleDepartmentChange}
-                                                        value={department.id}
-                                                        name={department.dep_name}
-                                                        />
-                                                    }
-                                                    label={department.dep_name}
-                                                />
-                                            ))}
-                                        </FormGroup>
+                                            <FormGroup >
+                                                {departments.map((department) => (
+                                                    <FormControlLabel
+                                                        key={department.id}
+                                                        control={
+                                                        <Checkbox
+                                                            checked={selectedDepartment.includes(department.id)}
+                                                            onChange={handleDepartmentChange}
+                                                            value={department.id}
+                                                            name={department.dep_name}
+                                                            />
+                                                        }
+                                                        label={department.dep_name}
+                                                    />
+                                                ))}
+                                            </FormGroup>
                                     </FormControl>
                                     {selectedDepartment.length > 0 && filteredPositions.length > 0 ? ( 
                                     <FormControl component="fieldset">
@@ -225,10 +307,10 @@ const NewTraining = () =>{
                                                             value={position.id}
                                                             name={position.position_name}
                                                         />
-                                                    }
+                                                        }
                                                     label={position.position_name}
-                                                />
-                                            ))}
+                                                    />
+                                                ))}
                                         </FormGroup>
                                     </FormControl>
                                     ) : (
@@ -236,25 +318,40 @@ const NewTraining = () =>{
                                             <Typography variant="body1">Please select a department to view positions</Typography>
                                         </Box>
                                     )}
-                                <Box sx={{mt:3}}>
-                                    <Typography variant="h6">Related Employees</Typography>
-                                     {console.log("Filter: ", filteredEmployees)}   
-                                    {/* <FilterEmp sites={selectedSites} positions={selectedPosition}  /> */}
-                                    {filteredEmployees.length > 0 ? (
-                                        filteredEmployees.map((employee) => (
-                                            <Typography key={employee.id}>{employee.name}</Typography>
-                                        ))
-                                    ) : (
-                                        <Typography variant="body1">No employees found</Typography>
-                                    )}
-
-
-
-
-                                    {console.log(selectedSites, selectedPosition)}
-                                </Box>
-                        </Box>
+                                    <Box sx={{mt:3}}>
+                                        <Table sx={{ minWidth: 250 }} stickyHeader aria-label="sticky table">
+                                            <FormLabel component="legend">Related Employees</FormLabel>
+                                            <TableBody>
+                                                {filteredEmployees.length > 0 ? (
+                                                    filteredEmployees.map((employee) => (
+                                                        <TableRow key={employee.id}>
+                                                            <TableCell>
+                                                                <FormControlLabel
+                                                                    key={employee.id}
+                                                                    control={
+                                                                        <Checkbox
+                                                                            checked={selectedEmployee.includes(employee.id)}
+                                                                            onChange={handleEmployeeChange}
+                                                                            value={employee.id}
+                                                                            name={employee.name}
+                                                                        />
+                                                                    }
+                                                                    label={employee.name}
+                                                                />
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    ))
+                                                ) : (
+                                                    <Typography variant="body1">No employees found</Typography>
+                                                )}
+                                            </TableBody>
+                                        </Table>
+                                    </Box>
+                            </Box>
+                    
                     </TableBody>
+        </Paper>
+        </Box>
                     <TableBody>
                         <TableRow>
                             <TableCell>
@@ -263,11 +360,9 @@ const NewTraining = () =>{
                             </TableCell>
                         </TableRow>
                     </TableBody>
-                </Table>
-            </TableContainer>
-        </Paper>
-    </Box>
+    
     </>
+    
   );
 };
 
