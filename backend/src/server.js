@@ -1,4 +1,5 @@
 const express  = require("express"); // Import the express library
+const cookieParser = require('cookie-parser'); // Import the cookie-parser library
 const cors = require('cors'); // Import the cors library
 const app = express(); // Define our app as an instance of express
 const port = 3010; // Define our base URL as http:\\localhost:3000
@@ -9,8 +10,8 @@ const employeeRouter = require("./database/routes/employee_routes.js"); // Impor
 const sopRouter = require("./database/routes/sop_routes.js"); // Import our sop router
 const trainingRouter = require("./database/routes/training_routes.js"); // Import our training router
 const topicRouter = require("./database/routes/topic_routes.js"); // Import our topic router
-
-
+const protectedRoutes = require("./database/routes/protected_routes.js"); // Import our protected routes
+const userRouter = require("./database/routes/user_routes.js"); // Import our user router
 
 //Configurate cors
 
@@ -18,7 +19,7 @@ app.use(cors({ origin: 'http://localhost:5173'
   })); // Enable Cross-Origin Resource Sharing
 app.use(express.static("public")); // Serve static files from the public directory
 app.use(express.json()); // Enable JSON parsing
-
+app.use(cookieParser()); // Enable cookie parsing
 
 app.use("/api", sitesRouter); // Use our sites router
 app.use("/api", departmentRouter); // Use our department router
@@ -27,6 +28,8 @@ app.use("/api", employeeRouter); // Use our employee router
 app.use("/api", sopRouter); // Use our sop router
 app.use("/api", trainingRouter); // Use our training router
 app.use("/api", topicRouter); // Use our topic router
+app.use("/api", protectedRoutes); // Use our protected routes
+app.use("/api", userRouter); // Use our user router
 
 
 app.listen(port, function () {

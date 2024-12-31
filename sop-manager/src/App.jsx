@@ -11,14 +11,14 @@ import Training from './components/Training'
 import NewTraining from './components/NewTraining'
 //import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-//import SignIn from './components/SignIn'
+import SignIn from './components/SignIn'
 import Dashboard from './components/Dashboard'
-// import Sidenav from './components/Sidenav'
+
 import Settings from './components/Settings'
 import Topics from './components/Topics'
 import Home from './components/Home'
 import NewSop from './components/NewSop'
-//import FilterEmp from './components/FilterEmp'
+import Users from './components/Users'
 
 function App() {
   
@@ -30,9 +30,9 @@ function App() {
     
     <BrowserRouter> 
       <Routes>
-          <Route path="/" element={<Home />} />
+          {/* <Route path="/" element={<Home />} /> */}
           
-          {/* <Route path="/" element={<SignIn />} /> */}
+          <Route path="/" element={<SignIn />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/sites" element={<Sites />} />
           <Route path="/departments" element={<Department />} />
@@ -44,7 +44,7 @@ function App() {
           <Route path="/topics" element={<Topics />} />
           <Route path="/sop/newsop" element={<NewSop />} />
           <Route path="/settings" element={<Settings />} /> 
-          {/* <Route path="/employee/filter" element={<FilterEmp />} /> */}
+          <Route path="/users" element={<Users />} />
       </Routes>
     </BrowserRouter>  
     </div>

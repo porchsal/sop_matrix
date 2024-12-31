@@ -1,41 +1,75 @@
 const db = require('../connection.js');
 const bcrypt = require('bcryptjs');
 
-const getUserByEmail = (email) => {
-    const query = `SELECT * FROM users WHERE email = $1;`;
-  
-    return db
-      .query(query, [email])
-      .then((result) => {
-        return result.rows[0];
-      })
-      .catch((err) => {
-        console.error("Error getting user by id:", err);
-      });
-  };
+const addUser = (username, first_name, last_name, password) => {
 
-const checkLoginCredentials = (email, password) => {
-    return getUserByEmail(email).then((user) => {
-      if (!user) {
-        return false;
-      }
-  
-      return bcrypt.compare(password, user.password).then((match) => {
-        if (!match) {
-          return false;
-        }
-  
-        return user;
-      })
-      .catch((err) => {
-        console.error("Error checking login credentials:", err);
-        return null
-      });
+    return new Promise((resolve, reject) => {
+        bcrypt.hash(password, 10, (err, hash) => {
+            if (err) {
+                console.error('Error hashing password:', err);
+                return reject(err);
+            }
+            db.query('INSERT INTO users (username, first_name, last_name, password) VALUES (?, ?, ?, ?)', [username, first_name, last_name, hash], (err, rows) => {
+                if (err) {
+                    console.error('Database query error:', err);
+                    return reject(err);
+                }
+                resolve(rows);
+            });
+        });
     });
-  
 }
 
+const getUserByUsername = (username) => {
+  return new Promise((resolve, reject) => {
+      db.query('SELECT * FROM users WHERE username = ?', [username], (err, rows) => {
+          if (err) {
+              console.error('Database query error:', err);
+              return reject(err);
+          }
+          resolve(rows[0]);
+      });
+  });
+}
+
+const getUsers = () => {
+  return new Promise((resolve, reject) => {
+      db.query('SELECT * FROM users', (err, rows) => {
+          if (err) {
+              console.error('Database query error:', err);
+              return reject(err);
+          }
+          resolve(rows);
+      });
+  });
+}
+
+const changePassword = (userId, password) => {
+  console.log('userId:', userId);
+  return new Promise((resolve, reject) => {
+      bcrypt.hash(password, 10, (err, hash) => {
+          if (err) {
+              console.error('Error hashing password:', err);
+              return reject(err);
+          }
+          db.query('UPDATE users SET password = ? WHERE id = ?', [hash, userId], (err, rows) => {
+              if (err) {
+                  console.error('Database query error:', err);
+                  return reject(err);
+              }
+              resolve(rows);
+          });
+      });
+  });
+}
+
+
+
 module.exports = {
-    getUserByEmail,
-    checkLoginCredentials
+    addUser,
+    registerUser,
+    getUserByUsername,
+    getUsers,
+    changePassword,
+
   };
