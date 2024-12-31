@@ -31,7 +31,6 @@ function Employee() {
   const [trainByEmployee, setTrainByEmployee] = useState({});
   const handleSelectEmployee = (employee) => {
     setSelectedEmployee(employee);
-    console.log('Selected Employee:', employee);
     const fetchTrainings = async () => {
       try {
         const response = await axios.get(`http://localhost:3010/api/training/byEmployee/${employee.id}`);

@@ -14,7 +14,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 //import SignIn from './components/SignIn'
 import Dashboard from './components/Dashboard'
 // import Sidenav from './components/Sidenav'
-
+import Settings from './components/Settings'
 import Topics from './components/Topics'
 import Home from './components/Home'
 import NewSop from './components/NewSop'
@@ -43,6 +43,7 @@ function App() {
           <Route path="/NewTraining" element={<NewTraining />} />
           <Route path="/topics" element={<Topics />} />
           <Route path="/sop/newsop" element={<NewSop />} />
+          <Route path="/settings" element={<Settings />} /> 
           {/* <Route path="/employee/filter" element={<FilterEmp />} /> */}
       </Routes>
     </BrowserRouter>  

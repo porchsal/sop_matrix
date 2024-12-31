@@ -2,7 +2,7 @@ const db = require("../connection");
 
 const getAllPositions = () => { 
     return new Promise((resolve, reject) => { 
-        db.query('SELECT * FROM position', (err, rows) => { 
+        db.query('SELECT id AS ID, position_name AS Name FROM position', (err, rows) => { 
             if (err) { 
                 console.error('Database query error:', err); 
                 return reject(err); 
@@ -53,8 +53,24 @@ const getPositionsByIds = (positionIds) => {
     });
 };
 
+const addPosition = (position_name, department_id) => {
+    console.log('Position name:', position_name);
+    console.log('Department ID:', department_id);
+    return new Promise((resolve, reject) => {
+        db.query('INSERT INTO `position` (position_name, department_id) VALUES (?, ?)', [position_name, department_id], (err, rows) => {
+            if (err) {
+                console.error('Database query error:', err);
+                return reject(err);
+            }
+            resolve(rows);
+        });
+    });
+}
+
 module.exports = {
   getAllPositions,
   getAllPositionsNames,
-    getAllPositionsByDep
+    getAllPositionsByDep,
+    getPositionsByIds,
+    addPosition
 };

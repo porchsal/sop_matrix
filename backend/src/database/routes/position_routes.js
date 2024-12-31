@@ -44,14 +44,16 @@ router.post('/positionsbydep', async (req, res) => {
     }
 })
 
-// router.get("/position/filter", (req, res) => {
-//     const { departmentIds } = req.body;
-
-//     if ( !Array.isArray(departmentIds) || departmentIds.length === 0 ) {
-//     return res.status(400).json({ error: 'No departments selected' });
-//     }
-
-//     try {
-//         const result
+router.post('/position/add', async (req, res) => {
+    const { position_name, department_id } = req.body;
+  
+    try {
+        const result = await positionQueries.addPosition(position_name, department_id);
+        res.status(200).send({ message: 'Position added successfully', result });
+    } catch (error) {
+        console.error('Error adding position:', error);
+        res.status(500).send({ message: 'Error adding position', error });
+    }
+});
 
 module.exports = router;
