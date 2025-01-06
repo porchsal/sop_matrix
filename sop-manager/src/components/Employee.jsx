@@ -28,6 +28,9 @@ function Employee() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [open, setOpen] = useState(false);
   const [openNew, setOpenNew] = useState(false);	
+  const [positions, setPositions] = useState([]);
+  const [departments, setDepartments] = useState([]);
+  const [sites, setSites] = useState([]);
   const [trainByEmployee, setTrainByEmployee] = useState({});
   const handleSelectEmployee = (employee) => {
     setSelectedEmployee(employee);
@@ -35,7 +38,6 @@ function Employee() {
       try {
         const response = await axios.get(`http://localhost:3010/api/training/byEmployee/${employee.id}`);
         setTrainByEmployee(response.data);
-        console.log('Training by Employee:', response.data);
       } catch (error) {
         console.error('Error fetching training:', error);
       }
@@ -43,6 +45,26 @@ function Employee() {
     fetchTrainings();
   };
   
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const [positionsRes, departmentsRes, sitesRes] = await Promise.all([
+                axios.get('http://localhost:3010/api/position'),
+                axios.get('http://localhost:3010/api/department'),
+                axios.get('http://localhost:3010/api/sites')
+            ]);
+            setPositions(positionsRes.data);
+            setDepartments(departmentsRes.data);
+            setSites(sitesRes.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            alert('Failed to load data. Please try again later.');
+        }
+    };
+    fetchData();
+}, []);
+
+
   const handleEditEmployee = (employee) => { 
     setSelectedEmployee(employee); 
     setOpen(true); 
@@ -144,7 +166,7 @@ function Employee() {
                     <TableContainer component={Paper}>
                       <Table sx={{ minWidth: 450 }} stickyHeader aria-label="sticky table">
                         <TableBody>
-                          {console.log('Selected Employee:', selectedEmployee)}
+                          {console.log('Fetch Data:', positions)}
                           {Object.entries(selectedEmployee)
                           .map(([key, value]) => (
                             <TableRow key={key}>
