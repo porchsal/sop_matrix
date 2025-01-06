@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Table, TextField, Box, Typography, Button, TableContainer, TableBody, TableCell, TableRow, Select, MenuItem } from '@mui/material';
 import { Paper, FormGroup, FormLabel, FormControlLabel, FormControl, Checkbox } from '@mui/material';
-import Sidenav from "./sidenav";
+import Sidenav from "./Sidenav";
 import { useNavigate } from "react-router-dom";
 
 const NewSop = () => {

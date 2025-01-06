@@ -1,4 +1,4 @@
-import Sidenav from "./sidenav";    
+import Sidenav from './Sidenav';  
 import { useState, useEffect } from 'react'; 
 import axios from 'axios';
 import Table from '@mui/material/Table';
@@ -68,7 +68,7 @@ import { useNavigate } from "react-router-dom";
       setRowsPerPage(event.target.value);
       setPage(0);
     }
-     const tablePaginationComponent = <TablePagination
+    const tablePaginationComponent = <TablePagination
        rowsPerPageOptions={[5, 10, 25]}
        component="div"
        count={sopList.length}
@@ -76,6 +76,20 @@ import { useNavigate } from "react-router-dom";
        page={page}
        onPageChange={handleChangePage}
        onRowsPerPageChange={handleChangeRowsPerPage} />;
+
+    const formatDateTimeForSQL = (dateTime) => {
+      const date = new Date(dateTime);
+      return date.toISOString().slice(0, 10);
+    };
+
+    const formatAged = (dateTime) => {  
+      const date = new Date(dateTime);
+      const currentDate = new Date();
+      const diffTime = Math.abs(currentDate - date);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      return diffDays;
+    };
+    
     return (
       <div>
        <Sidenav /> 
@@ -91,6 +105,9 @@ import { useNavigate } from "react-router-dom";
                           <TableCell>SOP Number</TableCell>
                           <TableCell align="center">SOP Name</TableCell>
                           <TableCell align="right">Topic</TableCell>
+                          <TableCell align="center">Active</TableCell>
+                          <TableCell align="center">Effective Date</TableCell>
+                          <TableCell align="center">Aged</TableCell>
                           <TableCell align="center">Actions</TableCell>
                         </TableRow>
                       </TableHead>
@@ -98,6 +115,7 @@ import { useNavigate } from "react-router-dom";
                         {sopList
                           .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                           .map((sopL) => (
+                            
                             <TableRow
                               key={sopL.id}
                               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -106,6 +124,23 @@ import { useNavigate } from "react-router-dom";
                               <TableCell component="th" scope="row">{sopL.sop_number}</TableCell>
                               <TableCell align="center">{sopL.sop_name}</TableCell>
                               <TableCell align="right">{sopL.topic}</TableCell>
+                              <TableCell align="center">{sopL.active}</TableCell>
+                              <TableCell align="center">{formatDateTimeForSQL(sopL.effective_date)}</TableCell>
+                              <TableCell 
+                                align="center" 
+                                sx={{ 
+                                  backgroundColor: () => { 
+                                    if (formatAged(sopL.effective_date) > 1096) { 
+                                      return 'red'; 
+                                      } else if (formatAged(sopL.effective_date) > 730) { 
+                                        return 'yellow'; 
+                                        } else { 
+                                          return 'white'; 
+                                          } 
+                                          } 
+                                          }} >
+                                {formatAged(sopL.effective_date)}
+                              </TableCell>
                             <Button onClick={() => handleSelect(sopL)}>Select Trainings</Button>
                             <Button align="right" onClick={() => handleSelectNew(sopL)} >New Training</Button>
                             </TableRow>

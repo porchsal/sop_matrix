@@ -1,4 +1,4 @@
-import Sidenav from './sidenav';
+import Sidenav from './Sidenav';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Box, Paper, Typography, Table, TableCell, TextField, TableBody, TableRow, FormControl, FormLabel, FormGroup, Select } from '@mui/material';
@@ -60,10 +60,14 @@ useEffect(() => {
 
     useEffect(() => {
         if(selectedDepartment.length > 0) {
-            const filtered = positions.filter(position =>
-                selectedDepartment.includes(position.department_id)
+            console.log('Selected department:', selectedDepartment);
+            const filtered = positions.filter(position =>{
+                return selectedDepartment.includes(position.ID)
+       
+            }
             );
             setFilteredPositions(filtered);
+            console.log('Filtered positions:', filtered);
         } else {
             setFilteredPositions([])
         }
@@ -260,16 +264,16 @@ useEffect(() => {
                                         <FormGroup  >
                                             {sites.map((site) => (
                                                 <FormControlLabel
-                                                    key={site.id}
+                                                    key={site.ID}
                                                     control={
                                                         <Checkbox
-                                                            checked={selectedSites.includes(site.id)}
+                                                            checked={selectedSites.includes(site.ID)}
                                                             onChange={handleSiteChange}
-                                                            value={site.id}
-                                                            name={site.site_name}
+                                                            value={site.ID}
+                                                            name={site.Name}
                                                         />
                                                         }
-                                                        label={site.site_name}
+                                                        label={site.Name}
                                                     />
                                                 ))}
                                         </FormGroup>
@@ -279,16 +283,16 @@ useEffect(() => {
                                             <FormGroup >
                                                 {departments.map((department) => (
                                                     <FormControlLabel
-                                                        key={department.id}
+                                                        key={department.ID}
                                                         control={
                                                         <Checkbox
-                                                            checked={selectedDepartment.includes(department.id)}
+                                                            checked={selectedDepartment.includes(department.ID)}
                                                             onChange={handleDepartmentChange}
-                                                            value={department.id}
-                                                            name={department.dep_name}
+                                                            value={department.ID}
+                                                            name={department.Name}
                                                             />
                                                         }
-                                                        label={department.dep_name}
+                                                        label={department.Name}
                                                     />
                                                 ))}
                                             </FormGroup>
@@ -299,16 +303,16 @@ useEffect(() => {
                                         <FormGroup>
                                             {filteredPositions.map((position) => (
                                                 <FormControlLabel
-                                                    key={position.id}
+                                                    key={position.ID}
                                                     control={
                                                         <Checkbox
-                                                            checked={selectedPosition.includes(position.id)}
+                                                            checked={selectedPosition.includes(position.ID)}
                                                             onChange={handlePositionChange}
-                                                            value={position.id}
-                                                            name={position.position_name}
+                                                            value={position.ID}
+                                                            name={position.Name}
                                                         />
                                                         }
-                                                    label={position.position_name}
+                                                    label={position.Name}
                                                     />
                                                 ))}
                                         </FormGroup>

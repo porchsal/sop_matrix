@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Modal, Table, TableHead, TableBody, TableRow, TableCell, TextField, Box, Typography, Button, CircularProgress } from '@mui/material';
+import { Modal, Table, TableHead, TableBody, TableRow, TableCell, TextField, Box, Typography, Button, CircularProgress, TablePagination } from '@mui/material';
 import axios from 'axios';
 
 const style = {
@@ -15,19 +15,20 @@ const style = {
     p: 4,
   };
 
+// eslint-disable-next-line react/prop-types
 const ListUsersModal = ({ open, handleClose}) => {
 const [data, setData] = useState([]); // Almacena los datos de la lista actual
 const [newPasswords, setNewPasswords] = useState('');
 const [loading, setLoading] = useState(false);
 const [error, setError] = useState('');
+const [page, setPage] = useState(0);
+const [rowsPerPage, setRowsPerPage] = useState(5);
 
 useEffect(() => {
     const fetchData = async () => {
         try {
-            console.log('Fetching data from:', 'users');
             const response = await axios.get(`http://localhost:3010/api/users`);
             setData(response.data); // Actualiza los datos de la lista
-            console.log('Data fetched:', response.data);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -63,6 +64,15 @@ const handlePasswordChange = (userId, value) => {
     setNewPasswords({ ...newPasswords, [userId]: value });
 };
 
+const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  }  
+const handleChangeRowsPerPage = (event) => {
+      setRowsPerPage(parseInt(event.target.value, 5));
+      setPage(0);
+    };
+
+const paginatedData = data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
 return (
     <Modal
@@ -87,7 +97,7 @@ return (
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {data.map((user) => (
+                        {paginatedData.map((user) => (
                             <TableRow key={user.id}>
                                 <TableCell>{user.username}</TableCell>
                                 <TableCell>{user.first_name}</TableCell>
@@ -121,6 +131,15 @@ return (
                         
                     </TableBody>
                 </Table>
+                <TablePagination
+                    rowsPerPageOptions={[5, 10, 25]}
+                    component="div"
+                    count={data.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                />
             </Box>
         </Box>
     </Modal>

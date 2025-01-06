@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Paper, Box, Typography, Table, Button, TableRow, TableCell, TableBody, TableHead} from '@mui/material'
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
-import Sidenav from './sidenav'
+import Sidenav from './Sidenav'
 import axios from 'axios'
 import AddSiteModal from './AddSiteModal'
 import AddTopicModal from './AddTopicModal'

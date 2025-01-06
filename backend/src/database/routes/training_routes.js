@@ -41,5 +41,29 @@ router.post("/training/newtraining", async (req, res) => {
     }
 });
 
+router.get("/training/sopnumber/:sopNumber", async (req, res) => {
+     const sopNumber = req.params.sopNumber.replace(/~/g, "/");
+    trainingQueries.getTrainingBySopNumber(sopNumber)
+    .then((training) => {
+        res.json(training);
+    })
+    .catch((error) => {
+        console.error('Error getting training:', error);
+        res.status(500).send({ message: 'Error getting training', error });
+    });
+});
+
+router.get('/training/details/:id', (req, res) => {
+    trainingQueries.getTrainingEmployeeByTrainingId(req.params.id)
+    .then((training) => {
+        res.json(training);
+    })
+    .catch((error) => {
+        console.error('Error getting training:', error);
+        res.status(500).send({ message: 'Error getting training', error });
+    });
+});
+
+
 
 module.exports = router;

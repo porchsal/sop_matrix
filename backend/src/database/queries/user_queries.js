@@ -32,6 +32,18 @@ const getUserByUsername = (username) => {
   });
 }
 
+const getUserById = (id) => {
+    return new Promise((resolve, reject) => {
+        db.query('SELECT username FROM users WHERE id = ?', [id], (err, rows) => {
+            if (err) {
+                console.error('Database query error:', err);
+                return reject(err);
+            }
+            resolve(rows[0]);
+        });
+    });
+}
+
 const getUsers = () => {
   return new Promise((resolve, reject) => {
       db.query('SELECT * FROM users', (err, rows) => {
@@ -45,8 +57,7 @@ const getUsers = () => {
 }
 
 const changePassword = (userId, password) => {
-  console.log('userId:', userId);
-  return new Promise((resolve, reject) => {
+   return new Promise((resolve, reject) => {
       bcrypt.hash(password, 10, (err, hash) => {
           if (err) {
               console.error('Error hashing password:', err);
@@ -63,13 +74,37 @@ const changePassword = (userId, password) => {
   });
 }
 
-
+const checkLoginCredentials = (username, password) => {
+  return new Promise((resolve, reject) => {
+      db.query('SELECT * FROM users WHERE username = ?', [username], (err, rows) => {
+          if (err) {
+              console.error('Database query error:', err);
+              return reject(err);
+          }
+          if (rows.length === 0) {
+              return resolve(null);
+          }
+          bcrypt.compare(password, rows[0].password, (err, result) => {
+              if (err) {
+                  console.error('Error comparing passwords:', err);
+                  return reject(err);
+              }
+              if (result) {
+                  resolve(rows[0]);
+                  
+              } else {
+                  resolve(null);
+              }
+          });
+      });
+  });
+}
 
 module.exports = {
     addUser,
-    registerUser,
     getUserByUsername,
     getUsers,
+    getUserById,
     changePassword,
-
+    checkLoginCredentials,
   };

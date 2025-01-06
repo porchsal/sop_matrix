@@ -3,4 +3,4 @@ const formatDateTimeForSQL = (dateTime) => {
     return date.toISOString().slice(0, 10);
 };
 
-export default formatDateTimeForSQL;
+export default formatDateTimeForSQL

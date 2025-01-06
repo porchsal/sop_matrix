@@ -1,28 +1,84 @@
 import React, { useState } from 'react';
 import { TextField, Button, Container, Typography, Box, CircularProgress } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+//import axios from 'axios';
 
-const SignIn = () => {
-    const [username, setUsername] = useState('');
+const SignIn = ({setUsername}) => {
+    const [usernameInput, setUsernameInput] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+
+    const navigate = useNavigate();
+
+    // const decodeJWT = (token) => {
+    //   const payload = token.split('.')[1];
+    //   return JSON.parse(atob(payload));
+    // };
+
+    //use of cookies
+    //axios.defaults.withCredentials = true;
+
+    const decodeJWT = (token) => {
+        const payload = token.split('.')[1];
+        return JSON.parse(atob(payload));
+    };
+
+    const fetchUser = async (userId, token) => {
+        try {
+            const response = await fetch(`http://localhost:3010/api/user/${userId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            if (!response.ok) {
+                throw new Error('Not authorized');
+            }
+            const userData = await response.json();
+            return userData.username;
+        } catch (error) {
+            console.error('Error fetching user:', error);
+            return null;
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError('');
 
+
         // Aquí puedes añadir la lógica para manejar el inicio de sesión, por ejemplo:
         try {
-            // Simular una llamada a la API
-            await new Promise((resolve) => setTimeout(resolve, 2000));
-            // Suponiendo que la respuesta es exitosa
-            console.log('Login successful for user:', username);
-        } catch (err) {
-            setError('Login failed. Please try again.');
-        } finally {
-            setLoading(false);
-        }
+            const response = await fetch('http://localhost:3010/api/signin',  {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username: usernameInput, password })
+            });
+            if (!response.ok) {
+                
+                throw new Error('Login failed');
+            }
+
+              const { token } = await response.json();
+              localStorage.setItem('token', token);
+              const decodedToken = jwtDecode(token);
+              const fetchedUsername = await fetchUser(decodedToken.id, token);
+              
+              if (!fetchedUsername) {
+                  throw new Error('Error fetching user');
+              }
+                localStorage.setItem('username', fetchedUsername);
+                setUsername(fetchedUsername);
+                navigate('/home', { replace: true });
+          } catch (err) {
+              setError('Login failed. Please try again.');
+          } finally {
+              setLoading(false);
+          }
     };
 
     return (
@@ -52,8 +108,8 @@ const SignIn = () => {
                         name="username"
                         autoComplete="username"
                         autoFocus
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        value={usernameInput}
+                        onChange={(e) => setUsernameInput(e.target.value)}
                     />
                     <TextField
                         variant="outlined"
@@ -80,6 +136,7 @@ const SignIn = () => {
                         {loading ? <CircularProgress size={24} /> : 'Sign In'}
                     </Button>
                 </Box>
+                
             </Box>
         </Container>
     );

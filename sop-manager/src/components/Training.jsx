@@ -1,4 +1,4 @@
-import Sidenav from "./sidenav";
+import Sidenav from "./Sidenav";
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Table from '@mui/material/Table';
@@ -22,12 +22,29 @@ function Training() {
     navigate('/NewTraining', {state: {training}});
   }
 
+  const handleSelect = (training) => {
+    if (!training) {
+      console.error("Training object is undefined");
+      return;
+    }
+    const {sop_number} = training;
+    if (sop_number) {
+      //const encodedSopNumber = encodeURIComponent(sop_number);
+      const encodedSopNumber = sop_number.replace(/\//g, "~");
+      navigate(`/training/sopnumber/${encodedSopNumber}`);
+    } else {
+      console.error("No SOP number found for training", training);
+    }
+  }
+  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:3010/api/training');
         setTrainingList(response.data);
         setLoading(false);
+        console.log('Data fetched:', response.data);
        
       } catch (error) {
         setError(error);
@@ -65,11 +82,19 @@ function Training() {
               <TableCell>{training.training_name}</TableCell>
               <TableCell>{training.sop_number}</TableCell>
               <TableCell>{training.sop_name}</TableCell>
-              <TableCell><Button variant="contained" color="primary" onClick={() => {console.log(training.sop_number)}}>Details</Button></TableCell>
+              <TableCell><Button 
+                variant="contained" 
+                color="primary"
+                onClick={() => {
+                  handleSelect(training)
+                  console.log(training  )
+                  }
+                  }
+                  >
+                    List</Button></TableCell>
               <TableCell><Button onClick={ ()=>{
                 handleNewTraining(training)
-                console.log(training)
-              }
+                }
               } 
               >
                 New Training</Button></TableCell>

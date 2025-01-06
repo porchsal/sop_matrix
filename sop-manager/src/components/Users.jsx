@@ -1,6 +1,6 @@
-import React from 'react'
+//import React from 'react'
 import { useState } from 'react'
-import Sidenav from './sidenav'
+import Sidenav from './Sidenav'
 import { Paper, Box, Table, TableBody, TableCell, Typography, Button } from '@mui/material'
 import AddUserModal from './AddUserModal';
 import ListUsersModal from './ListUsersModal';
@@ -12,24 +12,18 @@ export default function Users() {
     const handleOpenUser = () => {
         setOpenUser(true);
     }
-
     const handleCloseUser = () => {
         setOpenUser(false);
     }
-
     const addUser = (newUser) => {
         setData((prevData) => [...prevData, newUser]);
     }
-
     const handleOpenList = () => {
         setOpenList(true);
     }
-
     const handleCloseList = () => { 
         setOpenList(false);
     }
-
-
   return (
     <>
         <Sidenav />
@@ -52,13 +46,10 @@ export default function Users() {
                             onClick={handleOpenUser}
                             >Add User</Button>
                         </TableCell>
-                        
                     </TableBody>
                 </Table>
             </Box>
-
         </Paper>
-
         <AddUserModal
             open={openUser}
             handleClose={handleCloseUser}
@@ -67,12 +58,7 @@ export default function Users() {
         <ListUsersModal
             open={openList}
             handleClose={handleCloseList}
-            newUser={addUser}
         />
-
-
-
-
     </>
   )
 }

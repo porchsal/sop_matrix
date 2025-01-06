@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react'; 
 import axios from 'axios';
-import Sidenav from './sidenav';
+import Sidenav from './Sidenav';
 import { Container, Box, Typography, Paper,  Button, TablePagination } from '@mui/material';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import EmpModal from './EmpModal';
@@ -144,6 +144,7 @@ function Employee() {
                     <TableContainer component={Paper}>
                       <Table sx={{ minWidth: 450 }} stickyHeader aria-label="sticky table">
                         <TableBody>
+                          {console.log('Selected Employee:', selectedEmployee)}
                           {Object.entries(selectedEmployee)
                           .map(([key, value]) => (
                             <TableRow key={key}>
@@ -190,14 +191,6 @@ function Employee() {
                           )  
                           }
 
-
-
-                          {/* {trainByEmployee.map((training) => (
-                            <TableRow key={training.training_id}>
-                              <TableCell>{training.training_name}</TableCell>
-                              <TableCell>{training.training_date}</TableCell>
-                            </TableRow>
-                          ))} */}
 
                         </TableBody>
                       </Table>

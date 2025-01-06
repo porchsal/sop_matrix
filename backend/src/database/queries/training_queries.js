@@ -40,12 +40,12 @@ const getTrainingByEmployeeId = (employeeId) => {
 
 const getAllTrainingById = () => { 
     return new Promise((resolve, reject) => { 
-        db.query('SELECT DISTINCT training_id, training_name, sop_number, sop_name FROM training', (err, rows) => { 
+        db.query('SELECT DISTINCT training_id, training_name, sop_number, sop_name, trainer_name, training_date FROM training', (err, rows) => { 
             if (err) { 
                 console.error('Database query error:', err); 
                 return reject(err); 
             } 
-            console.log('Training again:', rows);
+
             resolve(rows);
              });        
         });
@@ -68,12 +68,10 @@ const maxTrainingId = () => {
 
 // Add a new training record
 const addTraining = async (training_name, sop_number, sop_name, trainer_name, comments, training_date, employee_ids) => {
-    console.log('Training Date:', training_date);
-    console.log('Employee IDs:', employee_ids);
+
     if (!Array.isArray(employee_ids) || employee_ids.length === 0) {
         throw new Error('employee_ids must be a non-empty array');
     }
-
     try {
 
         const currentMaxTrainingId = await maxTrainingId();
@@ -104,7 +102,7 @@ const addTraining = async (training_name, sop_number, sop_name, trainer_name, co
             training_date,
             id
         ]);
-        console.log('Training values:', trainingValues);
+
         // Insert training records
         const insertTrainingQuery = `
             INSERT INTO training (
@@ -122,6 +120,30 @@ const addTraining = async (training_name, sop_number, sop_name, trainer_name, co
     }
 };
 
+const getTrainingBySopNumber = (sopNumber) => {
+    return new Promise((resolve, reject) => {
+        db.query('SELECT DISTINCT training_id, training_name, sop_number, sop_name, trainer_name, training_date FROM training WHERE sop_number = ?', [sopNumber], (err, rows) => {
+            if (err) {
+                console.error('Database query error:', err);
+                return reject(err);
+            }
+            resolve(rows);
+        });
+    });
+}
+
+const getTrainingEmployeeByTrainingId = (trainingId) => {
+    return new Promise((resolve, reject) => {
+        db.query('SELECT t.employee_id, e.name FROM training t INNER JOIN employee e ON t.employee_id = e.id where t.training_id= ?;', [trainingId], (err, rows) => {
+            if (err) {
+                console.error('Database query error:', err);
+                return reject(err);
+            }
+            resolve(rows);
+        });
+    });
+}
+
 
 
 module.exports = {
@@ -130,5 +152,7 @@ module.exports = {
   getAllTrainingById,
   addTraining,
   maxTrainingId,
-  getTrainingByEmployeeId
+  getTrainingByEmployeeId,
+  getTrainingBySopNumber,   
+  getTrainingEmployeeByTrainingId
 };
