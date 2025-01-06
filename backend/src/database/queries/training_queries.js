@@ -7,7 +7,6 @@ const getAllTrainings = () => {
                 console.error('Database query error:', err); 
                 return reject(err); 
             } 
-            console.log('Trainings:', rows);
             resolve(rows);
              });        
         });
@@ -20,7 +19,6 @@ const getTrainingById = (trainingId) => {
                 console.error('Database query error:', err); 
                 return reject(err); 
             } 
-            console.log('Training:', rows);
             resolve(rows);
              });        
         });

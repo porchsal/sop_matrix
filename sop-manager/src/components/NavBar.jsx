@@ -1,12 +1,22 @@
-import React from 'react';
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
 
+// eslint-disable-next-line react/prop-types
 const Navbar = ({ username, onLogout }) => {
   return (
     <>
-    <img src='../assets/logo.png' alt='Logo' style={{ position: 'fixed', top: 0, left: 0 }} />
+    
     <AppBar position="fixed">
       <Toolbar>
+        <Box 
+            component="img" 
+            src='../assets/logo.png' 
+            alt='Logo'
+            sx={{
+              height: 40, // Ajusta el tamaño de la imagen
+              marginRight: 20, // Espaciado entre el logo y el texto
+            }}
+          />
+
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
           SOP Training Matrix
         </Typography>

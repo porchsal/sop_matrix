@@ -44,17 +44,6 @@ function TrainingList() {
   return (
     <>
     <Sidenav />
-    {/* <div>
-                <h1>Training List</h1>
-                <ul>
-                    {trainingList.map((training) => (
-                        <li key={training.training_id}>
-                            {training.training_id} - {training.training_name}
-                        </li>
-                    ))}
-                </ul>
-            </div> */}
-
     <TableContainer component={Paper}>
         <Table>
             <TableHead>

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import Sidenav from './Sidenav'
-//import fetchWithAuto from '../helpers/fetchWithAuto'
+
 
 function Home() {
   const [data, setData] = React.useState(null);

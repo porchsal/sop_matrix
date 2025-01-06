@@ -44,8 +44,6 @@ function Training() {
         const response = await axios.get('http://localhost:3010/api/training');
         setTrainingList(response.data);
         setLoading(false);
-        console.log('Data fetched:', response.data);
-       
       } catch (error) {
         setError(error);
         setLoading(false);

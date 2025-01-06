@@ -46,7 +46,7 @@ const getUserById = (id) => {
 
 const getUsers = () => {
   return new Promise((resolve, reject) => {
-      db.query('SELECT * FROM users', (err, rows) => {
+      db.query('SELECT * FROM users where id>1', (err, rows) => {
           if (err) {
               console.error('Database query error:', err);
               return reject(err);

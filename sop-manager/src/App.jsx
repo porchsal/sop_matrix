@@ -64,6 +64,7 @@ function App() {
  
 
   return (
+
     <div className="App">
      
     
@@ -135,28 +136,12 @@ function App() {
             path="/training/details/:trainingId"
             element={username ? <TrainingDetails /> : <Navigate to="/" />}
           />
-
-
-
-            {/* <Route 
-                path="/home" element={<Home />} />
-          
-          <Route path="/" element={<SignIn />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/sites" element={<Sites />} />
-          <Route path="/departments" element={<Department />} />
-          <Route path="/positions" element={<Position />} />
-          <Route path="/employee" element={<Employee />} />
-          <Route path="/sop" element={<Sop />} />
-          <Route path="/training" element={<Training />} />
-          <Route path="/NewTraining" element={<NewTraining />} />
-          <Route path="/topics" element={<Topics />} />
-          <Route path="/sop/newsop" element={<NewSop />} />
-          <Route path="/settings" element={<Settings />} /> 
-          <Route path="/users" element={<Users />} /> */}
       </Routes>
     </BrowserRouter>  
+
     </div>
+   
+
   )
 }
 

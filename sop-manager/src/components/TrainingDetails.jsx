@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+//import { useParams } from "react-router-dom";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Typography } from "@mui/material";
 import axios from "axios";
 import Sidenav from "./Sidenav";
@@ -9,19 +9,17 @@ function TrainingDetails() {
     const [empList, setempList] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    //const { training_id } = useParams();
+    
     const location = useLocation();
     const training = location.state?.training;
     const [trainerName, setTrainerName] = useState(null);
     const [trainer, setTrainer] = useState(null);
     useEffect(() => {
         const fetchData = async () => {
-            console.log('Fetching data for training ID:', training.training_id);
             const training_id = training.training_id;
             try {
                 const response = await axios.get(`http://localhost:3010/api/training/details/${training_id}`);
                 setempList(response.data);
-                console.log('Data fetched:', response.data);
                 setLoading(false);
             } catch (error) {
                 setError(error);
@@ -37,11 +35,9 @@ function TrainingDetails() {
                 console.error("Trainer name is not defined");
                 return;
             }
-            console.log('Fetching data for trainer ID:', training.trainer_name);
-            // const employee_id = training.trainer_name;
+            
             try {
                 const response = await axios.get(`http://localhost:3010/api/employee/${training.trainer_name}`);
-                console.log('Data fetched trainer:', response.data);
                 setTrainerName(response.data);
                 
             } catch (error) {
