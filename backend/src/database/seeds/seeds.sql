@@ -89,8 +89,7 @@ INSERT INTO `employee` (`id`, `name`, `date_of_hire`, `active`, `trainer`, `posi
 	(76, 'Valeria Chavarria', '2024-06-03', 'Yes', 'No', '20', '7', '2'),
 	(77, 'Vishena Durga', '2015-04-09', 'Yes', 'Yes', '5', '3', 'Mississauga'),
 	(78, 'Paul Tulan', '2005-02-10', 'Yes', 'Yes', '19', '6', '1'),
-	(79, 'Ashley Carrera', '2024-06-24', 'Yes', 'No', '13', '5', '1'),
-	(81, 'Anton Shkilev', '2024-02-05', 'Yes', 'No', '13', '5', '1');
+	(79, 'Ashley Carrera', '2024-06-24', 'Yes', 'No', '13', '5', '1');
 
 
 INSERT INTO `position` (`id`, `position_name`, `department_id`) VALUES
@@ -113,8 +112,7 @@ INSERT INTO `position` (`id`, `position_name`, `department_id`) VALUES
 	(17, 'QC Analyst', 6),
 	(18, 'QC Supervisor', 6),
 	(19, 'QC/QA Director & Manager', 6),
-	(20, 'Sanitation Assistant', 7),
-	(21, 'Sterile', 1);
+	(20, 'Sanitation Assistant', 7);
 
 INSERT INTO `sites` (`id`, `site_name`, `site_number`) VALUES
 	(1, 'Calgary', '1'),

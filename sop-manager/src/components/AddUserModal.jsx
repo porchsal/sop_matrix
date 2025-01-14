@@ -85,6 +85,7 @@ const style = {
                 <TextField
                     label="Password"
                     value={password}
+                    type="password"
                     onChange={(e) => setPassword(e.target.value)}
                     fullWidth
                 />

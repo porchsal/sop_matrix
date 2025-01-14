@@ -142,7 +142,17 @@ const getTrainingEmployeeByTrainingId = (trainingId) => {
     });
 }
 
-
+const deleteTrainingByID = (trainingId) => {
+    return new Promise((resolve, reject) => {
+        db.query('DELETE FROM training WHERE training_id = ?', [trainingId], (err, rows) => {
+            if (err) {
+                console.error('Database query error:', err);
+                return reject(err);
+            }
+            resolve(rows);
+        });
+    });
+}
 
 module.exports = {
   getAllTrainings,
@@ -152,5 +162,6 @@ module.exports = {
   maxTrainingId,
   getTrainingByEmployeeId,
   getTrainingBySopNumber,   
-  getTrainingEmployeeByTrainingId
+  getTrainingEmployeeByTrainingId,
+  deleteTrainingByID
 };

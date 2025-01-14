@@ -129,7 +129,7 @@ const EmpModal = ({ open, handleClose, employee, updatedEmployeeData }) => {
                                         variant="standard"
                                     >
                                         {positions.map((position) => (
-                                            <MenuItem key={position.id} value={position.position_name}>{position.position_name}</MenuItem>
+                                            <MenuItem key={position.ID} value={position.Name}>{position.Name}</MenuItem>
                                         ))}
                                     </Select>
                                 </TableCell>
@@ -143,7 +143,7 @@ const EmpModal = ({ open, handleClose, employee, updatedEmployeeData }) => {
                                         variant="standard"
                                     >
                                         {departments.map((department) => (
-                                            <MenuItem key={department.id} value={department.dep_name}>{department.dep_name}</MenuItem>
+                                            <MenuItem key={department.ID} value={department.Name}>{department.Name}</MenuItem>
                                         ))}
                                     </Select>
                                 </TableCell>
@@ -157,7 +157,7 @@ const EmpModal = ({ open, handleClose, employee, updatedEmployeeData }) => {
                                         variant="standard"
                                     >
                                         {sites.map((site) => (
-                                            <MenuItem key={site.id} value={site.site_name}>{site.site_name}</MenuItem>
+                                            <MenuItem key={site.ID} value={site.Name}>{site.Name}</MenuItem>
                                         ))}
                                     </Select>
                                 </TableCell>

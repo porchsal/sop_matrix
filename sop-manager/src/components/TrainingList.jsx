@@ -41,6 +41,19 @@ function TrainingList() {
         return date.toISOString().slice(0, 10);
       };
 
+    const handleDelete = async (training) => {  
+        try {
+            const response = await axios.delete('http://localhost:3010/api/training/delete/' + training.training_id);
+            console.log(response);
+            const updatedTrainingList = trainingList.filter((t) => t.training_id !== training.training_id);
+            setTrainingList(updatedTrainingList);
+            
+        } catch (error) {
+            console.error('Error deleting training:', error);
+        }
+    }
+
+
   return (
     <>
     <Sidenav />
@@ -68,6 +81,9 @@ function TrainingList() {
                 <TableCell>{formatDateTimeForSQL(training.training_date)}</TableCell>
                 <TableCell>
                     <Button variant='contained' color='primary' onClick={() => handleDetails(training)}>Details</Button>
+                </TableCell>
+                <TableCell>
+                    <Button variant='contained' color='secondary' onClick={() => handleDelete(training)}>Delete</Button>
                 </TableCell>
                 </TableRow>
             ))}

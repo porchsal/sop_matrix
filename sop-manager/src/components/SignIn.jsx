@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Button, Container, Typography, Box, CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
+import logo from '../assets/logo.png';
 //import axios from 'axios';
 
 const SignIn = ({setUsername}) => {
@@ -12,15 +13,7 @@ const SignIn = ({setUsername}) => {
 
     const navigate = useNavigate();
 
-    // const decodeJWT = (token) => {
-    //   const payload = token.split('.')[1];
-    //   return JSON.parse(atob(payload));
-    // };
-
-    //use of cookies
-    //axios.defaults.withCredentials = true;
-
-    const decodeJWT = (token) => {
+     const decodeJWT = (token) => {
         const payload = token.split('.')[1];
         return JSON.parse(atob(payload));
     };
@@ -94,6 +87,17 @@ const SignIn = ({setUsername}) => {
                 <Typography component="h1" variant="h5">
                     SOP Training Matrix
                 </Typography>
+                <Box
+                    component="img"
+                    src={logo}
+                    alt="Logo"
+                    sx={{
+                        height: 80,
+                        marginTop: 2,
+                        marginBottom: 2,
+                    }}
+                />
+                
                 <Typography component="h2" variant="h6">
                     Sign In
                 </Typography>

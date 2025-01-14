@@ -1,19 +1,25 @@
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
-
+import logo from '../assets/logo.png';
 // eslint-disable-next-line react/prop-types
 const Navbar = ({ username, onLogout }) => {
   return (
     <>
     
-    <AppBar position="fixed">
+    <AppBar 
+      position="fixed"
+      display="flex"
+      justify-content="space-between"
+      >
       <Toolbar>
-        <Box 
+        <Box
             component="img" 
-            src='../assets/logo.png' 
+            src={logo} 
             alt='Logo'
+            backgroundColor='transparent'
             sx={{
-              height: 40, // Ajusta el tamaño de la imagen
-              marginRight: 20, // Espaciado entre el logo y el texto
+              height: 60, // Ajusta el tamaño de la imagen
+              
+              marginLeft: 25, // Ajusta el margen izquierdo
             }}
           />
 

@@ -136,6 +136,10 @@ function App() {
             path="/training/details/:trainingId"
             element={username ? <TrainingDetails /> : <Navigate to="/" />}
           />
+          <Route
+            path="/training/delete/:trainingId"
+            element={username ? <TrainingList /> : <Navigate to="/" />}
+          />
       </Routes>
     </BrowserRouter>  
 

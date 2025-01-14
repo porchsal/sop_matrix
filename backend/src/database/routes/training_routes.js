@@ -64,6 +64,15 @@ router.get('/training/details/:id', (req, res) => {
     });
 });
 
-
+router.delete('/training/delete/:id', (req, res) => {
+    trainingQueries.deleteTrainingByID(req.params.id)
+    .then((training) => {
+        res.json(training);
+    })
+    .catch((error) => {
+        console.error('Error deleting training:', error);
+        res.status(500).send({ message: 'Error deleting training', error });
+    });
+});
 
 module.exports = router;
