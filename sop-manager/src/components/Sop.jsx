@@ -8,10 +8,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Button, List } from "@mui/material";
+import { Button, List, TextField } from "@mui/material";
 import TablePagination from '@mui/material/TablePagination';
 import { useNavigate } from "react-router-dom";
-//import NewSopModal from './NewSop';
 
    function Sop() {
     const [sopList, setSopList] = useState([]); 
@@ -19,7 +18,7 @@ import { useNavigate } from "react-router-dom";
     const [error, setError] = useState(null);
     const [page, setPage] = useState(0); 
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    //const [open, setOpen] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");// New state for search
     const navigate = useNavigate();
 
     useEffect(() => { 
@@ -37,29 +36,27 @@ import { useNavigate } from "react-router-dom";
           { return <p>Loading...</p>; } 
          if (error) 
           { return <p>Error loading: {error.message}</p>; }
-    
+
+    const handleSearchTerm = (event) => {
+      setSearchTerm(event.target.value);
+      setPage(0);
+    }
+
+    const filteredSopList = sopList.filter((sop) => 
+      sop.sop_number.toLowerCase().includes(searchTerm) || 
+      sop.sop_name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      sop.topic.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     const handleSelect = (sop) => {
       console.log("SOP Selected", sop);
     }
     
-    // const handleNewTraining = (sopNumber) => {
-    //   console.log("New Training:", sopNumber);
-    //   navigate("/NewTraining");
-    // }
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
     }
 
-    // const handleClose = () => {
-    //   setOpen(false);
-    // };
-
-    // const handleAddSop = (newSop) => {
-    //   setSopList([...sopList, newSop]);
-    // };
-
     const handleSelectNew = (training) => {
-      //console.log(sopNumber);
       navigate('/NewTraining', {state: {training}});
     }
 
@@ -94,7 +91,16 @@ import { useNavigate } from "react-router-dom";
       <div>
        <Sidenav /> 
       <h1>SOP</h1>
-       <div> <h2>List of SOP</h2> 
+       <TextField
+        label="Search SOP"
+        variant="outlined"
+        fullWidth
+        margin="normal"
+        value={searchTerm}
+        onChange={handleSearchTerm}
+      />      
+       
+       <div> 
               <List> 
               
                   <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -112,7 +118,7 @@ import { useNavigate } from "react-router-dom";
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {sopList
+                        {filteredSopList
                           .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                           .map((sopL) => (
                             
@@ -154,7 +160,6 @@ import { useNavigate } from "react-router-dom";
                   
                 </Paper>
                 <Button variant="contained" color="primary" onClick={()=>{navigate("/sop/newsop")}} >New SOP</Button>
-                {/* <NewSopModal open={open} handleClose={handleClose} addSop={handleAddSop} /> */}
               </List>
         </div>
       </div>
