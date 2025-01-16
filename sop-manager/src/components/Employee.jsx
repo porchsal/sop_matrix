@@ -5,11 +5,11 @@ import Sidenav from './Sidenav';
 import { Container, Box, Typography, Paper,  Button, TablePagination } from '@mui/material';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import EmpModal from './EmpModal';
 import NewEmpModal from './NewEmpModal';
 import formatDateTimeForSQL from '../helpers/formatDateTimeForSQL';
-import PrintTrainingList from './PrintTrainingList';
-
+import logo from '../assets/logo.png';
 
 function Employee() {
 
@@ -40,6 +40,8 @@ function Employee() {
   const [selectedSites, setSelectedSites] = useState([]);
   const [selectedDepartment, setSelectedDepartment] = useState([]);
   const [filteredEmployees, setFilteredEmployees] = useState([]);
+  const [printDialogOpen, setPrintDialogOpen] = useState(false);
+  const [selectedTrainings, setSelectedTrainings] = useState([]);
 
 
   useEffect(() => {
@@ -195,6 +197,74 @@ const handleAddEmployee = (newEmployee) => {
   //   onRowsPerPageChange={handleChangeRowsPerPage} 
   //   />
 
+  const handleOpenPrintDialog = () => {
+    setPrintDialogOpen(true);
+    setSelectedTrainings(trainByEmployee);
+  };
+
+  const handleClosePrintDialog = () => {
+    setPrintDialogOpen(false);
+  };
+
+  const handlePrint = () => {
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Training List</title>
+          <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            h1 { color: #333; text-align: center; }
+            table { 
+              width: 100%; 
+              border-collapse: collapse; 
+              margin-top: 20px; 
+            }
+            th, td { 
+              border: 1px solid #ddd; 
+              padding: 8px; 
+              text-align: left; 
+            }
+            th { 
+              background-color: #f4f4f4; 
+              font-weight: bold; 
+            }
+            tr:nth-child(even) { background-color: #f9f9f9; }
+          </style>
+          <img src="${logo}" alt="Logo" style="display: block; margin: 0 auto; width: 100px;" />
+        </head>
+        <body>
+          
+          <h1>Training List</h1>
+          
+          <p><strong>Employee:</strong> ${selectedEmployee.name}</p>
+          <p><strong>Position:</strong> ${selectedEmployee.position_id}</p>
+          
+          <table>
+            <thead>
+              <tr>
+                <th>SOP Name</th>
+                <th>SOP Number</th>
+                <th>Training Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${selectedTrainings.map(training => `
+                <tr>
+                  <td>${training.sop_name}</td>
+                  <td>${training.sop_number}</td>
+                  <td>${formatDateTimeForSQL(training.training_date)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+    printWindow.print();
+  };
+  
   
 
    return (
@@ -245,12 +315,7 @@ const handleAddEmployee = (newEmployee) => {
                       </FormGroup>
                     </FormControl>
               </Paper>
-              
-              
-              
-              
-              <Paper elevation={3} sx={{ flex: 1, marginRight: 2, padding: 2 }} >
-                {/* <Typography variant="h6" gutterBottom>Employees</Typography> */}
+            <Paper elevation={3} sx={{ flex: 1, marginRight: 2, padding: 2 }} >
                 <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 450 }} stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -280,7 +345,6 @@ const handleAddEmployee = (newEmployee) => {
                     <TableContainer component={Paper}>
                       <Table sx={{ minWidth: 450 }} stickyHeader aria-label="sticky table">
                         <TableBody>
-                          {console.log('Fetch Data:', positions)}
                           {Object.entries(selectedEmployee)
                           .map(([key, value]) => (
                             <TableRow key={key}>
@@ -322,12 +386,7 @@ const handleAddEmployee = (newEmployee) => {
                                   <Button 
                                     variant="contained" 
                                     color="primary" 
-                                    onClick={() => {
-                                    <PrintTrainingList selectedEmployee={selectedEmployee} trainByEmployee={trainByEmployee} />
-                                    {console.log('Employee Training:', selectedEmployee)}
-                                    {console.log('Training:', trainByEmployee)}
-
-                                    }}
+                                    onClick={handleOpenPrintDialog}
                                     >
                                     Print Trainings
                                   </Button>
@@ -339,11 +398,9 @@ const handleAddEmployee = (newEmployee) => {
                               <TableRow>
                                 <TableCell colSpan={2}>No training found</TableCell>
                               </TableRow>
-                              
                             </TableBody>
                           )  
                           }
-
                         {tablePaginationComponent}
                         </TableBody>
                       </Table>
@@ -351,17 +408,51 @@ const handleAddEmployee = (newEmployee) => {
                 ) : (
                 <Typography variant="body1">Select an employee</Typography>
                 )}
-                
-              </Paper>
-
+             </Paper>
             </Box>
             <Button variant="contained" color="primary" onClick={() => setOpenNew(true)}>Add Employee</Button>
             {selectedEmployee && (
               <EmpModal open={open} handleClose={handleClose} employee={selectedEmployee} updatedEmployeeData={updatedEmployeeData}/>
             )}
             <NewEmpModal open={openNew} handleClose={handleCloseNew} addEmployee={handleAddEmployee} />
-            
           </Container>
+          <Dialog open={printDialogOpen} onClose={handleClosePrintDialog} fullWidth maxWidth="sm">
+            <DialogTitle>Training List</DialogTitle>
+            <DialogContent>
+              <Typography variant="h6">Employee Details</Typography>
+              <Typography>Name: {selectedEmployee?.name}</Typography>
+              <Typography>Position: {selectedEmployee?.position_id}</Typography>
+              <Typography variant="h6" sx={{ mt: 2 }}>Trainings</Typography>
+              <TableHead>
+                <TableRow>
+                  <TableCell>SOP Name</TableCell>
+                  <TableCell>SOP Number</TableCell>
+                  <TableCell>Training Date</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {selectedTrainings.map((training, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{training.sop_name}</TableCell>
+                    <TableCell>{training.sop_number}</TableCell>
+                    <TableCell>{formatDateTimeForSQL(training.training_date)}</TableCell>
+                  </TableRow>
+             ))}
+              </TableBody>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClosePrintDialog} color="secondary">Cancel</Button>
+              <Button 
+                onClick={() => {
+                  handlePrint(); // Función para manejar la impresión
+                  handleClosePrintDialog();
+                }} 
+                color="primary"
+              >
+                Confirm and Print
+              </Button>
+            </DialogActions>
+          </Dialog>
     </>
     )
   }
