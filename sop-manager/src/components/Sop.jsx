@@ -49,7 +49,18 @@ import { useNavigate } from "react-router-dom";
     );
 
     const handleSelect = (sop) => {
-      console.log("SOP Selected", sop);
+      if (!sop) {
+        console.error("SOP object is undefined");
+        return;
+      }
+      const {sop_number} = sop;
+      if (sop_number) {
+        const encodedSopNumber = sop_number.replace(/\//g, "~");
+        navigate(`/training/sopnumber/${encodedSopNumber}`);
+      }
+      else {
+        console.error("No SOP number found for SOP", sop);
+      }
     }
     
     const handleChangePage = (event, newPage) => {
