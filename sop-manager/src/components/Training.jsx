@@ -61,7 +61,7 @@ function Training() {
     <>
     <Sidenav />
     
-    <div>Training</div>
+    <h1>Training List</h1>
 
     <TableContainer component={Paper}>
       <Table>

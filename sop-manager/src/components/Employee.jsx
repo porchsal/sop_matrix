@@ -4,9 +4,13 @@ import axios from 'axios';
 import Sidenav from './Sidenav';
 import { Container, Box, Typography, Paper,  Button, TablePagination } from '@mui/material';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import EmpModal from './EmpModal';
 import NewEmpModal from './NewEmpModal';
 import formatDateTimeForSQL from '../helpers/formatDateTimeForSQL';
+import PrintTrainingList from './PrintTrainingList';
+
+
 function Employee() {
 
   const columnNames = { 
@@ -32,19 +36,12 @@ function Employee() {
   const [departments, setDepartments] = useState([]);
   const [sites, setSites] = useState([]);
   const [trainByEmployee, setTrainByEmployee] = useState({});
-  const handleSelectEmployee = (employee) => {
-    setSelectedEmployee(employee);
-    const fetchTrainings = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3010/api/training/byEmployee/${employee.id}`);
-        setTrainByEmployee(response.data);
-      } catch (error) {
-        console.error('Error fetching training:', error);
-      }
-    };
-    fetchTrainings();
-  };
-  
+//added to filter employees
+  const [selectedSites, setSelectedSites] = useState([]);
+  const [selectedDepartment, setSelectedDepartment] = useState([]);
+  const [filteredEmployees, setFilteredEmployees] = useState([]);
+
+
   useEffect(() => {
     const fetchData = async () => {
         try {
@@ -65,58 +62,118 @@ function Employee() {
 }, []);
 
 
-  const handleEditEmployee = (employee) => { 
+useEffect(() => {
+  if (selectedSites.length > 0 || selectedDepartment.length > 0) {
+    axios
+      .get('http://localhost:3010/api/employee/filterbydep', {
+        params: {
+          site_id: selectedSites,
+          department_id: selectedDepartment,
+        },
+      })
+      .then((response) => {
+        setFilteredEmployees(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error('Error fetching filtered employees:', error);
+        setError(error);
+        setLoading(false);
+      });
+  } else {
+    setFilteredEmployees([]);
+  }
+}, [selectedSites, selectedDepartment]);
+
+
+useEffect(() => { 
+  const fetchEmployees = async () => { 
+    try { const response = await axios.get('http://localhost:3010/api/employee'); 
+      setEmployees(response.data); 
+      setLoading(false);
+    } catch (error) { 
+      setError(error); 
+      setLoading(false); 
+    } 
+  }; fetchEmployees(); 
+}, []); 
+
+
+
+const handleSelectEmployee = (employee) => {
+  setSelectedEmployee(employee);
+  const fetchTrainings = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3010/api/training/byEmployee/${employee.id}`);
+      setTrainByEmployee(response.data);
+    } catch (error) {
+      console.error('Error fetching training:', error);
+    }
+  };
+  fetchTrainings();
+};
+
+const handleSiteChange = (event) => {
+  const siteId = Number(event.target.value);
+  setSelectedSites((prev) =>
+      event.target.checked 
+      ? [...prev, siteId] 
+      : prev.filter(id => id !== siteId)
+  );
+  
+};
+
+const handleDepartmentChange = (event) => {
+  const departmentId = Number(event.target.value); 
+  setSelectedDepartment((prev) => 
+      event.target.checked 
+        ? [...prev, departmentId] 
+        : prev.filter(id => id !== departmentId) 
+  ); 
+  
+};
+
+
+const handleEditEmployee = (employee) => { 
     setSelectedEmployee(employee); 
     setOpen(true); 
-    // console.log('Selected Employee:', employee);
   };
     
-  const handleClose = () => {
+const handleClose = () => {
     setOpen(false);
     setSelectedEmployee(null);
   }; 
 
-  const handleCloseNew = () => {
-    // console.log('Close New Employee');
-    setOpenNew(false);
+const handleCloseNew = () => {
+  setOpenNew(false);
 
   }; 
 
-  const updatedEmployeeData = (updatedEmployee) => {
+const updatedEmployeeData = (updatedEmployee) => {
       setEmployees((prevEmployees) => 
         prevEmployees.map((emp) => (emp.id === updatedEmployee.id ? updatedEmployee : emp))
       );
       setSelectedEmployee(updatedEmployee);
     };
 
-    const handleChangePage = (event, newPage) => {
+const handleChangePage = (event, newPage) => {
         setPage(newPage);
       }  
-  const handleChangeRowsPerPage = (event) => {
+const handleChangeRowsPerPage = (event) => {
           setRowsPerPage(parseInt(event.target.value, 10));
           setPage(0);
         };
 
-  const handleAddEmployee = (newEmployee) => {
+const handleAddEmployee = (newEmployee) => {
     setEmployees([...employees, newEmployee]);
   };
 
-  useEffect(() => { 
-      const fetchData = async () => { 
-        try { const response = await axios.get('http://localhost:3010/api/employee'); 
-          setEmployees(response.data); 
-          setLoading(false);
-        } catch (error) { 
-          setError(error); 
-          setLoading(false); 
-        } 
-      }; fetchData(); },
-      []); 
       
-      if (loading) 
-        { return <p>Loading...</p>; } 
-       if (error) 
-        { return <p>Error loading positions: {error.message}</p>; }
+  if (loading) 
+    { return <p>Loading...</p>; } 
+  if (error) 
+    { return <p>Error loading positions: {error.message}</p>; }
+    
       
   const tablePaginationComponent = <TablePagination
     rowsPerPageOptions={[5, 10, 25]}
@@ -128,6 +185,18 @@ function Employee() {
     onRowsPerPageChange={handleChangeRowsPerPage} 
     />
   
+  // const tablePaginationComponentTrainings = <TablePagination
+  //   rowsPerPageOptions={[5, 10, 25]}
+  //   component="div"
+  //   count={trainByEmployee.length}
+  //   rowsPerPage={rowsPerPage}
+  //   page={page}
+  //   onPageChange={handleChangePage}
+  //   onRowsPerPageChange={handleChangeRowsPerPage} 
+  //   />
+
+  
+
    return (
    <>
       <Sidenav />
@@ -135,6 +204,51 @@ function Employee() {
         
           <Container>  
             <Box display="flex" justifyContent="space-between" mt={2}>
+              <Paper elevation={3} sx={{ flex: 1, marginRight: 2, padding: 2 }} >
+                <Typography variant="h6" gutterBottom>Filters</Typography>
+                <FormControl component="fieldset">
+                  <FormLabel component="legend">Main Site</FormLabel>
+                    <FormGroup  >
+                      {sites.map((site) => (
+                        <FormControlLabel
+                          key={site.ID}
+                          control={
+                            <Checkbox     
+                              checked={selectedSites.includes(site.ID)}
+                              onChange={handleSiteChange}
+                              value={site.ID}
+                              name={site.Name}
+                            />
+                              }
+                              label={site.Name}
+                         />
+                         ))}
+                    </FormGroup>
+                  </FormControl>
+                  <FormControl component="fieldset">
+                    <FormLabel component="legend">Departments:</FormLabel>
+                      <FormGroup >
+                        {departments.map((department) => (
+                        <FormControlLabel
+                          key={department.ID}
+                          control={
+                          <Checkbox
+                            checked={selectedDepartment.includes(department.ID)}
+                            onChange={handleDepartmentChange}
+                            value={department.ID}
+                            name={department.Name}
+                          />
+                        }
+                        label={department.Name}
+                        />
+                        ))}
+                      </FormGroup>
+                    </FormControl>
+              </Paper>
+              
+              
+              
+              
               <Paper elevation={3} sx={{ flex: 1, marginRight: 2, padding: 2 }} >
                 {/* <Typography variant="h6" gutterBottom>Employees</Typography> */}
                 <TableContainer component={Paper}>
@@ -145,7 +259,7 @@ function Employee() {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {employees
+                      {(filteredEmployees.length > 0 ? filteredEmployees : employees)
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((employee) => (
                         <TableRow 
@@ -203,17 +317,34 @@ function Employee() {
                                   <TableCell>{formatDateTimeForSQL(training.training_date)}</TableCell>
                                 </TableRow>
                               ))}
+                              <TableRow>
+                                <TableCell>
+                                  <Button 
+                                    variant="contained" 
+                                    color="primary" 
+                                    onClick={() => {
+                                    <PrintTrainingList selectedEmployee={selectedEmployee} trainByEmployee={trainByEmployee} />
+                                    {console.log('Employee Training:', selectedEmployee)}
+                                    {console.log('Training:', trainByEmployee)}
+
+                                    }}
+                                    >
+                                    Print Trainings
+                                  </Button>
+                                </TableCell>
+                              </TableRow>
                             </TableBody>
                           ) : (
                             <TableBody>
                               <TableRow>
                                 <TableCell colSpan={2}>No training found</TableCell>
                               </TableRow>
+                              
                             </TableBody>
                           )  
                           }
 
-
+                        {tablePaginationComponent}
                         </TableBody>
                       </Table>
                     </TableContainer>

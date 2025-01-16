@@ -2,7 +2,7 @@ const db = require("../connection");
 
 const getAllPositions = () => { 
     return new Promise((resolve, reject) => { 
-        db.query('SELECT id AS ID, position_name AS Name FROM position', (err, rows) => { 
+        db.query('SELECT id AS ID, position_name AS Name, department_id AS department_id FROM position', (err, rows) => { 
             if (err) { 
                 console.error('Database query error:', err); 
                 return reject(err); 

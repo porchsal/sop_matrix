@@ -9,6 +9,7 @@ const Navbar = ({ username, onLogout }) => {
       position="fixed"
       display="flex"
       justify-content="space-between"
+      sx={{ bgcolor: '#91A7FA' }}
       >
       <Toolbar>
         <Box
