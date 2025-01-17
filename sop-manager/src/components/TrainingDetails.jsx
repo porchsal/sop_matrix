@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-//import { useParams } from "react-router-dom";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Typography } from "@mui/material";
 import axios from "axios";
 import Sidenav from "./Sidenav";
@@ -195,7 +194,7 @@ function TrainingDetails() {
                     onClick={() => setOpenPrintDialog(true)}
                     sx={{ marginY: 2 }}
                 >
-                    Imprimir
+                    Print
                 </Button>
 
             </Box>

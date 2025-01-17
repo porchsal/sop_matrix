@@ -48,6 +48,15 @@ import { useNavigate } from "react-router-dom";
       sop.topic.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    const handleNew = (training) => {
+      console.log("SOPPP", training);
+      if (training) {
+        navigate(`/NewTraining`, { state: { training } });
+      } else {
+        console.error("No SOP selected for new training");
+      }
+    };
+
     const handleSelect = (sop) => {
       if (!sop) {
         console.error("SOP object is undefined");
@@ -67,9 +76,7 @@ import { useNavigate } from "react-router-dom";
       setPage(newPage);
     }
 
-    const handleSelectNew = (training) => {
-      navigate('/NewTraining', {state: {training}});
-    }
+    
 
 
     const handleChangeRowsPerPage = (event) => {
@@ -136,7 +143,7 @@ import { useNavigate } from "react-router-dom";
                             <TableRow
                               key={sopL.id}
                               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                              hover onClick={() => handleSelect(sopL)}
+                              
                             >
                               <TableCell component="th" scope="row">{sopL.sop_number}</TableCell>
                               <TableCell align="center">{sopL.sop_name}</TableCell>
@@ -158,8 +165,21 @@ import { useNavigate } from "react-router-dom";
                                           }} >
                                 {formatAged(sopL.effective_date)}
                               </TableCell>
-                            <Button onClick={() => handleSelect(sopL)}>Select Trainings</Button>
-                            <Button align="right" onClick={() => handleSelectNew(sopL)} >New Training</Button>
+                            <TableCell align="center">
+                              <Button 
+                                onClick={() => handleSelect(sopL)}
+                                >
+                                  Select Trainings
+                                </Button>
+                            </TableCell>
+                            <TableCell align="center">
+                              <Button 
+                                align="right" 
+                                onClick={() => handleNew(sopL)} 
+                              >
+                                New Training
+                                </Button>
+                            </TableCell>
                             </TableRow>
                         ))}
                       </TableBody>

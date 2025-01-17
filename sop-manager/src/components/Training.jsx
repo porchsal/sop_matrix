@@ -85,15 +85,15 @@ function Training() {
                 color="primary"
                 onClick={() => {
                   handleSelect(training)
-                  console.log(training  )
                   }
                   }
-                  >
+              >
                     List</Button></TableCell>
-              <TableCell><Button onClick={ ()=>{
-                handleNewTraining(training)
-                }
-              } 
+              <TableCell><Button 
+                onClick={ ()=>{
+                  handleNewTraining(training)
+                  }
+                  } 
               >
                 New Training</Button></TableCell>
             </TableRow>

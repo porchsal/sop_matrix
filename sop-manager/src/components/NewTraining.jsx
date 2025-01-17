@@ -60,13 +60,10 @@ useEffect(() => {
 
     useEffect(() => {
         if( selectedDepartment.length > 0) {
-            console.log('Selected department:', selectedDepartment);
-            console.log('Positions:', positions);
             const filtered = positions.filter(position =>{
                 console.log('Checking Position:', position);
                 return selectedDepartment.includes(position.department_id);
-       
-            }
+           }
             );
             setFilteredPositions(filtered);
             console.log('Filtered positions:', filtered);
@@ -103,21 +100,21 @@ useEffect(() => {
         setSelectedSites((prev) =>
             event.target.checked ? [...prev, siteId] : prev.filter(id => id !== siteId)
         );
-        console.log('Selected sites:', selectedSites);
+        
     };
     const handleDepartmentChange = (event) => { 
         const departmentId = Number(event.target.value); 
         setSelectedDepartment((prev) => 
             event.target.checked ? [...prev, departmentId] : prev.filter(id => id !== departmentId) 
         ); 
-        console.log('Selected department:', selectedDepartment);
+        
 };
     const handlePositionChange = (event) => {
         const positionId = Number(event.target.value);
         setSelectedPosition((prev) =>
             event.target.checked ? [...prev, positionId] : prev.filter(id => id !== positionId)
         );
-        console.log('Selected position:', selectedPosition);
+        
     };
 
     const handleEmployeeChange = (event) => {
