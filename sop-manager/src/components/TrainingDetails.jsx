@@ -4,12 +4,13 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import axios from "axios";
 import Sidenav from "./Sidenav";
 import { useLocation } from "react-router-dom";
-
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import logo from '../assets/logo.png';
 function TrainingDetails() {
     const [empList, setempList] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    
+    const [openPrintDialog, setOpenPrintDialog] = useState(false);
     const location = useLocation();
     const training = location.state?.training;
     const [trainerName, setTrainerName] = useState(null);
@@ -59,6 +60,68 @@ function TrainingDetails() {
     const formatDateTimeForSQL = (dateTime) => {
         const date = new Date(dateTime);
         return date.toISOString().slice(0, 10);
+    };
+
+    const handlePrint = () => {
+        const printWindow = window.open("", "_blank");
+        printWindow.document.write(`
+      <html>
+        <head>
+            <img src=${logo} alt="Logo" style="width: 150px; height: auto; display: block; margin-left: auto; margin-right: auto; margin-top: 20px; margin-bottom: 20px;">
+          <title>Training Details</title>
+          <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            h1 { color: #333; text-align: center; }
+            table { 
+              width: 100%; 
+              border-collapse: collapse; 
+              margin-top: 20px; 
+            }
+            th, td { 
+              border: 1px solid #ddd; 
+              padding: 8px; 
+              text-align: left; 
+            }
+            th { 
+              background-color: #f4f4f4; 
+              font-weight: bold; 
+            }
+            tr:nth-child(even) { background-color: #f9f9f9; }
+          </style>
+        </head>
+        <body>
+          <p><strong>ID:</strong> ${training.training_id}</p>
+          <p><strong>SOP Number:</strong> ${training.sop_number}</p>
+          <p><strong>SOP Name:</strong> ${training.sop_name}</p>
+          <p><strong>Trainer Name:</strong> ${trainer || "N/A"}</p>
+          <p><strong>Training Date:</strong> ${formatDateTimeForSQL(training.training_date)}</p>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Employee Name</th>
+                <th>Signature</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${empList
+                  .map(
+                      (employee) => `
+                <tr>
+                  <td width="10%" >${employee.employee_id}</td>
+                  <td width="50%">${employee.name}</td>
+                  <td width="40%"></td>
+                </tr>
+              `
+                  )
+                  .join("")}
+            </tbody>
+          </table>
+        </body>
+      </html>
+    `);
+        printWindow.document.close();
+        printWindow.print();
     };
 
     if (loading) {
@@ -125,9 +188,63 @@ function TrainingDetails() {
                         ))}
                     </TableBody>
                 </Table>
-            </TableContainer>
+            </TableContainer>{/* Botón para abrir el diálogo de impresión */}
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => setOpenPrintDialog(true)}
+                    sx={{ marginY: 2 }}
+                >
+                    Imprimir
+                </Button>
 
             </Box>
+
+        {/* Diálogo de impresión */}
+        <Dialog open={openPrintDialog} onClose={() => setOpenPrintDialog(false)} fullWidth maxWidth="sm">
+                <DialogTitle>Training Details</DialogTitle>
+                <DialogContent>
+                    <Typography variant="h6">Training Information</Typography>
+                    <Typography>ID: {training.training_id}</Typography>
+                    <Typography>SOP Number: {training.sop_number}</Typography>
+                    <Typography>SOP Name: {training.sop_name}</Typography>
+                    <Typography>Trainer Name: {trainer}</Typography>
+                    <Typography>Training Date: {formatDateTimeForSQL(training.training_date)}</Typography>
+                    <Typography variant="h6" sx={{ mt: 2 }}>
+                        Employees
+                    </Typography>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Employee ID</TableCell>
+                            <TableCell>Employee Name</TableCell>
+                            <TableCell>Signature</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {empList.map((employee, index) => (
+                            <TableRow key={index}>
+                                <TableCell>{employee.employee_id}</TableCell>
+                                <TableCell>{employee.name}</TableCell>
+                                <TableCell></TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpenPrintDialog(false)} color="secondary">
+                        Cancel
+                    </Button>
+                    <Button
+                        onClick={() => {
+                            handlePrint();
+                            setOpenPrintDialog(false);
+                        }}
+                        color="primary"
+                    >
+                        Confirm and Print
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     );
 }
