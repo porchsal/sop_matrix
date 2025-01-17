@@ -4,6 +4,7 @@ import { Table, TextField, Box, Typography, Button, TableContainer, TableBody, T
 import { Paper, FormGroup, FormLabel, FormControlLabel, FormControl, Checkbox } from '@mui/material';
 import Sidenav from "./Sidenav";
 import { useNavigate } from "react-router-dom";
+import DatePickerComponent from './DatePickerComponent';
 
 const NewSop = () => {
     const [sopNumber, setSopNumber] = useState();
@@ -13,11 +14,11 @@ const NewSop = () => {
     const [sopLink, setSopLink] = useState();
     const [sopComment, setSopComment] = useState();
     const [sopStatus, setSopStatus] = useState();
-    const [positionId, setPositionId] = useState();
+//    const [positionId, setPositionId] = useState();
     const [departmentId, setDepartmentId] = useState();
     const [siteId, setSiteId] = useState();
-    const [topicId, setTopicId] = useState();
-    const [positions, setPositions] = useState([]);
+//    const [topicId, setTopicId] = useState();
+//    const [positions, setPositions] = useState([]);
     const [departments, setDepartments] = useState([]);
     const [sites, setSites] = useState([]);
     const [topics, setTopics] = useState([]);
@@ -26,13 +27,13 @@ const NewSop = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:3010/api/position');
-                setPositions(response.data);
+                // const response = await axios.get('http://localhost:3010/api/position');
+                // setPositions(response.data);
                 const response2 = await axios.get('http://localhost:3010/api/department');
                 setDepartments(response2.data);
                 const response3 = await axios.get('http://localhost:3010/api/sites');
                 setSites(response3.data);
-                const response4 = await axios.get('http://loIDcalhost:3010/api/topics');
+                const response4 = await axios.get('http://localhost:3010/api/topics');
                 setTopics(response4.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -52,8 +53,8 @@ const NewSop = () => {
 
     const addSop = async (newSop) => {
         try {
-            const response = await axios.post('http://localhost:3010/api/sop', newSop);
-            console.log('New SOP:', response.data);
+            const response = await axios.post('http://localhost:3010/api/sop/newsop', newSop);
+            console.log('New response:', response.data);
             navigate('/sop');
         } catch (error) {
             console.error('Error adding SOP:', error);
@@ -63,10 +64,7 @@ const NewSop = () => {
 return (
     <>
     <Sidenav />
-       
-                
         <Box>
-            
             <Typography id="modal-modal-title" variant="h6" component="h2">
                 Add New SOP
             </Typography>
@@ -93,14 +91,18 @@ return (
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell>
-                                <TextField
-                                        label="SOP Effective Date"
-                                        value={sopEffectiveDate}
-                                        onChange={(e) => setSopEffectiveDate(e.target.value)}
-                                        fullWidth
-                                        margin="normal"
-                                    />
+                            <TableCell
+                                sx={{ mt: 2, // Agregar margen superior 
+                                    width: '50%', // Asegurar que el TextField ocupe todo el espacio disponible 
+                                    '& .MuiInputBase-root': { 
+                                        fontSize: '1.25rem', // Aumentar el tamaño de la fuente
+                                        }, 
+                                    '& .MuiInputLabel-root': { 
+                                        fontSize: '1.25rem', // Aumentar el tamaño de la etiqueta 
+                                        } 
+                                    }}
+                                >
+                                <DatePickerComponent date={sopEffectiveDate} setDate={setSopEffectiveDate} />
                             </TableCell>
 
                             <TableCell>
@@ -124,10 +126,7 @@ return (
                                     fullWidth
                                     margin="normal"
                                 />
-
-                                
                             </TableCell>
-                            
                         </TableRow>
                         <TableRow>
                             <TableCell>Status</TableCell>
@@ -139,20 +138,16 @@ return (
                                     fullWidth
                                     margin="normal"
                                     >
-                                <MenuItem value="Active">Active</MenuItem>
-                                <MenuItem value="Inactive">Inactive</MenuItem>
+                                <MenuItem value="Yes">Active</MenuItem>
+                                <MenuItem value="No">Inactive</MenuItem>
                                 </Select>
                             </TableCell>
-                               
-                            
                         </TableRow>
-
                         <TableRow>
                             <TableCell>Topic</TableCell>
-                            
                             <TableCell>
                                 <Select
-                                    onChange={(e) => setTopicId(e.target.value)}
+                                    onChange={(e) => setSopTopic(e.target.value)}
                                     variant="standard"
                                     required
                                     >
@@ -162,13 +157,11 @@ return (
                                 </Select>
                             </TableCell>
                         </TableRow>
-                            <TableRow>
+                            {/* <TableRow>
                                 <TableCell>
                                     <FormControl component="fieldset">
                                         <FormLabel component="legend">Main Site</FormLabel>
                                         <FormGroup  >
-                                            
-                                                
                                                 {sites.map((site) => (
                                                     <FormControlLabel
                                                         key={site.ID}
@@ -184,6 +177,8 @@ return (
                                                 ))}
                                         </FormGroup>
                                     </FormControl>
+                                </TableCell>
+                                <TableCell>
                                     <FormControl component="fieldset">
                                         <FormLabel component="legend">Department</FormLabel>
                                         <FormGroup>
@@ -203,10 +198,13 @@ return (
                                         </FormGroup>
                                     </FormControl>
                                 </TableCell>
-
-                        </TableRow>
+                        </TableRow> */}
                     </TableBody>
-                    <TableContainer component={Paper}>    
+                    <TableContainer
+                    display="flex"
+                    justifyContent="space-between"
+                    fullWidth 
+                    component={Paper}>    
                         <Button
                             variant="contained"
                             sx={{ mt: 2 }}
@@ -214,12 +212,12 @@ return (
                                 const formattedEffectiveDate = formatDateTimeForSQL(sopEffectiveDate);
                                 const newSop = {
                                     sop_number: sopNumber,
-                                    sop_tittle: sopTittle,
-                                    sop_topic: sopTopic,
-                                    sop_effective_date: formattedEffectiveDate,
-                                    sop_link: sopLink,
-                                    sop_comment: sopComment,
-                                    sop_status: sopStatus,
+                                    sop_name: sopTittle,
+                                    topic: sopTopic,
+                                    effective_date: formattedEffectiveDate,
+                                    link: sopLink,
+                                    comment: sopComment,
+                                    active: sopStatus,
                                 };
                                 addSop(newSop);
                             }}
