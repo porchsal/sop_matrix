@@ -32,7 +32,7 @@ const NewSop = () => {
                 setDepartments(response2.data);
                 const response3 = await axios.get('http://localhost:3010/api/sites');
                 setSites(response3.data);
-                const response4 = await axios.get('http://localhost:3010/api/topics');
+                const response4 = await axios.get('http://loIDcalhost:3010/api/topics');
                 setTopics(response4.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -157,7 +157,7 @@ return (
                                     required
                                     >
                                     {topics.map((topic) => (
-                                        <MenuItem key={topic.id} value={topic.id}>{topic.topic_name}</MenuItem>
+                                        <MenuItem key={topic.ID} value={topic.ID}>{topic.Name}</MenuItem>
                                     ))}
                                 </Select>
                             </TableCell>
@@ -171,15 +171,15 @@ return (
                                                 
                                                 {sites.map((site) => (
                                                     <FormControlLabel
-                                                        key={site.id}
+                                                        key={site.ID}
                                                         control={
                                                             <Checkbox
                                                                 checked={siteId}
                                                                 onChange={handleSiteChange}
-                                                                name={site.site_name}
+                                                                name={site.Name}
                                                             />
                                                         }
-                                                        label={site.site_name}
+                                                        label={site.Name}
                                                     />
                                                 ))}
                                         </FormGroup>
@@ -189,15 +189,15 @@ return (
                                         <FormGroup>
                                             {departments.map((department) => (
                                                 <FormControlLabel
-                                                    key={department.id}
+                                                    key={department.ID}
                                                     control={
                                                         <Checkbox
                                                             checked={departmentId}
                                                             onChange={(e) => setDepartmentId(e.target.value)}
-                                                            name={department.dep_name}
+                                                            name={department.Name}
                                                         />
                                                     }
-                                                    label={department.dep_name}
+                                                    label={department.Name}
                                                 />
                                             ))}
                                         </FormGroup>

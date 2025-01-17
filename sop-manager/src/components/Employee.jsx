@@ -32,6 +32,7 @@ function Employee() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [open, setOpen] = useState(false);
   const [openNew, setOpenNew] = useState(false);	
+  // eslint-disable-next-line no-unused-vars
   const [positions, setPositions] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [sites, setSites] = useState([]);
