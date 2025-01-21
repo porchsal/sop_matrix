@@ -40,7 +40,6 @@ function App() {
               })
               .then((data) => {
                   setUsername(data.username);
-                  console.log('Logged usuario:', data.username);
               })
               .catch((error) => {
                   console.error('Error fetching user:', error);

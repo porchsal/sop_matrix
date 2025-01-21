@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Modal, TextField, Box, Typography, Button, CircularProgress } from '@mui/material';
+import { Modal, TextField, Box, Typography, Button, CircularProgress, Select } from '@mui/material';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 
@@ -25,16 +25,17 @@ const style = {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [networkError, setNetworkError] = useState("");
+    const [profile, setProfile] = useState("");
+
     const handleSave = async () => {
-        if (!username || !firstName || !lastName || !password) {
+        if (!username || !firstName || !lastName || !password || !profile) {
             setError("All fields are required");
             return;
         }
         setLoading(true);
         setError("");
         try {
-            const newUser = { username, first_name: firstName, last_name: lastName, password };
-            console.log('Agregando new user:', newUser);
+            const newUser = { username, first_name: firstName, last_name: lastName, password, profile };
             const response = await axios.post('http://localhost:3010/api/users/add', newUser);
             console.log('Add User Response:', response.data);
             if (response.data) {
@@ -42,6 +43,7 @@ const style = {
                 setFirstName("");
                 setLastName("");
                 setPassword("");
+                setProfile("");
                 handleClose();
             } else {
                 setNetworkError("Error adding user", error);
@@ -69,18 +71,21 @@ const style = {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     fullWidth
+                    sx={{ mb: 2 }}            
                 />
                 <TextField
                     label="First Name"
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                     fullWidth
+                    sx={{ mb: 2 }}
                 />
                 <TextField
                     label="Last Name"
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                     fullWidth
+                    sx={{ mb: 2 }}
                 />
                 <TextField
                     label="Password"
@@ -88,7 +93,19 @@ const style = {
                     type="password"
                     onChange={(e) => setPassword(e.target.value)}
                     fullWidth
+                    sx={{ mb: 2 }}
                 />
+                <Select
+                    native
+                    value={profile}
+                    onChange={(e) => setProfile(e.target.value)}
+                    fullWidth
+                    sx={{ mb: 2 }}
+                >
+                    <option value="admin">Administrator</option>
+                    <option value="user">User</option>
+                </Select> 
+
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
                     <Button 
                         onClick={handleClose} 

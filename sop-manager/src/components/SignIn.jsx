@@ -92,7 +92,7 @@ const SignIn = ({setUsername}) => {
                     src={logo}
                     alt="Logo"
                     sx={{
-                        height: 80,
+                        height: 100,
                         marginTop: 2,
                         marginBottom: 2,
                     }}

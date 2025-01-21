@@ -22,6 +22,10 @@ import GroupIcon from '@mui/icons-material/Group';
 import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { useNavigate } from 'react-router-dom';
+import Collapse from '@mui/material/Collapse';  // Para el submenú
+import ExpandLessIcon from '@mui/icons-material/ExpandLess'; 
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -83,8 +87,13 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 function Sidenav() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [employeeSubMenuOpen, setEmployeeSubMenuOpen] = React.useState(false);
   const navigate = useNavigate();
 
+  const handleEmployeeSubMenuClick = () => {
+    setOpen(!open);
+    setEmployeeSubMenuOpen(!employeeSubMenuOpen);
+  }
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -172,8 +181,44 @@ function Sidenav() {
                 </ListItemIcon>
                 <ListItemText primary="Training" sx={[open ? { opacity: 1, } : { opacity: 0, },]} />
               </ListItemButton>
-            </ListItem> 
-            <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/employee")}}>
+            </ListItem>
+
+            {/* Employee submenu */}
+            <ListItem disablePadding sx={{ display: 'block' }} onClick={handleEmployeeSubMenuClick}>
+              <ListItemButton
+
+                sx={[
+                  { minHeight: 48, px: 2.5, },
+                  open ? { justifyContent: 'initial', } : { justifyContent: 'center', },
+                ]}
+              >
+                <ListItemIcon
+                  sx={[
+                    { minWidth: 0, justifyContent: 'center', },
+                    open ? { mr: 3, } : { mr: 'auto', },
+                  ]}
+                >
+                  {<GroupIcon />}
+                </ListItemIcon>
+                <ListItemText primary="Employees" sx={[open ? { opacity: 1, } : { opacity: 0, },]} />
+                {employeeSubMenuOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+              </ListItemButton>
+            </ListItem>
+
+            {/* Submenu Content*/}
+            <Collapse in={employeeSubMenuOpen} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                <ListItemButton disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/employee")}} >
+                  <ListItemText primary="Employee List" />
+                </ListItemButton>
+                <ListItemButton disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/employee/Inactive")}} >
+                  <ListItemText primary="Inactive Employees" />
+                </ListItemButton>
+              </List>
+            </Collapse>
+
+
+            {/* <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/employee")}}>
               <ListItemButton
                 sx={[
                   {
@@ -208,7 +253,7 @@ function Sidenav() {
                 </ListItemIcon>
                 <ListItemText primary="Employee" sx={[open ? { opacity: 1, } : { opacity: 0, },]} />
               </ListItemButton>
-            </ListItem>
+            </ListItem> */}
             <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/settings")}} >
               <ListItemButton
                 sx={[

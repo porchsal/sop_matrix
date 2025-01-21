@@ -51,6 +51,18 @@ const EmpModal = ({ open, handleClose, employee, updatedEmployeeData }) => {
         return date.toISOString().slice(0, 10);
     };
 
+    useEffect(() => {
+        setName(employee.name);
+        setDate_of_hire(employee.date_of_hire);
+        setActive(employee.active);
+        setTrainer(employee.trainer);
+        setPositionId(employee.position_id);
+        setDepartmentId(employee.department_id);
+        setSiteId(employee.site_id);
+    }, [employee, open]);
+    
+
+
     const handleSave = async () => {
         const formattedDateOfHire = formatDateTimeForSQL(date_of_hire);
         const updatedEmployee = {
@@ -64,8 +76,7 @@ const EmpModal = ({ open, handleClose, employee, updatedEmployeeData }) => {
         };
         try {
             const response = await axios.put(`http://localhost:3010/api/employee/${employee.id}`, updatedEmployee);
-            console.log("Response from server:", response.data);
-            updatedEmployeeData(updatedEmployee)
+            updatedEmployeeData(updatedEmployee, employee.id)
             handleClose();
         } catch (error) {
             console.error('Error updating employee:', error);
@@ -129,7 +140,7 @@ const EmpModal = ({ open, handleClose, employee, updatedEmployeeData }) => {
                                         variant="standard"
                                     >
                                         {positions.map((position) => (
-                                            <MenuItem key={position.ID} value={position.Name}>{position.Name}</MenuItem>
+                                            <MenuItem key={position.ID} value={position.ID}>{position.Name}</MenuItem>
                                         ))}
                                     </Select>
                                 </TableCell>
@@ -143,7 +154,7 @@ const EmpModal = ({ open, handleClose, employee, updatedEmployeeData }) => {
                                         variant="standard"
                                     >
                                         {departments.map((department) => (
-                                            <MenuItem key={department.ID} value={department.Name}>{department.Name}</MenuItem>
+                                            <MenuItem key={department.ID} value={department.ID}>{department.Name}</MenuItem>
                                         ))}
                                     </Select>
                                 </TableCell>
@@ -157,7 +168,7 @@ const EmpModal = ({ open, handleClose, employee, updatedEmployeeData }) => {
                                         variant="standard"
                                     >
                                         {sites.map((site) => (
-                                            <MenuItem key={site.ID} value={site.Name}>{site.Name}</MenuItem>
+                                            <MenuItem key={site.ID} value={site.ID}>{site.Name}</MenuItem>
                                         ))}
                                     </Select>
                                 </TableCell>

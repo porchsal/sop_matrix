@@ -260,7 +260,7 @@ useEffect(() => {
                             <Typography variant="h4" gutterBottom>Select Employees</Typography>
 
                             <Box sx={{ display: 'flex', flexDirection: 'row', gap: '16px' }}>
-                                <Typography variant="h6">Related to:</Typography>
+                                {/* <Typography variant="h6">Related to:</Typography> */}
                                     <FormControl component="fieldset">
                                         <FormLabel component="legend">Main Site</FormLabel>
                                         <FormGroup  >

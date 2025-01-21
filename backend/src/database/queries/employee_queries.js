@@ -2,7 +2,8 @@ const db = require("../connection");
 
 const getAllEmployees = () => { 
     return new Promise((resolve, reject) => { 
-        const query = 'SELECT e.id AS id, e.name AS name, e.date_of_hire AS date_of_hire, e.active AS active, e.trainer AS trainer, p.position_name AS position_id, d.dep_name AS department_id, s.site_name AS site_id FROM employee e JOIN departments d ON e.department_id = d.id JOIN position p ON e.position_id = p.id JOIN sites s ON e.site_id = s.id'; 
+        //const query = 'SELECT e.id AS id, e.name AS name, e.date_of_hire AS date_of_hire, e.active AS active, e.trainer AS trainer, p.position_name AS position_id, d.dep_name AS department_id, s.site_name AS site_id FROM employee e JOIN departments d ON e.department_id = d.id JOIN position p ON e.position_id = p.id JOIN sites s ON e.site_id = s.id'; 
+        const query = 'SELECT * FROM employee where active = "Yes"';
         db.query(query, (err, rows) => {
         if (err) { 
                 console.error('Database query error:', err); 

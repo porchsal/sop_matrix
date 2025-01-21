@@ -44,7 +44,6 @@ function Employee() {
   const [printDialogOpen, setPrintDialogOpen] = useState(false);
   const [selectedTrainings, setSelectedTrainings] = useState([]);
 
-
   useEffect(() => {
     const fetchData = async () => {
         try {
@@ -80,13 +79,14 @@ useEffect(() => {
       })
       .catch((error) => {
         console.error('Error fetching filtered employees:', error);
+        setFilteredEmployees([]);
         setError(error);
         setLoading(false);
       });
   } else {
-    setFilteredEmployees([]);
+    setFilteredEmployees(employees);
   }
-}, [selectedSites, selectedDepartment]);
+}, [selectedSites, selectedDepartment, employees]);
 
 
 useEffect(() => { 
@@ -101,6 +101,31 @@ useEffect(() => {
   }; fetchEmployees(); 
 }, []); 
 
+useEffect(() => {
+  setPage(0); // Restablece a la primera página al aplicar un filtro
+}, [filteredEmployees]);
+
+
+// Función para obtener el nombre basado en el ID de posición
+const getPositionName = (position_id) => {
+  const positionId = Number(position_id); // Convertir a número
+  const position = positions.find(pos => pos.ID === positionId);
+  return position ? position.Name : position_id; // Devuelve el nombre si se encuentra el ID, sino devuelve el ID
+};
+
+// Función para obtener el nombre basado en el ID de departamento
+const getDepartmentName = (id) => {
+  const departmentId = Number(id); // Convertir a número
+  const department = departments.find(dep => dep.ID === departmentId);
+  return department ? department.Name : id; // Lo mismo que para las posiciones
+};
+
+// Función para obtener el nombre basado en el ID de sitio
+const getSiteName = (id) => {
+  const siteId = Number(id); // Convertir a número
+  const site = sites.find(s => s.ID === siteId);
+  return site ? site.Name : id; // Lo mismo para los sitios
+};
 
 
 const handleSelectEmployee = (employee) => {
@@ -136,7 +161,6 @@ const handleDepartmentChange = (event) => {
   
 };
 
-
 const handleEditEmployee = (employee) => { 
     setSelectedEmployee(employee); 
     setOpen(true); 
@@ -152,16 +176,28 @@ const handleCloseNew = () => {
 
   }; 
 
-const updatedEmployeeData = (updatedEmployee) => {
-      setEmployees((prevEmployees) => 
-        prevEmployees.map((emp) => (emp.id === updatedEmployee.id ? updatedEmployee : emp))
-      );
-      setSelectedEmployee(updatedEmployee);
-    };
+
+const updatedEmployeeData = (updatedEmployee, employeeId) => {
+  try {
+    setEmployees((prevEmployees) =>
+        prevEmployees.map((emp) =>
+            emp.id === employeeId ? { ...emp, ...updatedEmployee } : emp
+        )
+    );
+
+   if (selectedEmployee?.id === employeeId) {
+        setSelectedEmployee(updatedEmployee);
+    }
+  } catch (error) {
+    console.error('Error updating employee:', error);
+  }
+    
+};
 
 const handleChangePage = (event, newPage) => {
         setPage(newPage);
       }  
+
 const handleChangeRowsPerPage = (event) => {
           setRowsPerPage(parseInt(event.target.value, 10));
           setPage(0);
@@ -331,7 +367,11 @@ const handleAddEmployee = (newEmployee) => {
                         <TableRow 
                         key={employee.ID} 
                         hover onClick={() => handleSelectEmployee(employee)}>
-                          <TableCell component="th" scope="row">{employee.name}</TableCell>
+                          {/* <TableCell component="th" scope="row">{employee.name}</TableCell> */}
+                          <TableCell>{employee.name}</TableCell>
+                          <TableCell>{getPositionName(employee.position_id)}</TableCell>
+                          {/* <TableCell>{getDepartmentName(employee.department_id)}</TableCell> */}
+                          {/* <TableCell>{getSiteName(employee.site_id)}</TableCell> */}
                         </TableRow>
                       ))}
                     </TableBody>
@@ -350,7 +390,20 @@ const handleAddEmployee = (newEmployee) => {
                           .map(([key, value]) => (
                             <TableRow key={key}>
                               <TableCell>{columnNames[key] || key}</TableCell>
-                              <TableCell>{value}</TableCell>
+                              {/* <TableCell>{value}</TableCell> */}
+                              <TableCell>
+                              {
+                                  key === 'date_of_hire'
+                                  ? formatDateTimeForSQL(value) // Formatear la fecha
+                                  : key === 'position_id' 
+                                  ? getPositionName(value) // Mostrar el nombre de la posición
+                                  : key === 'department_id' 
+                                  ? getDepartmentName(value) // Mostrar el nombre del departamento
+                                  : key === 'site_id' 
+                                  ? getSiteName(value) // Mostrar el nombre del sitio
+                                  : value // Mostrar el valor tal cual si no es ninguno de los anteriores
+                              }
+                              </TableCell>
                             </TableRow>
                             ))}
                             <TableRow>

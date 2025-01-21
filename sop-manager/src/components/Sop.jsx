@@ -48,8 +48,7 @@ import { useNavigate } from "react-router-dom";
       sop.topic.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    const handleNew = (training) => {
-      console.log("SOPPP", training);
+    const handleSelectNew = (training) => {
       if (training) {
         navigate(`/NewTraining`, { state: { training } });
       } else {
@@ -165,6 +164,7 @@ import { useNavigate } from "react-router-dom";
                                           }} >
                                 {formatAged(sopL.effective_date)}
                               </TableCell>
+                            <TableRow>  
                             <TableCell align="center">
                               <Button 
                                 onClick={() => handleSelect(sopL)}
@@ -175,11 +175,12 @@ import { useNavigate } from "react-router-dom";
                             <TableCell align="center">
                               <Button 
                                 align="right" 
-                                onClick={() => handleNew(sopL)} 
+                                onClick={() => handleSelectNew(sopL)} 
                               >
                                 New Training
                                 </Button>
                             </TableCell>
+                            </TableRow>
                             </TableRow>
                         ))}
                       </TableBody>
