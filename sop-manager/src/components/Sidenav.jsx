@@ -211,7 +211,7 @@ function Sidenav() {
                 <ListItemButton disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/employee")}} >
                   <ListItemText primary="Employee List" />
                 </ListItemButton>
-                <ListItemButton disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/employee/Inactive")}} >
+                <ListItemButton disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/employee/inactive")}} >
                   <ListItemText primary="Inactive Employees" />
                 </ListItemButton>
               </List>

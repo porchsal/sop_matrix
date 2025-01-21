@@ -15,6 +15,20 @@ const getAllEmployees = () => {
         });
 };  
 
+const getInactiveEmployees = () => { 
+    return new Promise((resolve, reject) => { 
+        const query = 'SELECT * FROM employee where active = "No"';
+        db.query(query, (err, rows) => {
+        if (err) { 
+                console.error('Database query error:', err); 
+                return reject(err); 
+            } 
+            
+             resolve(rows);
+             });        
+        });
+};
+
 const getEmployeeById = (id) => {
     return new Promise((resolve, reject) => {
         db.query('SELECT * FROM employee WHERE id = ?', [id], (err, rows) => {
@@ -116,6 +130,7 @@ const getEmployeesTrainers = () => {
 
 module.exports = {
   getAllEmployees,
+    getInactiveEmployees,
     updateEmployee,
     getEmployeeById,
     addEmployee,

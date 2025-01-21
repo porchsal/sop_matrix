@@ -53,6 +53,15 @@ router.get("/employee", (req, res) => {
     });
 });
 
+router.get("/employee/inactive", (req, res) => {
+    employeeQueries.getInactiveEmployees()
+    .then((employee) => {
+        res.json(employee);
+    return;
+    });
+});
+
+
 router.get("/employee/:id", (req, res) => {
     const { id } = req.params;
     employeeQueries.getEmployeeById(id)

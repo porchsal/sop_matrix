@@ -7,11 +7,11 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from
 import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import EmpModal from './EmpModal';
-import NewEmpModal from './NewEmpModal';
 import formatDateTimeForSQL from '../helpers/formatDateTimeForSQL';
 import logo from '../assets/logo.png';
+import { useNavigate } from 'react-router-dom';
 
-function Employee() {
+function InactiveEmployee() {
 
   const columnNames = { 
     id: 'ID', 
@@ -31,7 +31,6 @@ function Employee() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [open, setOpen] = useState(false);
-  const [openNew, setOpenNew] = useState(false);	
   // eslint-disable-next-line no-unused-vars
   const [positions, setPositions] = useState([]);
   const [departments, setDepartments] = useState([]);
@@ -43,6 +42,7 @@ function Employee() {
   const [filteredEmployees, setFilteredEmployees] = useState([]);
   const [printDialogOpen, setPrintDialogOpen] = useState(false);
   const [selectedTrainings, setSelectedTrainings] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -90,15 +90,16 @@ useEffect(() => {
 
 
 useEffect(() => { 
-  const fetchEmployees = async () => { 
-    try { const response = await axios.get('http://localhost:3010/api/employee'); 
+  const fetchInactiveEmployees = async () => { 
+    try { const response = await axios.get('http://localhost:3010/api/employee/inactive'); 
       setEmployees(response.data); 
       setLoading(false);
+      console.log(response.data);
     } catch (error) { 
       setError(error); 
       setLoading(false); 
     } 
-  }; fetchEmployees(); 
+  }; fetchInactiveEmployees(); 
 }, []); 
 
 useEffect(() => {
@@ -171,11 +172,6 @@ const handleClose = () => {
     setSelectedEmployee(null);
   }; 
 
-const handleCloseNew = () => {
-  setOpenNew(false);
-
-  }; 
-
 
 const updatedEmployeeData = (updatedEmployee, employeeId) => {
   try {
@@ -187,6 +183,7 @@ const updatedEmployeeData = (updatedEmployee, employeeId) => {
 
    if (selectedEmployee?.id === employeeId) {
         setSelectedEmployee(updatedEmployee);
+        navigate('/'); // Redirigir a la página principal
     }
   } catch (error) {
     console.error('Error updating employee:', error);
@@ -202,11 +199,7 @@ const handleChangeRowsPerPage = (event) => {
           setPage(0);
         };
 
-const handleAddEmployee = (newEmployee) => {
-    setEmployees([...employees, newEmployee]);
-  };
 
-      
   if (loading) 
     { return <p>Loading...</p>; } 
   if (error) 
@@ -463,11 +456,11 @@ const handleAddEmployee = (newEmployee) => {
                 )}
              </Paper>
             </Box>
-            <Button variant="contained" color="primary" onClick={() => setOpenNew(true)}>Add Employee</Button>
+           
             {selectedEmployee && (
               <EmpModal open={open} handleClose={handleClose} employee={selectedEmployee} updatedEmployeeData={updatedEmployeeData}/>
             )}
-            <NewEmpModal open={openNew} handleClose={handleCloseNew} addEmployee={handleAddEmployee} />
+            
           </Container>
           <Dialog open={printDialogOpen} onClose={handleClosePrintDialog} fullWidth maxWidth="sm">
             <DialogTitle>Training List</DialogTitle>
@@ -510,4 +503,4 @@ const handleAddEmployee = (newEmployee) => {
     )
   }
 
-export default Employee
+export default InactiveEmployee;

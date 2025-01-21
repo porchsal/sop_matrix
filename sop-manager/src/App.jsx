@@ -5,6 +5,7 @@ import Sites from './components/Sites'
 import Department from './components/Department'
 import Position from './components/Position'
 import Employee from './components/Employee'
+import InactiveEmployee from './components/InactiveEmployee'
 import Sop from './components/Sop'
 import Training from './components/Training'
 import NewTraining from './components/NewTraining'
@@ -98,6 +99,10 @@ function App() {
           <Route
             path="/employee"
             element={username ? <Employee /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/employee/inactive"
+            element={username ? <InactiveEmployee /> : <Navigate to="/" />}
           />
           <Route
             path="/sop"

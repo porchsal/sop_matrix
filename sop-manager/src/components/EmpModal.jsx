@@ -62,7 +62,6 @@ const EmpModal = ({ open, handleClose, employee, updatedEmployeeData }) => {
     }, [employee, open]);
     
 
-
     const handleSave = async () => {
         const formattedDateOfHire = formatDateTimeForSQL(date_of_hire);
         const updatedEmployee = {
@@ -140,7 +139,7 @@ const EmpModal = ({ open, handleClose, employee, updatedEmployeeData }) => {
                                         variant="standard"
                                     >
                                         {positions.map((position) => (
-                                            <MenuItem key={position.ID} value={position.ID}>{position.Name}</MenuItem>
+                                            <MenuItem key={position.ID} value={position.Name}>{position.Name}</MenuItem>
                                         ))}
                                     </Select>
                                 </TableCell>
@@ -154,7 +153,7 @@ const EmpModal = ({ open, handleClose, employee, updatedEmployeeData }) => {
                                         variant="standard"
                                     >
                                         {departments.map((department) => (
-                                            <MenuItem key={department.ID} value={department.ID}>{department.Name}</MenuItem>
+                                            <MenuItem key={department.ID} value={department.Name}>{department.Name}</MenuItem>
                                         ))}
                                     </Select>
                                 </TableCell>
@@ -168,7 +167,7 @@ const EmpModal = ({ open, handleClose, employee, updatedEmployeeData }) => {
                                         variant="standard"
                                     >
                                         {sites.map((site) => (
-                                            <MenuItem key={site.ID} value={site.ID}>{site.Name}</MenuItem>
+                                            <MenuItem key={site.ID} value={site.Name}>{site.Name}</MenuItem>
                                         ))}
                                     </Select>
                                 </TableCell>
