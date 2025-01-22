@@ -100,10 +100,4 @@ router.post('/employee/new', async (req, res) => {
 
 
 
-
-
-
-
-
-
 module.exports = router;

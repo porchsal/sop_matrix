@@ -67,7 +67,7 @@ function Training() {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Training ID</TableCell>
+            
             <TableCell>Training Name</TableCell>
             <TableCell>SOP Number</TableCell>
             <TableCell>SOP Name</TableCell>
@@ -76,7 +76,7 @@ function Training() {
         <TableBody>
           {trainingList.map((training) => (
             <TableRow key={training.id}>
-              <TableCell>{training.training_id}</TableCell>
+              
               <TableCell>{training.training_name}</TableCell>
               <TableCell>{training.sop_number}</TableCell>
               <TableCell>{training.sop_name}</TableCell>

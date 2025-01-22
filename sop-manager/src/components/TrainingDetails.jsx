@@ -66,7 +66,16 @@ function TrainingDetails() {
         printWindow.document.write(`
       <html>
         <head>
-            <img src=${logo} alt="Logo" style="width: 150px; height: auto; display: block; margin-left: auto; margin-right: auto; margin-top: 20px; margin-bottom: 20px;">
+            <meta charset="utf-8">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">
+                            <img src=${logo} alt="Logo" style="width: 150px; height: auto; display: block; margin-left: auto; margin-right: auto; margin-top: 20px; margin-bottom: 20px;">
+                        </th>
+                            <th style="width: 40%; text-align: center;">Group Training Session Attendance Sheet</th>
+                            <th style="width: 40%; text-align: right">Chief Medical Supplies Ltd.</th>
+                    </tr>
           <title>Training Details</title>
           <style>
             body { font-family: Arial, sans-serif; margin: 20px; }
@@ -80,26 +89,75 @@ function TrainingDetails() {
               border: 1px solid #ddd; 
               padding: 8px; 
               text-align: left; 
+              width: 50%;
             }
             th { 
               background-color: #f4f4f4; 
-              font-weight: bold; 
+              font-weight: bold;
+              width: 50%; 
             }
             tr:nth-child(even) { background-color: #f9f9f9; }
           </style>
         </head>
         <body>
-          <p><strong>ID:</strong> ${training.training_id}</p>
-          <p><strong>SOP Number:</strong> ${training.sop_number}</p>
-          <p><strong>SOP Name:</strong> ${training.sop_name}</p>
-          <p><strong>Trainer Name:</strong> ${trainer || "N/A"}</p>
-          <p><strong>Training Date:</strong> ${formatDateTimeForSQL(training.training_date)}</p>
+          <table>
+            <thead>
+                <tr>
+                    <th> Date of Training Session</th>
+                    <td>${formatDateTimeForSQL(training.training_date)}</td>
+                </tr>
+                <tr>
+                    <th> Area(s) of Training / SOP Number</th>
+                    <td>${training.sop_number}</td>
+                </tr>
+                <tr>
+                    <th> Training Session Name / SOP Title</th>
+                    <td>${training.sop_name}</td>
+                </tr>
+                <tr>
+                    <th> Qualified Trainer Name</th>
+                    <td>${trainer}</td>
+                </tr>
+                <tr>
+                    <th>Related NC/CC/OOS (if appliable):</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>Type of Training:</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th colspan="2" style="text-align: center; font-weight: bold; width: 100%;">
+                        Description of training
+                    </th>
+                </tr>
+            
+            
+                <tr>
+                    <td colspan="2" style="border: 1px solid black; height: 300px;">&nbsp;</td>
+                </tr>
+                <tr>
+                <th>Training Assessment Required?:</th>
+                <th> 
+                    <input type="checkbox" name="assessment" value="yes"> Yes
+                    <input type="checkbox" name="assessment" value="no"> No
+                </th>
+                </tr>
+                <th>Comments:</th>
+                <td style="height: 100px;">&nbsp;</td>
+
+
+            </thead>
+           
+        </table>
+
+
           <table>
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Employee Name</th>
-                <th>Signature</th>
+                
+                <th>Employee Name Print</th>
+                <th>Employee Signature</th>
               </tr>
             </thead>
             <tbody>
@@ -107,9 +165,9 @@ function TrainingDetails() {
                   .map(
                       (employee) => `
                 <tr>
-                  <td width="10%" >${employee.employee_id}</td>
+                 
                   <td width="50%">${employee.name}</td>
-                  <td width="40%"></td>
+                  <td width="50%"></td>
                 </tr>
               `
                   )
@@ -117,6 +175,16 @@ function TrainingDetails() {
             </tbody>
           </table>
         </body>
+        <footer>
+                  <p>The employee’s signature certifies that the employee has either read the SOP listed or
+
+provided verbal training on the SOP listed and/or hands on training on the SOP listed and
+
+understands the materials and techniques required to perform the procedure. The employee
+
+addressed any questions to the area supervisor, or the qualified trainer and all issues were
+
+clearly understood.</p>
       </html>
     `);
         printWindow.document.close();
@@ -132,42 +200,111 @@ function TrainingDetails() {
     return (
         <>
             <Sidenav />
-            <Box>
+            <Box 
+                sx={{ 
+                    fullWidth: '150%',
+                    
+                    padding: '20px', 
+                    border: '1px solid black', 
+                    borderRadius: '5px', 
+                     
+                }}
+            >
             <Typography variant="h4" gutterBottom>
                 Training Details
             </Typography>
             <TableRow>
-                <TableCell>
+                <TableCell 
+                    component="th" 
+                    scope="row" 
+                    sx={{ border: '1px solid black', width: '40%', backgroundColor: '#f4f4f4' }}
+                >
+                <Typography variant="h6">
+                    Date of training session: 
+                </Typography>
+                </TableCell>
+                <TableCell
+                    component="th" 
+                    scope="row" 
+                    sx={{ border: '1px solid black', width: '60%' }}
+                    
+                >
+                    <Typography variant="h6">
+                        {(training.training_date) ? formatDateTimeForSQL(training.training_date) : 'N/A'}
+                    </Typography>
+                </TableCell>
+            </TableRow>
+            <TableRow>
+                {/* <TableCell>
                     <Typography variant="h6" >
                         ID: {training.training_id}
                     </Typography>
-                </TableCell>
-                <TableCell>
+                </TableCell> */}
+                <TableCell 
+                    component="th" 
+                    scope="row" 
+                    sx={{ border: '1px solid black', width: '40%', backgroundColor: '#f4f4f4' }}
+                >
                     <Typography variant="h6" >
-                        SOP Number: {training.sop_number}
+                    Area(s) of Training / SOP Number: 
                     </Typography>
+                </TableCell>
+                <TableCell
+                    component="th" 
+                    scope="row" 
+                    sx={{ border: '1px solid black', width: '60%' }}
+                    
+                >
+                    <Typography variant="h6">
+                        {training.sop_number}
+                    </Typography>
+                </TableCell>
+            </TableRow>
+            <TableRow>
+            <TableCell 
+                    component="th" 
+                    scope="row" 
+                    sx={{ border: '1px solid black', width: '40%', backgroundColor: '#f4f4f4' }}
+                >
+                    <Typography variant="h6" >
+                        Training Session Name / SOP Title:
+                    </Typography>
+                </TableCell>
+                <TableCell
+                    component="th" 
+                    scope="row" 
+                    sx={{ border: '1px solid black', width: '60%' }}
+                    
+                >
+                    <Typography variant="h6">
+                        {training.sop_name}
+                    </Typography>
+
                 </TableCell>
                 
             </TableRow>
             <TableRow>
-            <TableCell>
-                    <Typography variant="h6" >
-                        SOP Name: {training.sop_name}
-                    </Typography>
-                </TableCell>
-                <TableCell>
+            <TableCell
+                component="th" 
+                scope="row" 
+                sx={{ border: '1px solid black', width: '40%', backgroundColor: '#f4f4f4' }}
+            >
                     <Typography variant="h6">
-                        Trainer Name: {trainer}
+                        Qualified Trainer Name: 
+                    </Typography>
+                </TableCell>
+                <TableCell
+                    component="th" 
+                    scope="row" 
+                    sx={{ border: '1px solid black', width: '60%' }}
+                    
+                >
+                    <Typography variant="h6">
+                        {trainer}
                     </Typography>
                 </TableCell>
             </TableRow>
-            <TableRow>
-                <TableCell>
-                <Typography variant="h6">
-                    Training Date: {(training.training_date) ? formatDateTimeForSQL(training.training_date) : 'N/A'}
-                </Typography>
-                </TableCell>
-            </TableRow>
+            
             <TableContainer component={Paper} sx={{ marginTop: 3 }}>
                 <Table>
                     <TableHead>
@@ -204,7 +341,7 @@ function TrainingDetails() {
                 <DialogTitle>Training Details</DialogTitle>
                 <DialogContent>
                     <Typography variant="h6">Training Information</Typography>
-                    <Typography>ID: {training.training_id}</Typography>
+                    {/* <Typography>ID: {training.training_id}</Typography> */}
                     <Typography>SOP Number: {training.sop_number}</Typography>
                     <Typography>SOP Name: {training.sop_name}</Typography>
                     <Typography>Trainer Name: {trainer}</Typography>

@@ -12,6 +12,7 @@ function TrainingList() {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
     const {sopNumber} = useParams();
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -61,11 +62,11 @@ function TrainingList() {
         <Table>
             <TableHead>
             <TableRow>
-                <TableCell>Training ID</TableCell>
+                
                 <TableCell>Training Name</TableCell>
                 <TableCell>SOP Number</TableCell>
                 <TableCell>SOP Name</TableCell>
-                <TableCell>Trainer Name</TableCell>
+                {/* <TableCell>Trainer Name</TableCell> */}
                 <TableCell>Training Date</TableCell>
                 <TableCell>Actions</TableCell>
             </TableRow>
@@ -73,11 +74,11 @@ function TrainingList() {
             <TableBody>
             {trainingList.map((training) => (
                 <TableRow key={training.training_id} >
-                <TableCell>{training.training_id}</TableCell>
+                
                 <TableCell>{training.training_name}</TableCell>
                 <TableCell>{training.sop_number}</TableCell>
                 <TableCell>{training.sop_name}</TableCell>
-                <TableCell>{training.trainer_name}</TableCell>
+                {/* <TableCell>{training.trainer_name}</TableCell> */}
                 <TableCell>{formatDateTimeForSQL(training.training_date)}</TableCell>
                 <TableCell>
                     <Button variant='contained' color='primary' onClick={() => handleDetails(training)}>Details</Button>
