@@ -209,107 +209,105 @@ clearly understood.</p>
                     borderRadius: '5px', 
                      
                 }}
-            >
-            <Typography variant="h4" gutterBottom>
-                Training Details
-            </Typography>
-            <TableRow>
-                <TableCell 
-                    component="th" 
-                    scope="row" 
-                    sx={{ border: '1px solid black', width: '40%', backgroundColor: '#f4f4f4' }}
                 >
-                <Typography variant="h6">
-                    Date of training session: 
+                <Typography variant="h4" gutterBottom>
+                    Training Details
                 </Typography>
-                </TableCell>
-                <TableCell
-                    component="th" 
-                    scope="row" 
-                    sx={{ border: '1px solid black', width: '60%' }}
-                    
-                >
-                    <Typography variant="h6">
-                        {(training.training_date) ? formatDateTimeForSQL(training.training_date) : 'N/A'}
-                    </Typography>
-                </TableCell>
-            </TableRow>
-            <TableRow>
-                {/* <TableCell>
-                    <Typography variant="h6" >
-                        ID: {training.training_id}
-                    </Typography>
-                </TableCell> */}
+                <TableRow>
+                    <TableCell 
+                        component="th" 
+                        scope="row" 
+                        sx={{ border: '1px solid black', width: '40%', backgroundColor: '#f4f4f4' }}
+                    >
+                        <Typography variant="h6">
+                            Date of training session: 
+                        </Typography>
+                    </TableCell>
+                    <TableCell
+                        component="th" 
+                        scope="row" 
+                        sx={{ border: '1px solid black', width: '60%' }}
+                        >
+                            <Typography variant="h6">
+                                {(training.training_date) ? formatDateTimeForSQL(training.training_date) : 'N/A'}
+                            </Typography>
+                    </TableCell>
+                </TableRow>
+                <TableRow>
+                    {/* <TableCell>
+                        <Typography variant="h6" >
+                            ID: {training.training_id}
+                        </Typography>
+                    </TableCell> */}
+                    <TableCell 
+                        component="th" 
+                        scope="row" 
+                        sx={{ border: '1px solid black', width: '40%', backgroundColor: '#f4f4f4' }}
+                    >
+                        <Typography variant="h6" >
+                        Area(s) of Training / SOP Number: 
+                        </Typography>
+                    </TableCell>
+                    <TableCell
+                        component="th" 
+                        scope="row" 
+                        sx={{ border: '1px solid black', width: '60%' }}
+                        
+                    >
+                        <Typography variant="h6">
+                            {training.sop_number}
+                        </Typography>
+                    </TableCell>
+                </TableRow>
+                <TableRow>
                 <TableCell 
-                    component="th" 
-                    scope="row" 
-                    sx={{ border: '1px solid black', width: '40%', backgroundColor: '#f4f4f4' }}
-                >
-                    <Typography variant="h6" >
-                    Area(s) of Training / SOP Number: 
-                    </Typography>
-                </TableCell>
-                <TableCell
-                    component="th" 
-                    scope="row" 
-                    sx={{ border: '1px solid black', width: '60%' }}
-                    
-                >
-                    <Typography variant="h6">
-                        {training.sop_number}
-                    </Typography>
-                </TableCell>
-            </TableRow>
-            <TableRow>
-            <TableCell 
-                    component="th" 
-                    scope="row" 
-                    sx={{ border: '1px solid black', width: '40%', backgroundColor: '#f4f4f4' }}
-                >
-                    <Typography variant="h6" >
-                        Training Session Name / SOP Title:
-                    </Typography>
-                </TableCell>
-                <TableCell
-                    component="th" 
-                    scope="row" 
-                    sx={{ border: '1px solid black', width: '60%' }}
-                    
-                >
-                    <Typography variant="h6">
-                        {training.sop_name}
-                    </Typography>
+                        component="th" 
+                        scope="row" 
+                        sx={{ border: '1px solid black', width: '40%', backgroundColor: '#f4f4f4' }}
+                    >
+                        <Typography variant="h6" >
+                            Training Session Name / SOP Title:
+                        </Typography>
+                    </TableCell>
+                    <TableCell
+                        component="th" 
+                        scope="row" 
+                        sx={{ border: '1px solid black', width: '60%' }}
+                        
+                    >
+                        <Typography variant="h6">
+                            {training.sop_name}
+                        </Typography>
 
-                </TableCell>
-                
-            </TableRow>
-            <TableRow>
-            <TableCell
-                component="th" 
-                scope="row" 
-                sx={{ border: '1px solid black', width: '40%', backgroundColor: '#f4f4f4' }}
-            >
-                    <Typography variant="h6">
-                        Qualified Trainer Name: 
-                    </Typography>
-                </TableCell>
+                    </TableCell>
+                    
+                </TableRow>
+                <TableRow>
                 <TableCell
                     component="th" 
                     scope="row" 
-                    sx={{ border: '1px solid black', width: '60%' }}
-                    
+                    sx={{ border: '1px solid black', width: '40%', backgroundColor: '#f4f4f4' }}
                 >
-                    <Typography variant="h6">
-                        {trainer}
-                    </Typography>
-                </TableCell>
-            </TableRow>
+                        <Typography variant="h6">
+                            Qualified Trainer Name: 
+                        </Typography>
+                    </TableCell>
+                    <TableCell
+                        component="th" 
+                        scope="row" 
+                        sx={{ border: '1px solid black', width: '60%' }}
+                        
+                    >
+                        <Typography variant="h6">
+                            {trainer}
+                        </Typography>
+                    </TableCell>
+                </TableRow>
             
             <TableContainer component={Paper} sx={{ marginTop: 3 }}>
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell maxWidth={40}>ID</TableCell>
                             <TableCell>Employee Name</TableCell>
                             <TableCell>Signature</TableCell>
                         </TableRow>
@@ -333,7 +331,6 @@ clearly understood.</p>
                 >
                     Print
                 </Button>
-
             </Box>
 
         {/* Diálogo de impresión */}
@@ -341,7 +338,6 @@ clearly understood.</p>
                 <DialogTitle>Training Details</DialogTitle>
                 <DialogContent>
                     <Typography variant="h6">Training Information</Typography>
-                    {/* <Typography>ID: {training.training_id}</Typography> */}
                     <Typography>SOP Number: {training.sop_number}</Typography>
                     <Typography>SOP Name: {training.sop_name}</Typography>
                     <Typography>Trainer Name: {trainer}</Typography>
@@ -351,7 +347,6 @@ clearly understood.</p>
                     </Typography>
                     <TableHead>
                         <TableRow>
-                            <TableCell>Employee ID</TableCell>
                             <TableCell>Employee Name</TableCell>
                             <TableCell>Signature</TableCell>
                         </TableRow>
@@ -359,7 +354,6 @@ clearly understood.</p>
                     <TableBody>
                         {empList.map((employee, index) => (
                             <TableRow key={index}>
-                                <TableCell>{employee.employee_id}</TableCell>
                                 <TableCell>{employee.name}</TableCell>
                                 <TableCell></TableCell>
                             </TableRow>
