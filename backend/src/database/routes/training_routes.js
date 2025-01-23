@@ -31,9 +31,9 @@ router.get("/NewTraining", (req, res) => {
 });
 
 router.post("/training/newtraining", async (req, res) => {
-    const { training_name, sop_number, sop_name, trainer_name, comments, training_date, employee_ids } = req.body;
+    const { training_name, sop_number, sop_name, trainer_name, comments, training_date, employee_ids, related_to, type_training, description, assessment } = req.body;
     try {
-        const result = await trainingQueries.addTraining(training_name, sop_number, sop_name, trainer_name, comments, training_date, employee_ids);
+        const result = await trainingQueries.addTraining(training_name, sop_number, sop_name, trainer_name, comments, training_date, employee_ids, related_to, type_training, description, assessment);
         res.status(200).send({ message: 'Training added successfully', result });
     } catch (error) {
         console.error('Error adding Training:', error);

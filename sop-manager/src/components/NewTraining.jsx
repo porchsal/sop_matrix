@@ -1,7 +1,7 @@
 import Sidenav from './Sidenav';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Box, Paper, Typography, Table, TableCell, TextField, TableBody, TableRow, FormControl, FormLabel, FormGroup, Select } from '@mui/material';
+import { Box, Paper, Typography, Table, TableCell, TextField, TableBody, TableRow, FormControl, FormLabel, FormGroup, Select, TableHead } from '@mui/material';
 import { Checkbox, FormControlLabel, Button, MenuItem,  } from '@mui/material';
 import DatePickerComponent from './DatePickerComponent';
 import axios from 'axios';
@@ -13,6 +13,7 @@ const NewTraining = () =>{
     const [sites, setSites] = useState([]);
     const [trainingDate, setTrainingDate] = useState(null);
     const [trainingName, setTrainingName] = useState('');
+    const [comments, setComments] = useState('');
     const [selectedSites, setSelectedSites] = useState([]);
     const [selectedDepartment, setSelectedDepartment] = useState([]);
     const [selectedPosition, setSelectedPosition] = useState([]);
@@ -21,6 +22,10 @@ const NewTraining = () =>{
     const [filteredEmployees, setFilteredEmployees] = useState([]);
     const [empTrainer, setEmpTrainer] = useState([]);
     const [selectedTrainer, setSelectedTrainer] = useState([]);
+    const [relatedTo, setRelatedTo] = useState([]);
+    const [typeTraining, setTypeTraining] = useState([]);
+    const [description, setDescription] = useState([]);
+    const [assessment, setAssessment] = useState([]);
     const navigate = useNavigate();
     const location = useLocation();
     const originalTraining = location.state?.training;
@@ -61,12 +66,10 @@ useEffect(() => {
     useEffect(() => {
         if( selectedDepartment.length > 0) {
             const filtered = positions.filter(position =>{
-                console.log('Checking Position:', position);
                 return selectedDepartment.includes(position.department_id);
            }
             );
             setFilteredPositions(filtered);
-            console.log('Filtered positions:', filtered);
         } else {
             setFilteredPositions([])
         }
@@ -147,9 +150,13 @@ useEffect(() => {
             sop_number: originalTraining.sop_number,
             sop_name: originalTraining.sop_name,
             trainer_name: selectedTrainer,
-            comments: 'Comments',
+            comments: comments,
             training_date: formattedDate,
             employee_ids:  selectedEmployee,
+            related_to: relatedTo,
+            type_training: typeTraining,
+            description: description,
+            assessment: assessment
         };
        
         try {
@@ -167,60 +174,57 @@ useEffect(() => {
     return (
    <>
     <Sidenav /> 
-        <Box >
+        <Box sx={{ mt: 8 }}>
 
         <Paper>
-
-                    <Typography variant="h4">New Training</Typography>
+            <TableHead>
+                <Typography variant="h4">New Training</Typography>
+            </TableHead>    
+                    
                     <TableBody>
-                        <TableRow>
-                            <TableCell> 
+                        <TableRow sx={{ display: 'flex'}}>
+                            <TableCell sx={{ flex: 1, padding: '16px' }}> 
                                 <TextField 
                                     label="Training Name" 
                                     onChange={(e) => setTrainingName(e.target.value)} 
                                     margin="normal" 
-                                    variant="outlined" // Cambiar a variante "outlined" para un aspecto más moderno 
-                                    sx={{ mt: 2, // Agregar margen superior 
-                                        width: '70%', // Asegurar que el TextField ocupe todo el espacio disponible 
+                                    variant="outlined" 
+                                    sx={{ mt: 2,  
+                                        width: '70%',  
                                         '& .MuiInputBase-root': { 
-                                            fontSize: '1.25rem', // Aumentar el tamaño de la fuente
+                                            fontSize: '1.25rem', 
                                             }, 
                                         '& .MuiInputLabel-root': { 
-                                            fontSize: '1.25rem', // Aumentar el tamaño de la etiqueta 
+                                            fontSize: '1.25rem', 
                                             } 
-                                        }} // Agregar un poco de margen superior para el espaciado 
+                                        }} 
                                 /> 
                             </TableCell>
-                            <TableCell 
-                                sx={{ mt: 2, // Agregar margen superior 
-                                    width: '50%', // Asegurar que el TextField ocupe todo el espacio disponible 
-                                    '& .MuiInputBase-root': { 
-                                        fontSize: '1.25rem', // Aumentar el tamaño de la fuente
-                                        }, 
-                                    '& .MuiInputLabel-root': { 
-                                        fontSize: '1.25rem', // Aumentar el tamaño de la etiqueta 
-                                        } 
-                                    }}
-                                    >
-                                <DatePickerComponent date={trainingDate} setDate={setTrainingDate} />
+                            <TableCell sx={{ flex: 1 }}>
+                                <DatePickerComponent
+                                date={trainingDate}
+                                setDate={setTrainingDate}
+                                label="Training Date"
+                                />
                             </TableCell>
                         </TableRow>
-                        <TableRow>
-                            <TableCell>
+                        <TableRow sx={{display:'flex'}}>
+                            <TableCell sx={{ flex: 1 }}>
                                 <TextField
-                                    label="Sop Number"
+                                    label="Area(s) of training / Sop Number:"
                                     value={originalTraining.sop_number}
-                                    width="70%"
+                                    width="50%"
                                     margin="normal"
+                                    variant="outlined"
                                 />
                             </TableCell>   
-                            <TableCell>
+                            <TableCell sx={{ flex: 1 }}>
                                 <FormControl fullWidth>
-                                    <FormLabel component="legend">Trainer</FormLabel>
+                                    <FormLabel component="legend">Qualified Trainer Name:</FormLabel>
                                     <Select 
                                         labelId='Trainer'
                                         value={selectedTrainer}
-                                        label="Trainer"
+                                        label="Qualified Trainer Name:"
                                         width="50%"
                                         variant="outlined"
                                         required
@@ -238,11 +242,69 @@ useEffect(() => {
                         <TableRow>
                             <TableCell>
                                 <TextField
-                                    label="Sop Name"
+                                    label="SOP Tittle"
                                     value={originalTraining.sop_name}
                                     fullWidth
                                     margin="normal"
+                                    variant="outlined"
                                 />
+                            </TableCell>
+                        </TableRow>
+                        
+                        <TableRow>
+                            <TableCell>
+                                <TextField
+                                    label="Related To"
+                                    fullWidth
+                                    margin="normal"
+                                    variant="outlined"
+                                    onChange={(e) => setRelatedTo(e.target.value)}
+                                />
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>
+                                <TextField
+                                    label="Type of Training"
+                                    fullWidth
+                                    margin="normal"
+                                    variant="outlined"
+                                    onChange={(e) => setTypeTraining(e.target.value)}
+                                />
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>
+                                <TextField
+                                    label="Description"
+                                    multiline
+                                    rows={15}
+                                    fullWidth
+                                    margin="normal"
+                                    variant="outlined"
+                                    onChange={(e) => setDescription(e.target.value)}
+                                />
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>
+                                <FormControl >
+                                    <FormLabel component="legend">Training Assessment Required?:</FormLabel>
+                                    <Select
+                                        labelId="Assessment"
+                                        value={assessment}
+                                        label="Training Assessment Required?:"
+                                        fullWidth
+                                        margin="normal"
+                                        variant="outlined"
+                                        onChange={(e) => setAssessment(e.target.value)}
+                                    >
+                                        <MenuItem value="Yes">Yes</MenuItem>
+                                        <MenuItem value="No">No</MenuItem>
+
+                                    </Select>
+                                </FormControl>
+
                             </TableCell>
                         </TableRow>
                         <TableRow>
@@ -252,9 +314,14 @@ useEffect(() => {
                                     fullWidth
                                     margin="normal"
                                     variant="outlined"
+                                    onChange={(e) => setComments(e.target.value)}
                                 />
                             </TableCell>
                         </TableRow>
+
+
+
+                        
                         <Box sx={{ p: 3 }}> 
                             <Paper sx={{ p: 2 }}>
                             <Typography variant="h4" gutterBottom>Select Employees</Typography>

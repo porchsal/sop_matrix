@@ -120,28 +120,45 @@ function TrainingDetails() {
                 </tr>
                 <tr>
                     <th>Related NC/CC/OOS (if appliable):</th>
-                    <td></td>
+                    <td>${training.related_to}</td>
                 </tr>
                 <tr>
                     <th>Type of Training:</th>
-                    <td></td>
+                    <td>${training.type_training}</td>
                 </tr>
                 <tr>
                     <th colspan="2" style="text-align: center; font-weight: bold; width: 100%;">
                         Description of training
                     </th>
+
                 </tr>
             
             
                 <tr>
-                    <td colspan="2" style="border: 1px solid black; height: 300px;">&nbsp;</td>
+                    <td colspan="2" style="border: 1px solid black; height: 300px;">${training.description}</td>
                 </tr>
                 <tr>
                 <th>Training Assessment Required?:</th>
-                <th> 
-                    <input type="checkbox" name="assessment" value="yes"> Yes
-                    <input type="checkbox" name="assessment" value="no"> No
+                <th>
+                    <label>
+                        <input 
+                        type="checkbox" 
+                        ${training.assessment === 'Yes' ? 'checked' : ''}
+                        readonly
+                        />
+                        Yes
+                    </label>
+                    <label>
+                        <input 
+                        type="checkbox" 
+                        ${training.assessment === 'No' ? 'checked' : ''}
+                        readonly
+                        />
+                        No
+                    </label>
                 </th>
+
+
                 </tr>
                 <th>Comments:</th>
                 <td style="height: 100px;">&nbsp;</td>
@@ -177,19 +194,16 @@ function TrainingDetails() {
         </body>
         <footer>
                   <p>The employee’s signature certifies that the employee has either read the SOP listed or
-
-provided verbal training on the SOP listed and/or hands on training on the SOP listed and
-
-understands the materials and techniques required to perform the procedure. The employee
-
-addressed any questions to the area supervisor, or the qualified trainer and all issues were
-
-clearly understood.</p>
+                    provided verbal training on the SOP listed and/or hands on training on the SOP listed and
+                    understands the materials and techniques required to perform the procedure. The employee
+                    addressed any questions to the area supervisor, or the qualified trainer and all issues were
+                    clearly understood.</p>
       </html>
     `);
         printWindow.document.close();
         printWindow.print();
     };
+
 
     if (loading) {
         return <p>Loading...</p>;
@@ -210,9 +224,15 @@ clearly understood.</p>
                      
                 }}
                 >
-                <Typography variant="h4" gutterBottom>
-                    Training Details
-                </Typography>
+                <TableHead>
+                    <Typography 
+                        variant="h4"
+                        sx={{ textAlign: 'center', marginBottom: 2 }}
+                        
+                    >
+                        Training Details
+                    </Typography>
+                </TableHead>
                 <TableRow>
                     <TableCell 
                         component="th" 
@@ -322,7 +342,7 @@ clearly understood.</p>
                         ))}
                     </TableBody>
                 </Table>
-            </TableContainer>{/* Botón para abrir el diálogo de impresión */}
+            </TableContainer>{/* Button to open print dialog */}
                 <Button
                     variant="contained"
                     color="primary"

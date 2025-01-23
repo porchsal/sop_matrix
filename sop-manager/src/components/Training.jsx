@@ -8,8 +8,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { Typography } from "@mui/material";
 import { Button, TableFooter } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import Box from '@mui/material/Box';
 
 function Training() {
 
@@ -60,52 +62,69 @@ function Training() {
   return (
     <>
     <Sidenav />
-    
-    <h1>Training List</h1>
+    <Box sx={{ mt: 8 }}>
+        <TableHead >
+          <Typography 
+            variant="h4"
+            sx={{ 
+              textAlign: 'center', 
+              marginBottom: 4,
+              marginTop: 2,
+              color: 'primary',
+              fontWeight: 'bold',
 
-    <TableContainer component={Paper}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            
-            <TableCell>Training Name</TableCell>
-            <TableCell>SOP Number</TableCell>
-            <TableCell>SOP Name</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {trainingList.map((training) => (
-            <TableRow key={training.id}>
+
               
-              <TableCell>{training.training_name}</TableCell>
-              <TableCell>{training.sop_number}</TableCell>
-              <TableCell>{training.sop_name}</TableCell>
-              <TableCell><Button 
-                variant="contained" 
-                color="primary"
-                onClick={() => {
-                  handleSelect(training)
-                  }
-                  }
-              >
-                    List</Button></TableCell>
-              <TableCell><Button 
-                onClick={ ()=>{
-                  handleNewTraining(training)
-                  }
-                  } 
-              >
-                New Training</Button></TableCell>
+            }}
+            
+            >
+        Training List
+          </Typography>
+        </TableHead>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              
+              <TableCell>Training Name</TableCell>
+              <TableCell>SOP Number</TableCell>
+              <TableCell>SOP Name</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TableCell></TableCell>
-          </TableRow>
-        </TableFooter>
-      </Table>
+          </TableHead>
+          <TableBody>
+            {trainingList.map((training) => (
+              <TableRow key={training.id}>
+                
+                <TableCell>{training.training_name}</TableCell>
+                <TableCell>{training.sop_number}</TableCell>
+                <TableCell>{training.sop_name}</TableCell>
+                <TableCell><Button 
+                  variant="contained" 
+                  color="primary"
+                  onClick={() => {
+                    handleSelect(training)
+                    }
+                    }
+                >
+                      List</Button></TableCell>
+                <TableCell><Button 
+                  onClick={ ()=>{
+                    handleNewTraining(training)
+                    }
+                    } 
+                >
+                  New Training</Button></TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableCell></TableCell>
+            </TableRow>
+          </TableFooter>
+        </Table>
     </TableContainer>
+    </Box>
     </>
   )
 }
