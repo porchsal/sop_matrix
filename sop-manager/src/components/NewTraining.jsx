@@ -77,13 +77,17 @@ useEffect(() => {
 
     useEffect(() => {
         const fetchEmployees = async () => {
-            
-            if (selectedSites.length > 0 || selectedPosition.length > 0) {
+
+            if (!selectedSites.length && !selectedPosition.length && !selectedDepartment.length) {
+                setFilteredEmployees([]);
+                return;
+            } else if (selectedSites.length > 0 || selectedPosition.length > 0 || selectedDepartment.length > 0) {
                 try {
                     const response = await axios.get('http://localhost:3010/api/employee/filter', {
                         params: {
                             site_id: selectedSites,
                             position_id: selectedPosition,
+                            department_id: selectedDepartment,
                         },
                     });
                     setFilteredEmployees(response.data);
@@ -96,28 +100,27 @@ useEffect(() => {
             }
         };
         fetchEmployees();
-    }, [selectedSites, selectedPosition]);
+    }, [selectedSites, selectedPosition, selectedDepartment]);
 
     const handleSiteChange = (event) => {
         const siteId = Number(event.target.value);
         setSelectedSites((prev) =>
-            event.target.checked ? [...prev, siteId] : prev.filter(id => id !== siteId)
+            event.target.checked ? [...new Set([...prev, siteId])] : prev.filter((id) => id !== siteId)
         );
-        
     };
+
     const handleDepartmentChange = (event) => { 
         const departmentId = Number(event.target.value); 
         setSelectedDepartment((prev) => 
-            event.target.checked ? [...prev, departmentId] : prev.filter(id => id !== departmentId) 
+            event.target.checked ? [... new Set([...prev, departmentId])] : prev.filter(id => id !== departmentId) 
         ); 
-        
-};
+    };
+    
     const handlePositionChange = (event) => {
         const positionId = Number(event.target.value);
         setSelectedPosition((prev) =>
-            event.target.checked ? [...prev, positionId] : prev.filter(id => id !== positionId)
+            event.target.checked ? [... new Set([...prev, positionId])] : prev.filter(id => id !== positionId)
         );
-        
     };
 
     const handleEmployeeChange = (event) => {
@@ -318,10 +321,7 @@ useEffect(() => {
                                 />
                             </TableCell>
                         </TableRow>
-
-
-
-                        
+                       
                         <Box sx={{ p: 3 }}> 
                             <Paper sx={{ p: 2 }}>
                             <Typography variant="h4" gutterBottom>Select Employees</Typography>

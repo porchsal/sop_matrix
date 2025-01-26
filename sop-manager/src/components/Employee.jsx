@@ -23,7 +23,6 @@ function Employee() {
     department_id: 'Department', 
     site_id: 'Site',
   };
-
   const [employees, setEmployees] = useState([]); 
   const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(null);
@@ -37,7 +36,6 @@ function Employee() {
   const [departments, setDepartments] = useState([]);
   const [sites, setSites] = useState([]);
   const [trainByEmployee, setTrainByEmployee] = useState({});
-//added to filter employees
   const [selectedSites, setSelectedSites] = useState([]);
   const [selectedDepartment, setSelectedDepartment] = useState([]);
   const [filteredEmployees, setFilteredEmployees] = useState([]);
@@ -63,7 +61,6 @@ function Employee() {
     fetchData();
 }, []);
 
-
 useEffect(() => {
   if (selectedSites.length > 0 || selectedDepartment.length > 0) {
     axios
@@ -88,7 +85,6 @@ useEffect(() => {
   }
 }, [selectedSites, selectedDepartment, employees]);
 
-
 useEffect(() => { 
   const fetchEmployees = async () => { 
     try { const response = await axios.get('http://localhost:3010/api/employee'); 
@@ -105,28 +101,23 @@ useEffect(() => {
   setPage(0); // Reset page when filtered employees change
 }, [filteredEmployees]);
 
-
-// Función para obtener el nombre basado en el ID de posición
 const getPositionName = (position_id) => {
-  const positionId = Number(position_id); // Convertir a número
+  const positionId = Number(position_id); 
   const position = positions.find(pos => pos.ID === positionId);
-  return position ? position.Name : position_id; // Devuelve el nombre si se encuentra el ID, sino devuelve el ID
+  return position ? position.Name : position_id; 
 };
 
-// Función para obtener el nombre basado en el ID de departamento
 const getDepartmentName = (id) => {
-  const departmentId = Number(id); // Convertir a número
+  const departmentId = Number(id); 
   const department = departments.find(dep => dep.ID === departmentId);
-  return department ? department.Name : id; // Lo mismo que para las posiciones
+  return department ? department.Name : id; 
 };
 
-// Función para obtener el nombre basado en el ID de sitio
 const getSiteName = (id) => {
-  const siteId = Number(id); // Convertir a número
+  const siteId = Number(id); 
   const site = sites.find(s => s.ID === siteId);
-  return site ? site.Name : id; // Lo mismo para los sitios
+  return site ? site.Name : id; 
 };
-
 
 const handleSelectEmployee = (employee) => {
   setSelectedEmployee(employee);
@@ -158,7 +149,6 @@ const handleDepartmentChange = (event) => {
         ? [...prev, departmentId] 
         : prev.filter(id => id !== departmentId) 
   ); 
-  
 };
 
 const handleEditEmployee = (employee) => { 
@@ -173,9 +163,7 @@ const handleClose = () => {
 
 const handleCloseNew = () => {
   setOpenNew(false);
-
   }; 
-
 
 const updatedEmployeeData = (updatedEmployee, employeeId) => {
   try {
@@ -205,14 +193,12 @@ const handleChangeRowsPerPage = (event) => {
 const handleAddEmployee = (newEmployee) => {
     setEmployees([...employees, newEmployee]);
   };
-
       
   if (loading) 
     { return <p>Loading...</p>; } 
   if (error) 
     { return <p>Error loading positions: {error.message}</p>; }
     
-      
   const tablePaginationComponent = <TablePagination
     rowsPerPageOptions={[5, 10, 25]}
     component="div"
@@ -270,12 +256,9 @@ const handleAddEmployee = (newEmployee) => {
           <img src="${logo}" alt="Logo" style="display: block; margin: 0 auto; width: 100px;" />
         </head>
         <body>
-          
           <h1>Training List</h1>
-          
           <p><strong>Employee:</strong> ${selectedEmployee.name}</p>
           <p><strong>Position:</strong> ${getPositionName(selectedEmployee.position_id)}</p>
-          
           <table>
             <thead>
               <tr>
@@ -301,9 +284,7 @@ const handleAddEmployee = (newEmployee) => {
     printWindow.print();
   };
   
-  
-
-   return (
+return (
    <>
       <Sidenav />
       <h1>Employee Management</h1>
@@ -351,7 +332,7 @@ const handleAddEmployee = (newEmployee) => {
                       </FormGroup>
                     </FormControl>
               </Paper>
-            <Paper elevation={3} sx={{ flex: 1, marginRight: 2, padding: 2 }} >
+              <Paper elevation={3} sx={{ flex: 1, marginRight: 2, padding: 2 }} >
                 <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 450 }} stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -366,11 +347,8 @@ const handleAddEmployee = (newEmployee) => {
                         <TableRow 
                         key={employee.ID} 
                         hover onClick={() => handleSelectEmployee(employee)}>
-                          {/* <TableCell component="th" scope="row">{employee.name}</TableCell> */}
                           <TableCell>{employee.name}</TableCell>
                           <TableCell>{getPositionName(employee.position_id)}</TableCell>
-                          {/* <TableCell>{getDepartmentName(employee.department_id)}</TableCell> */}
-                          {/* <TableCell>{getSiteName(employee.site_id)}</TableCell> */}
                         </TableRow>
                       ))}
                     </TableBody>
@@ -393,14 +371,14 @@ const handleAddEmployee = (newEmployee) => {
                               <TableCell>
                               {
                                   key === 'date_of_hire'
-                                  ? formatDateTimeForSQL(value) // Formatear la fecha
+                                  ? formatDateTimeForSQL(value) 
                                   : key === 'position_id' 
-                                  ? getPositionName(value) // Mostrar el nombre de la posición
+                                  ? getPositionName(value) 
                                   : key === 'department_id' 
-                                  ? getDepartmentName(value) // Mostrar el nombre del departamento
+                                  ? getDepartmentName(value) 
                                   : key === 'site_id' 
-                                  ? getSiteName(value) // Mostrar el nombre del sitio
-                                  : value // Mostrar el valor tal cual si no es ninguno de los anteriores
+                                  ? getSiteName(value)
+                                  : value 
                               }
                               </TableCell>
                             </TableRow>
@@ -497,7 +475,7 @@ const handleAddEmployee = (newEmployee) => {
               <Button onClick={handleClosePrintDialog} color="secondary">Cancel</Button>
               <Button 
                 onClick={() => {
-                  handlePrint(); // Función para manejar la impresión
+                  handlePrint(); 
                   handleClosePrintDialog();
                 }} 
                 color="primary"

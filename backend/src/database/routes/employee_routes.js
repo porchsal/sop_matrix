@@ -6,16 +6,14 @@ const bodyParser = require("body-parser");
 router.use(bodyParser.json());
 
 router.get('/employee/filter', async (req, res) => {
-    const { site_id, position_id } = req.query;
+    const { site_id, position_id, department_id } = req.query;
     try {
-            const result = await employeeQueries.getEmployeeBySiteAndPosition(site_id, position_id);
+            const result = await employeeQueries.getEmployeesFiltered(site_id, position_id, department_id);
             res.json(result);
         } catch (error) {
             console.error('Error getting employee:', error);
             res.status(500).send({ message: 'Error getting employee', error });
         }
- 
-
 });
 
 router.get("/employee/filterbydep", async (req, res) => {
@@ -61,7 +59,6 @@ router.get("/employee/inactive", (req, res) => {
     });
 });
 
-
 router.get("/employee/:id", (req, res) => {
     const { id } = req.params;
     employeeQueries.getEmployeeById(id)
@@ -84,8 +81,6 @@ router.put('/employee/:id', async (req, res) => {
     }
 });
 
-
-
 router.post('/employee/new', async (req, res) => {
     const { name, date_of_hire, active, trainer, position_id, department_id, site_id } = req.body;
     try {
@@ -96,8 +91,5 @@ router.post('/employee/new', async (req, res) => {
         res.status(500).send({ message: 'Error adding employee', error });
     }
 });
-
-
-
 
 module.exports = router;
