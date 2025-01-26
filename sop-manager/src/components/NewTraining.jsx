@@ -67,7 +67,7 @@ useEffect(() => {
         if( selectedDepartment.length > 0) {
             const filtered = positions.filter(position =>{
                 return selectedDepartment.includes(position.department_id);
-           }
+                }
             );
             setFilteredPositions(filtered);
         } else {
@@ -140,8 +140,6 @@ useEffect(() => {
         return date.toISOString().slice(0, 10);
     };
 
-
-
     const handleSave = async () => {
         if (!trainingDate || !trainingName || selectedSites.length === 0 || selectedDepartment.length === 0) {
             alert('Please fill in all required fields!');
@@ -177,7 +175,7 @@ useEffect(() => {
     return (
    <>
     <Sidenav /> 
-        <Box sx={{ mt: 8 }}>
+    <Box sx={{ mt: 8 }}>
 
         <Paper>
             <TableHead>
@@ -321,11 +319,9 @@ useEffect(() => {
                                 />
                             </TableCell>
                         </TableRow>
-                       
                         <Box sx={{ p: 3 }}> 
                             <Paper sx={{ p: 2 }}>
                             <Typography variant="h4" gutterBottom>Select Employees</Typography>
-
                             <Box sx={{ display: 'flex', flexDirection: 'row', gap: '16px' }}>
                                 {/* <Typography variant="h6">Related to:</Typography> */}
                                     <FormControl component="fieldset">
@@ -420,23 +416,20 @@ useEffect(() => {
                                             </TableBody>
                                         </Table>
                                     </Box>
-
-                                    
                             </Box>
                             </Paper>
                         </Box>
                     </TableBody>
-                    
         </Paper>
         </Box>
-                    <TableBody>
-                        <TableRow>
-                            <TableCell>
-                                <Button variant="contained" color="primary" onClick={handleSave}>Save</Button>
-                                {/* <Button variant="contained" color="secondary" onClick={() => navigate(-1)}>Cancel</Button> */}
-                            </TableCell>
-                        </TableRow>
-                    </TableBody>
+        <TableBody>
+            <TableRow>
+                <TableCell>
+                    <Button variant="contained" color="primary" onClick={handleSave}>Save</Button>
+                        {/* <Button variant="contained" color="secondary" onClick={() => navigate(-1)}>Cancel</Button> */}
+                </TableCell>
+            </TableRow>
+        </TableBody>
     
     </>
   );

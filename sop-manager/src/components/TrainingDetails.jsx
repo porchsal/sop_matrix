@@ -213,22 +213,27 @@ function TrainingDetails() {
 
     return (
         <>
-            <Sidenav />
-            <Box 
-                sx={{ 
-                    fullWidth: '150%',
-                    
+        <Sidenav />
+        <Box 
+            sx={{ 
+                    marginTop: 8,
+                    width: '800px',
                     padding: '20px', 
                     border: '1px solid black', 
                     borderRadius: '5px', 
-                     
                 }}
                 >
                 <TableHead>
                     <Typography 
-                        variant="h4"
-                        sx={{ textAlign: 'center', marginBottom: 2 }}
-                        
+                        variant="h3"
+                        sx={{ 
+                            marginBottom: 2,
+                            marginTop: 2,
+                            fontWeight: 'bold',
+                            textAlign: 'center',
+                            width: '100%',
+                            whiteSpace: 'nowrap',
+                        }}
                     >
                         Training Details
                     </Typography>
@@ -254,11 +259,6 @@ function TrainingDetails() {
                     </TableCell>
                 </TableRow>
                 <TableRow>
-                    {/* <TableCell>
-                        <Typography variant="h6" >
-                            ID: {training.training_id}
-                        </Typography>
-                    </TableCell> */}
                     <TableCell 
                         component="th" 
                         scope="row" 
