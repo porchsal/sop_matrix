@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import Sidenav from './Sidenav';  
 import { useState, useEffect } from 'react'; 
 import axios from 'axios';
@@ -14,7 +13,7 @@ import TablePagination from '@mui/material/TablePagination';
 import { useNavigate } from "react-router-dom";
 import SopModal from './SopModal';
 
-   function Sop() {
+   function InactiveSop() {
     const [sopList, setSopList] = useState([]); 
     const [loading, setLoading] = useState(true); 
     const [loadingTopics, setLoadingTopics] = useState(true);
@@ -23,29 +22,29 @@ import SopModal from './SopModal';
     const [page, setPage] = useState(0); 
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [searchTerm, setSearchTerm] = useState("");// New state for search
-    const [open,setOpen] = useState(false);
+    const [open, setOpen] = useState(false);
     const [currentSop, setCurrentSop] = useState(null);
     const [topics, setTopics] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
-      const fetchTopics = async () => {
-        try {
-          const response = await axios.get('http://localhost:3010/api/topics');
-          setTopics(response.data);
-          setLoadingTopics(false);
-        } catch (error) {
-          setErrorTopics(error);
-        } finally {
-          setLoadingTopics(false);
-        }
-      };
-      fetchTopics();
-    }, [setErrorTopics, setLoadingTopics]);
-    
-    useEffect(() => { 
+        const fetchTopics = async () => {
+          try {
+            const response = await axios.get('http://localhost:3010/api/topics');
+            setTopics(response.data);
+            setLoadingTopics(false);
+          } catch (error) {
+            setErrorTopics(error);
+          } finally {
+            setLoadingTopics(false);
+          }
+        };
+        fetchTopics();
+      }, []);
+
+      useEffect(() => { 
         const fetchData = async () => { 
-          try { const response = await axios.get('http://localhost:3010/api/sop'); 
+          try { const response = await axios.get('http://localhost:3010/api/sop/inactive'); 
             setSopList(response.data); 
             setLoading(false);
           } catch (error) { 
@@ -60,12 +59,12 @@ import SopModal from './SopModal';
          if (error) 
           { return <p>Error loading: {error.message}</p>; }
 
-  const getTopicName = (topicId) => {
-    const topic = topics.find((topic) => topic.ID === Number(topicId));
-    return topic ? topic.Name : '';
-  };
-  
-  const handleSearchTerm = (event) => {
+    const getTopicName = (topicId) => {
+        const topic = topics.find((topic) => topic.ID === Number(topicId));
+        return topic ? topic.Name : '';
+        };
+
+    const handleSearchTerm = (event) => {
       setSearchTerm(event.target.value);
       setPage(0);
     }
@@ -75,14 +74,6 @@ import SopModal from './SopModal';
       sop.sop_name.toLowerCase().includes(searchTerm.toLowerCase()) || 
       sop.topic.toLowerCase().includes(searchTerm.toLowerCase())
     );
-
-    const handleSelectNew = (training) => {
-      if (training) {
-        navigate(`/NewTraining`, { state: { training } });
-      } else {
-        console.error("No SOP selected for new training");
-      }
-    };
 
     const handleSelect = (sop) => {
       if (!sop) {
@@ -99,24 +90,22 @@ import SopModal from './SopModal';
       }
     }
     
+    const handleChangePage = (event, newPage) => {
+      setPage(newPage);
+    }
+
     const handleEdit = (sop) => {
       if (!sop) {
         console.error("SOP object is undefined");
         return;
       }
-     setCurrentSop(sop);
-      setOpen(true);
-      console.log("Origin SOP", sop);
-      console.log("Edit SOP", currentSop);
-    }
 
+      setCurrentSop(sop);
+      setOpen(true);
+    }
       const handleClose = () => {
       setOpen(false);
       setCurrentSop(null);
-    }
-    
-    const handleChangePage = (event, newPage) => {
-      setPage(newPage);
     }
 
     const handleChangeRowsPerPage = (event) => {
@@ -160,9 +149,7 @@ import SopModal from './SopModal';
 
       }
     };
-
     
-
     return (
       <div>
        <Sidenav /> 
@@ -175,8 +162,9 @@ import SopModal from './SopModal';
         value={searchTerm}
         onChange={handleSearchTerm}
       />      
-      <div> 
+       <div> 
               <List> 
+              
                   <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                   <TableContainer sx={{ maxHeight: 800 }}>
                     <Table sx={{ minWidth: 800 }} stickyHeader aria-label="sticky table">
@@ -227,14 +215,7 @@ import SopModal from './SopModal';
                                   Select Trainings
                                 </Button>
                             </TableCell>
-                            <TableCell align="center">
-                              <Button 
-                                align="right" 
-                                onClick={() => handleSelectNew(sopL)} 
-                              >
-                                New Training
-                                </Button>
-                            </TableCell>
+                            
                             <TableCell align="center">
                               <Button 
                                 align="right" 
@@ -250,20 +231,19 @@ import SopModal from './SopModal';
                     </Table>  
                   </TableContainer>
                   {tablePaginationComponent}
-|                </Paper>
-                <Button variant="contained" color="primary" onClick={()=>{navigate("/sop/newsop")}} >New SOP</Button>
+                </Paper>
               </List>
               <SopModal 
                 open={Boolean(currentSop)} 
                 handleClose={handleClose} 
                 currentSop={currentSop} 
-
                 updatedSopData={updatedSopData}
               />
         </div>
       </div>
     )
   }
+  
     
-export default Sop
+export default InactiveSop;
     

@@ -139,7 +139,12 @@ const EmpModal = ({ open, handleClose, employee, updatedEmployeeData }) => {
                                         variant="standard"
                                     >
                                         {positions.map((position) => (
-                                            <MenuItem key={position.ID} value={position.Name}>{position.Name}</MenuItem>
+                                            <MenuItem 
+                                                key={position.ID} 
+                                                value={position.Name}
+                                                >
+                                                {position.Name}
+                                            </MenuItem>
                                         ))}
                                     </Select>
                                 </TableCell>

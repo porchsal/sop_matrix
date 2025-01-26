@@ -1,7 +1,7 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Table, TextField, Box, Typography, Button, TableContainer, TableBody, TableCell, TableRow, Select, MenuItem } from '@mui/material';
-import { Paper, FormGroup, FormLabel, FormControlLabel, FormControl, Checkbox } from '@mui/material';
+import { Table, TextField, Box, Typography, Button, TableContainer, TableBody, TableCell, TableRow, Select, MenuItem, Paper } from '@mui/material';
 import Sidenav from "./Sidenav";
 import { useNavigate } from "react-router-dom";
 import DatePickerComponent from './DatePickerComponent';
@@ -14,11 +14,6 @@ const NewSop = () => {
     const [sopLink, setSopLink] = useState();
     const [sopComment, setSopComment] = useState();
     const [sopStatus, setSopStatus] = useState();
-//    const [positionId, setPositionId] = useState();
-    const [departmentId, setDepartmentId] = useState();
-    const [siteId, setSiteId] = useState();
-//    const [topicId, setTopicId] = useState();
-//    const [positions, setPositions] = useState([]);
     const [departments, setDepartments] = useState([]);
     const [sites, setSites] = useState([]);
     const [topics, setTopics] = useState([]);
@@ -27,8 +22,6 @@ const NewSop = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // const response = await axios.get('http://localhost:3010/api/position');
-                // setPositions(response.data);
                 const response2 = await axios.get('http://localhost:3010/api/department');
                 setDepartments(response2.data);
                 const response3 = await axios.get('http://localhost:3010/api/sites');
@@ -41,10 +34,6 @@ const NewSop = () => {
         };
         fetchData();
     }, []);
-
-    const handleSiteChange = (e) => {
-        setSiteId(e.target.value);
-    };
 
     const formatDateTimeForSQL = (dateTime) => {
         const date = new Date(dateTime);
@@ -92,20 +81,19 @@ return (
                         </TableRow>
                         <TableRow>
                             <TableCell
-                                sx={{ mt: 2, // Agregar margen superior 
-                                    width: '50%', // Asegurar que el TextField ocupe todo el espacio disponible 
+                                sx={{ mt: 2,  
+                                    width: '50%',   
                                     '& .MuiInputBase-root': { 
-                                        fontSize: '1.25rem', // Aumentar el tamaño de la fuente
+                                        fontSize: '1.25rem',  
                                         }, 
                                     '& .MuiInputLabel-root': { 
-                                        fontSize: '1.25rem', // Aumentar el tamaño de la etiqueta 
+                                        fontSize: '1.25rem',   
                                         } 
                                     }}
                                 >
                                 <DatePickerComponent date={sopEffectiveDate} setDate={setSopEffectiveDate} />
                             </TableCell>
-
-                            <TableCell>
+                           <TableCell>
                                 <TextField
                                         label="SOP Link"
                                         value={sopLink}
@@ -114,9 +102,7 @@ return (
                                         margin="normal"
                                     />
                             </TableCell>
-                            
-                        </TableRow>                     
-
+                         </TableRow>                     
                         <TableRow>
                             <TableCell>
                             <TextField
@@ -157,48 +143,6 @@ return (
                                 </Select>
                             </TableCell>
                         </TableRow>
-                            {/* <TableRow>
-                                <TableCell>
-                                    <FormControl component="fieldset">
-                                        <FormLabel component="legend">Main Site</FormLabel>
-                                        <FormGroup  >
-                                                {sites.map((site) => (
-                                                    <FormControlLabel
-                                                        key={site.ID}
-                                                        control={
-                                                            <Checkbox
-                                                                checked={siteId}
-                                                                onChange={handleSiteChange}
-                                                                name={site.Name}
-                                                            />
-                                                        }
-                                                        label={site.Name}
-                                                    />
-                                                ))}
-                                        </FormGroup>
-                                    </FormControl>
-                                </TableCell>
-                                <TableCell>
-                                    <FormControl component="fieldset">
-                                        <FormLabel component="legend">Department</FormLabel>
-                                        <FormGroup>
-                                            {departments.map((department) => (
-                                                <FormControlLabel
-                                                    key={department.ID}
-                                                    control={
-                                                        <Checkbox
-                                                            checked={departmentId}
-                                                            onChange={(e) => setDepartmentId(e.target.value)}
-                                                            name={department.Name}
-                                                        />
-                                                    }
-                                                    label={department.Name}
-                                                />
-                                            ))}
-                                        </FormGroup>
-                                    </FormControl>
-                                </TableCell>
-                        </TableRow> */}
                     </TableBody>
                     <TableContainer
                     display="flex"
@@ -228,19 +172,10 @@ return (
                     </TableContainer>
                 </Table>
             </Box>
-            
-
-            
-    
     </>
 );
 
 
-
-
-
-
-
 };
 
-export default NewSop
+export default NewSop;

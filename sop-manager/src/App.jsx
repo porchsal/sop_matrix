@@ -20,6 +20,7 @@ import Users from './components/Users'
 import NavBar from './components/NavBar'
 import TrainingList from './components/TrainingList'
 import TrainingDetails from './components/TrainingDetails'
+import InactiveSop from './components/InactiveSop'
 import { useState, useEffect } from 'react'
 function App() {
   const [username, setUsername] = useState(null);
@@ -143,6 +144,10 @@ function App() {
           <Route
             path="/training/delete/:trainingId"
             element={username ? <TrainingList /> : <Navigate to="/" />}
+          />
+          <Route
+          path="/sop/inactive"
+          element={username ? <InactiveSop /> : <Navigate to="/sop/inactive" />}
           />
       </Routes>
     </BrowserRouter>  
