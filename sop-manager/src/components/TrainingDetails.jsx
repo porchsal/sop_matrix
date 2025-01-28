@@ -4,7 +4,7 @@ import axios from "axios";
 import Sidenav from "./Sidenav";
 import { useLocation } from "react-router-dom";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
-import logo from '../assets/logo.png';
+
 function TrainingDetails() {
     const [empList, setempList] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -62,7 +62,6 @@ function TrainingDetails() {
     };
 
     const handlePrint = () => {
-        console.log("Printing...", training, empList);
         const printWindow = window.open("", "_blank");
         printWindow.document.write(`
       <html>
@@ -71,36 +70,77 @@ function TrainingDetails() {
             <table>
                 <thead>
                     <tr>
-                        <th style="width: 20%;">
-                            <img src=${logo} alt="Logo" style="width: 150px; height: auto; display: block; margin-left: auto; margin-right: auto; margin-top: 20px; margin-bottom: 20px;">
+                        <th style="text-align: center; vertical-align: middle; padding: 0; margin: 0;">
+                            <img src="/logo.png" alt="Logo" style="width: 140px; display: block; margin: 10px auto; padding: 0; ">
                         </th>
-                            <th style="width: 40%; text-align: center;">Group Training Session Attendance Sheet</th>
-                            <th style="width: 40%; text-align: right; white-space: pre-wrap; vertical-align: top;">
+                        <th style="width: 40%; text-align: center; font-size: 12px; line-height: 1.2; ">
+                            Group Training Session Attendance Sheet
+                        </th>
+                        <th style="width: 40%; text-align: right; vertical-align: top; font-size: 12px; line-height: 1.2; ; white-space: pre-wrap;">
                             ${training.version}
-                            </th>
+                        </th>
                     </tr>
-          <title>Training Details</title>
-          <style>
-            body { font-family: Arial, sans-serif; margin: 20px; }
-            h1 { color: #333; text-align: center; }
-            table { 
-              width: 100%; 
-              border-collapse: collapse; 
-              margin-top: 20px; 
-            }
-            th, td { 
-              border: 1px solid #ddd; 
-              padding: 8px; 
-              text-align: left; 
-              width: 50%;
-            }
-            th { 
-              background-color: #f4f4f4; 
-              font-weight: bold;
-              width: 50%; 
-            }
-            tr:nth-child(even) { background-color: #f9f9f9; }
-          </style>
+                </thead>
+
+                    <title>Training Details</title>
+                        <style>
+                            body {
+                                font-family: Arial, sans-serif;
+                                margin: 20px;
+                            }
+                            h1 {
+                                color: #333;
+                                text-align: center;
+                            }
+                            table {
+                                width: 100%;
+                                border-collapse: collapse;
+                                margin-top: 20px;
+                            }
+                            th, td {
+                                border: 1px solid #ddd;
+                                padding: 8px;
+                                text-align: left;
+                            }
+                            th {
+                                background-color: #f4f4f4;
+                                font-weight: bold;
+                            }
+                            tr:nth-child(even) {
+                                background-color: #f9f9f9;
+                            }
+                            img {
+                                width: 150px;
+                                height: auto;
+                                margin: 20px auto;
+                                display: block;
+                            }
+                            footer {
+                                margin-top: 20px;
+                                font-size: 0.8em;
+                                text-align: justify;
+                            }
+
+                            /* Reglas para impresión */
+                            @media print {
+                                table {
+                                    page-break-inside: auto;
+                                }
+                                tr {
+                                    page-break-inside: avoid;
+                                    page-break-after: auto;
+                                }
+                                thead {
+                                    display: table-header-group;
+                                }
+                                tfoot {
+                                    display: table-footer-group;
+                                }
+                                img {
+                                    page-break-inside: avoid;
+                                }
+                            }
+                        </style>
         </head>
         <body>
           <table>
@@ -122,10 +162,6 @@ function TrainingDetails() {
                     <td>${trainer}</td>
                 </tr>
                 <tr>
-                    <th>Related NC/CC/OOS (if appliable):</th>
-                    <td>${training.related_to}</td>
-                </tr>
-                <tr>
                     <th>Type of Training:</th>
                     <td>${training.type_training}</td>
                 </tr>
@@ -133,15 +169,14 @@ function TrainingDetails() {
                     <th>Change Control or Deviation Report Number:</th>
                     <td>${training.control}</td>
                 </tr>
+            </thead>
+            <tbody>
                 <tr>
                     <th colspan="2" style="text-align: center; font-weight: bold; width: 100%;">
                         Description of training
                     </th>
-
                 </tr>
-            
-            
-                <tr>
+               <tr>
                     <td colspan="2" style="border: 1px solid black; height: 300px; white-space: pre-wrap; vertical-align: top; ">${training.description}</td>
                 </tr>
                 <tr>
@@ -164,39 +199,30 @@ function TrainingDetails() {
                         No
                     </label>
                 </th>
-
-
                 </tr>
-                <th>Comments:</th>
-                <td style="height: 100px; white-space: pre-wrap; vertical-align: top;">${training.comments}</td>
-
-
-            </thead>
-           
+                <th style="width: 35%; " >Comments:</th>
+                <td style="height: 100px; white-space: pre-wrap; vertical-align: top; width: 65%; ">${training.comments}</td>
+            </tbody>
         </table>
-
-
           <table>
             <thead>
               <tr>
-                
                 <th>Employee Name Print</th>
                 <th>Employee Signature</th>
               </tr>
             </thead>
-            <tbody>
-              ${empList
-                  .map(
-                      (employee) => `
-                <tr>
-                 
-                  <td width="50%">${employee.name}</td>
-                  <td width="50%"></td>
-                </tr>
-              `
-                  )
-                  .join("")}
-            </tbody>
+                <tbody>
+                    ${empList
+                        .map(
+                            (employee) => `
+                    <tr style="page-break-inside: avoid;">
+                        <td width="50%">${employee.name}</td>
+                        <td width="50%"></td>
+                    </tr>
+                    `
+                        )
+                        .join("")}
+                </tbody>
           </table>
         </body>
         <footer>

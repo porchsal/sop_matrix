@@ -1,5 +1,4 @@
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
-import logo from '../assets/logo.png';
 // eslint-disable-next-line react/prop-types
 const Navbar = ({ username, onLogout }) => {
   return (
@@ -14,14 +13,15 @@ const Navbar = ({ username, onLogout }) => {
       <Toolbar>
         <Box
             component="img" 
-            src={logo} 
-            alt='Logo'
+            src="/logo.png" 
+            alt="Logo"
             backgroundColor='transparent'
             sx={{
               height: 60, // Ajusta el tamaño de la imagen
               
               marginLeft: 25, // Ajusta el margen izquierdo
             }}
+            onClick={() => window.location.href = '/'}
           />
 
         <Typography variant="h6" sx={{ flexGrow: 1 }}>

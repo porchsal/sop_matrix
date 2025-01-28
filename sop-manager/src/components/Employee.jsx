@@ -9,7 +9,6 @@ import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material
 import EmpModal from './EmpModal';
 import NewEmpModal from './NewEmpModal';
 import formatDateTimeForSQL from '../helpers/formatDateTimeForSQL';
-import logo from '../assets/logo.png';
 
 function Employee() {
 
@@ -253,7 +252,7 @@ const handleAddEmployee = (newEmployee) => {
             }
             tr:nth-child(even) { background-color: #f9f9f9; }
           </style>
-          <img src="${logo}" alt="Logo" style="display: block; margin: 0 auto; width: 100px;" />
+          <img src="/logo.png" alt="Logo" style="display: block; margin: 0 auto; width: 100px;" />
         </head>
         <body>
           <h1>Training List</h1>

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import Sidenav from './Sidenav';  
 import { useState, useEffect } from 'react'; 
 import axios from 'axios';
@@ -153,7 +154,7 @@ import SopModal from './SopModal';
     return (
       <div>
        <Sidenav /> 
-      <h1>SOP</h1>
+      <h1>Inactive SOP</h1>
        <TextField
         label="Search SOP"
         variant="outlined"

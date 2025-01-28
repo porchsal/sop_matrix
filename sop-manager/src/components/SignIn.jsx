@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Button, Container, Typography, Box, CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-import logo from '../assets/logo.png';
-//import axios from 'axios';
+
 
 const SignIn = ({setUsername}) => {
     const [usernameInput, setUsernameInput] = useState('');
@@ -12,11 +11,6 @@ const SignIn = ({setUsername}) => {
     const [error, setError] = useState('');
 
     const navigate = useNavigate();
-
-     const decodeJWT = (token) => {
-        const payload = token.split('.')[1];
-        return JSON.parse(atob(payload));
-    };
 
     const fetchUser = async (userId, token) => {
         try {
@@ -41,8 +35,6 @@ const SignIn = ({setUsername}) => {
         setLoading(true);
         setError('');
 
-
-        // Aquí puedes añadir la lógica para manejar el inicio de sesión, por ejemplo:
         try {
             const response = await fetch('http://localhost:3010/api/signin',  {
             method: 'POST',
@@ -89,8 +81,8 @@ const SignIn = ({setUsername}) => {
                 </Typography>
                 <Box
                     component="img"
-                    src={logo}
-                    alt="Logo"
+                     src="/logo.png" 
+                     alt="Logo"
                     sx={{
                         height: 100,
                         marginTop: 2,

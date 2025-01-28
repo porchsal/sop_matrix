@@ -2,7 +2,7 @@ import Sidenav from './Sidenav';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Box, Paper, Typography, Table, TableCell, TextField, TableBody, TableRow, FormControl, FormLabel, FormGroup, Select, TableHead } from '@mui/material';
-import { Checkbox, FormControlLabel, Button, MenuItem, InputLabel  } from '@mui/material';
+import { Checkbox, FormControlLabel, Button, MenuItem  } from '@mui/material';
 import DatePickerComponent from './DatePickerComponent';
 import axios from 'axios';
 
@@ -22,12 +22,10 @@ const NewTraining = () =>{
     const [filteredEmployees, setFilteredEmployees] = useState([]);
     const [empTrainer, setEmpTrainer] = useState([]);
     const [selectedTrainer, setSelectedTrainer] = useState([]);
-    const [relatedTo, setRelatedTo] = useState([]);
     const [typeTraining, setTypeTraining] = useState([]);
     const [description, setDescription] = useState([]);
     const [assessment, setAssessment] = useState([]);
     const [changeControl, setChangeControl] = useState([]);
-    const [version, setVersion] = useState([]);
     const navigate = useNavigate();
     const location = useLocation();
     const originalTraining = location.state?.training;
@@ -104,6 +102,15 @@ useEffect(() => {
         fetchEmployees();
     }, [selectedSites, selectedPosition, selectedDepartment]);
 
+    const versionLabel = `
+    Chief Medical Supplies ltd.
+    Document No.
+    CF-B2-002
+    Version 6.0
+    Effective Date: 2025-01-31
+    `.replace(/\n/g, '<br>');
+
+
     const handleSiteChange = (event) => {
         const siteId = Number(event.target.value);
         setSelectedSites((prev) =>
@@ -156,12 +163,11 @@ useEffect(() => {
             comments: comments,
             training_date: formattedDate,
             employee_ids:  selectedEmployee,
-            related_to: relatedTo,
             type_training: typeTraining,
             description: description,
             assessment: assessment,
             control: changeControl,
-            version: version,
+            version: versionLabel,
         };
        
         try {
@@ -213,12 +219,12 @@ useEffect(() => {
                                 />
                             </TableCell>
                         </TableRow>
-                        <TableRow sx={{display:'flex'}}>
+                        <TableRow sx={{display:'flex', justifyContent: "center"}}>
                             <TableCell sx={{ flex: 1 }}>
                                 <TextField
                                     label="Area(s) of training / Sop Number:"
                                     value={originalTraining.sop_number}
-                                    width="50%"
+                                    fullWidth
                                     margin="normal"
                                     variant="outlined"
                                 />
@@ -255,18 +261,6 @@ useEffect(() => {
                                 />
                             </TableCell>
                         </TableRow>
-                        
-                        <TableRow>
-                            <TableCell>
-                                <TextField
-                                    label="Related To"
-                                    fullWidth
-                                    margin="normal"
-                                    variant="outlined"
-                                    onChange={(e) => setRelatedTo(e.target.value)}
-                                />
-                            </TableCell>
-                        </TableRow>
                         <TableRow sx={{ display: 'flex', justifyContent: "center" }}>
                             <TableCell sx={{ flex: 1 }} >
                                 <TextField  
@@ -277,9 +271,7 @@ useEffect(() => {
                                     onChange={(e) => setChangeControl(e.target.value)}
                                 />
                             </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>
+                            <TableCell sx={{ flex: 1 }}>
                                 <TextField
                                     label="Type of Training"
                                     fullWidth
@@ -323,19 +315,6 @@ useEffect(() => {
 
                                     </Select>
                                 </FormControl>
-                            </TableCell>
-                            <TableCell sx={
-                                { flex: 1 }
-                            }>
-                                <TextField
-                                    label="Version"
-                                    multiline
-                                    rows={5}
-                                    margin="normal"
-                                    variant="outlined"
-                                    onChange={(e) => setVersion(e.target.value)}
-                                    sx={{ width: '300px' }}
-                                />
                             </TableCell>
                         </TableRow>
                         <TableRow>

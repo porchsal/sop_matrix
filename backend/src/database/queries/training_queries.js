@@ -38,7 +38,7 @@ const getTrainingByEmployeeId = (employeeId) => {
 
 const getAllTrainingById = () => { 
     return new Promise((resolve, reject) => { 
-        db.query('SELECT DISTINCT training_id, training_name, sop_number, sop_name, trainer_name, comments, training_date, related_to, type_training, description FROM training', (err, rows) => { 
+        db.query('SELECT DISTINCT training_id, training_name, sop_number, sop_name, trainer_name, comments, training_date, type_training, description FROM training', (err, rows) => { 
             if (err) { 
                 console.error('Database query error:', err); 
                 return reject(err); 
@@ -65,13 +65,13 @@ const maxTrainingId = () => {
 
 
 // Add a new training record
-const addTraining = async (training_name, sop_number, sop_name, trainer_name, comments, training_date, employee_ids, related_to, type_training, description, assessment, control, version) => {
+const addTraining = async (training_name, sop_number, sop_name, trainer_name, comments, training_date, employee_ids, type_training, description, assessment, control, version) => {
 
     if (!Array.isArray(employee_ids) || employee_ids.length === 0) {
         throw new Error('employee_ids must be a non-empty array');
     }
     try {
-        console.log('Data from db',training_name, sop_number, sop_name, trainer_name, comments, training_date, employee_ids, related_to, type_training, description, assessment, control, version);
+        console.log('Data from db',training_name, sop_number, sop_name, trainer_name, comments, training_date, employee_ids, type_training, description, assessment, control, version);
         const currentMaxTrainingId = await maxTrainingId();
         let training_id = currentMaxTrainingId + 1;
         // Fetch site_id, position_id, and department_id for each employee_id
@@ -99,7 +99,6 @@ const addTraining = async (training_name, sop_number, sop_name, trainer_name, co
             department_id,
             training_date,
             id,
-            related_to,
             type_training,
             description, 
             assessment,
@@ -111,7 +110,7 @@ const addTraining = async (training_name, sop_number, sop_name, trainer_name, co
         const insertTrainingQuery = `
             INSERT INTO training (
                 training_id, training_name, sop_number, sop_name, trainer_name, comments, 
-                site_id, position_id, department_id, training_date, employee_id, related_to, type_training, description, 
+                site_id, position_id, department_id, training_date, employee_id, type_training, description, 
                 assessment, control, version
             ) 
             VALUES ?;
@@ -127,7 +126,7 @@ const addTraining = async (training_name, sop_number, sop_name, trainer_name, co
 
 const getTrainingBySopNumber = (sopNumber) => {
     return new Promise((resolve, reject) => {
-        db.query('SELECT DISTINCT training_id, training_name, sop_number, sop_name, trainer_name, comments, training_date, related_to, type_training, description, assessment, control, version FROM training WHERE sop_number = ?', [sopNumber], (err, rows) => {
+        db.query('SELECT DISTINCT training_id, training_name, sop_number, sop_name, trainer_name, comments, training_date, type_training, description, assessment, control, version FROM training WHERE sop_number = ?', [sopNumber], (err, rows) => {
             if (err) {
                 console.error('Database query error:', err);
                 return reject(err);
