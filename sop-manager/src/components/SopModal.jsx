@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 
 import { Modal, TextField, Box, Typography, Button, TableContainer, TableBody, TableCell, TableRow, Select, MenuItem } from '@mui/material';
+import { FormControl, InputLabel } from '@mui/material';
 import axios from 'axios';
 
 const style = {
@@ -109,14 +110,19 @@ useEffect(() => {
                         </TableRow>
                         <TableRow>
                             <TableCell>
-                                <Select
-                                    value={active}
-                                    onChange={(e) => setActive(e.target.value)}
-                                    fullWidth   
-                                >
-                                    <MenuItem value="Yes">Yes</MenuItem>    
-                                    <MenuItem value="No">No</MenuItem>  
-                                </Select>
+                                <FormControl fullWidth>
+                                    <InputLabel id="active-select-label">Active</InputLabel>
+                                    <Select
+                                        variant='outlined'
+                                        label="Active"
+                                        value={active}
+                                        onChange={(e) => setActive(e.target.value)}
+                                        fullWidth
+                                    >
+                                        <MenuItem value="Yes">Yes</MenuItem>
+                                        <MenuItem value="No">No</MenuItem>
+                                    </Select>
+                            </FormControl>
                             </TableCell>
                             <TableCell>
                                 <TextField
@@ -128,20 +134,24 @@ useEffect(() => {
                         </TableRow>
                         <TableRow>
                             <TableCell>
-                                <Select
-                                    label="Topic"
-                                    value={sopTopic}
-                                    onChange={(e) => setSopTopic(e.target.value)}
-                                    fullWidth
-                                >
-                                {topics.map((topic) => (
-                                    <MenuItem 
-                                        key={topic.ID} 
-                                        value={topic.ID}>
-                                        {topic.Name}
-                                    </MenuItem>
-                                ))}
-                                </Select>
+                                <FormControl>
+                                    <InputLabel id="topic-select-label">Topic</InputLabel>
+
+                                        <Select
+                                            label="Topic"
+                                            value={sopTopic}
+                                            onChange={(e) => setSopTopic(e.target.value)}
+                                            fullWidth
+                                        >
+                                        {topics.map((topic) => (
+                                            <MenuItem 
+                                                key={topic.ID} 
+                                                value={topic.ID}>
+                                                {topic.Name}
+                                            </MenuItem>
+                                        ))}
+                                        </Select>
+                                </FormControl>
                             </TableCell>
                             
                             <TableCell>

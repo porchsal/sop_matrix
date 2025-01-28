@@ -2,7 +2,7 @@ import Sidenav from './Sidenav';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Box, Paper, Typography, Table, TableCell, TextField, TableBody, TableRow, FormControl, FormLabel, FormGroup, Select, TableHead } from '@mui/material';
-import { Checkbox, FormControlLabel, Button, MenuItem,  } from '@mui/material';
+import { Checkbox, FormControlLabel, Button, MenuItem, InputLabel  } from '@mui/material';
 import DatePickerComponent from './DatePickerComponent';
 import axios from 'axios';
 
@@ -26,6 +26,8 @@ const NewTraining = () =>{
     const [typeTraining, setTypeTraining] = useState([]);
     const [description, setDescription] = useState([]);
     const [assessment, setAssessment] = useState([]);
+    const [changeControl, setChangeControl] = useState([]);
+    const [version, setVersion] = useState([]);
     const navigate = useNavigate();
     const location = useLocation();
     const originalTraining = location.state?.training;
@@ -157,7 +159,9 @@ useEffect(() => {
             related_to: relatedTo,
             type_training: typeTraining,
             description: description,
-            assessment: assessment
+            assessment: assessment,
+            control: changeControl,
+            version: version,
         };
        
         try {
@@ -263,6 +267,17 @@ useEffect(() => {
                                 />
                             </TableCell>
                         </TableRow>
+                        <TableRow sx={{ display: 'flex', justifyContent: "center" }}>
+                            <TableCell sx={{ flex: 1 }} >
+                                <TextField  
+                                    label="Change Control / Deviation Report Number"
+                                    fullWidth
+                                    margin="normal"
+                                    variant="outlined"
+                                    onChange={(e) => setChangeControl(e.target.value)}
+                                />
+                            </TableCell>
+                        </TableRow>
                         <TableRow>
                             <TableCell>
                                 <TextField
@@ -287,15 +302,18 @@ useEffect(() => {
                                 />
                             </TableCell>
                         </TableRow>
-                        <TableRow>
-                            <TableCell>
+                        <TableRow sx={
+                            { display: 'flex', justifyContent: "center" }
+                        } >
+                            <TableCell sx={
+                                { flex: 1 }
+                            }>
                                 <FormControl >
                                     <FormLabel component="legend">Training Assessment Required?:</FormLabel>
                                     <Select
                                         labelId="Assessment"
                                         value={assessment}
                                         label="Training Assessment Required?:"
-                                        fullWidth
                                         margin="normal"
                                         variant="outlined"
                                         onChange={(e) => setAssessment(e.target.value)}
@@ -305,7 +323,19 @@ useEffect(() => {
 
                                     </Select>
                                 </FormControl>
-
+                            </TableCell>
+                            <TableCell sx={
+                                { flex: 1 }
+                            }>
+                                <TextField
+                                    label="Version"
+                                    multiline
+                                    rows={5}
+                                    margin="normal"
+                                    variant="outlined"
+                                    onChange={(e) => setVersion(e.target.value)}
+                                    sx={{ width: '300px' }}
+                                />
                             </TableCell>
                         </TableRow>
                         <TableRow>

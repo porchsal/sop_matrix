@@ -126,7 +126,7 @@ import SopModal from './SopModal';
     const tablePaginationComponent = <TablePagination
        rowsPerPageOptions={[5, 10, 25]}
        component="div"
-       count={sopList.length}
+       count={filteredSopList.length}
        rowsPerPage={rowsPerPage}
        page={page}
        onPageChange={handleChangePage}

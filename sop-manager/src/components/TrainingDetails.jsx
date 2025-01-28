@@ -62,6 +62,7 @@ function TrainingDetails() {
     };
 
     const handlePrint = () => {
+        console.log("Printing...", training, empList);
         const printWindow = window.open("", "_blank");
         printWindow.document.write(`
       <html>
@@ -74,7 +75,9 @@ function TrainingDetails() {
                             <img src=${logo} alt="Logo" style="width: 150px; height: auto; display: block; margin-left: auto; margin-right: auto; margin-top: 20px; margin-bottom: 20px;">
                         </th>
                             <th style="width: 40%; text-align: center;">Group Training Session Attendance Sheet</th>
-                            <th style="width: 40%; text-align: right">Chief Medical Supplies Ltd.</th>
+                            <th style="width: 40%; text-align: right; white-space: pre-wrap; vertical-align: top;">
+                            ${training.version}
+                            </th>
                     </tr>
           <title>Training Details</title>
           <style>
@@ -127,6 +130,10 @@ function TrainingDetails() {
                     <td>${training.type_training}</td>
                 </tr>
                 <tr>
+                    <th>Change Control or Deviation Report Number:</th>
+                    <td>${training.control}</td>
+                </tr>
+                <tr>
                     <th colspan="2" style="text-align: center; font-weight: bold; width: 100%;">
                         Description of training
                     </th>
@@ -135,7 +142,7 @@ function TrainingDetails() {
             
             
                 <tr>
-                    <td colspan="2" style="border: 1px solid black; height: 300px;">${training.description}</td>
+                    <td colspan="2" style="border: 1px solid black; height: 300px; white-space: pre-wrap; vertical-align: top; ">${training.description}</td>
                 </tr>
                 <tr>
                 <th>Training Assessment Required?:</th>
@@ -161,7 +168,7 @@ function TrainingDetails() {
 
                 </tr>
                 <th>Comments:</th>
-                <td style="height: 100px;">&nbsp;</td>
+                <td style="height: 100px; white-space: pre-wrap; vertical-align: top;">${training.comments}</td>
 
 
             </thead>
@@ -272,7 +279,6 @@ function TrainingDetails() {
                         component="th" 
                         scope="row" 
                         sx={{ border: '1px solid black', width: '60%' }}
-                        
                     >
                         <Typography variant="h6">
                             {training.sop_number}
@@ -283,7 +289,7 @@ function TrainingDetails() {
                 <TableCell 
                         component="th" 
                         scope="row" 
-                        sx={{ border: '1px solid black', width: '40%', backgroundColor: '#f4f4f4' }}
+                        sx={{ border: '1px solid black', width: '60%', backgroundColor: '#f4f4f4' }}
                     >
                         <Typography variant="h6" >
                             Training Session Name / SOP Title:
@@ -342,7 +348,8 @@ function TrainingDetails() {
                         ))}
                     </TableBody>
                 </Table>
-            </TableContainer>{/* Button to open print dialog */}
+            </TableContainer>
+            {/* Button to open print dialog */}
                 <Button
                     variant="contained"
                     color="primary"
@@ -362,7 +369,7 @@ function TrainingDetails() {
                     <Typography>SOP Name: {training.sop_name}</Typography>
                     <Typography>Trainer Name: {trainer}</Typography>
                     <Typography>Training Date: {formatDateTimeForSQL(training.training_date)}</Typography>
-                    <Typography variant="h6" sx={{ mt: 2 }}>
+                    {/* <Typography variant="h6" sx={{ mt: 2 }}>
                         Employees
                     </Typography>
                     <TableHead>
@@ -378,7 +385,7 @@ function TrainingDetails() {
                                 <TableCell></TableCell>
                             </TableRow>
                         ))}
-                    </TableBody>
+                    </TableBody> */}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => setOpenPrintDialog(false)} color="secondary">
