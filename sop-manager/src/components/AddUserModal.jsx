@@ -37,7 +37,6 @@ const style = {
         try {
             const newUser = { username, first_name: firstName, last_name: lastName, password, profile };
             const response = await axios.post('http://localhost:3010/api/users/add', newUser);
-            console.log('Add User Response:', response.data);
             if (response.data) {
                 setUsername("");
                 setFirstName("");

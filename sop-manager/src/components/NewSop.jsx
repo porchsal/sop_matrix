@@ -5,6 +5,7 @@ import { Table, TextField, Box, Typography, Button, TableContainer, TableBody, T
 import Sidenav from "./Sidenav";
 import { useNavigate } from "react-router-dom";
 import DatePickerComponent from './DatePickerComponent';
+import formatDateTimeForSQL from '../helpers/formatDateTimeForSQL';
 
 const NewSop = () => {
     const [sopNumber, setSopNumber] = useState();
@@ -35,10 +36,10 @@ const NewSop = () => {
         fetchData();
     }, []);
 
-    const formatDateTimeForSQL = (dateTime) => {
-        const date = new Date(dateTime);
-        return date.toISOString().slice(0, 10);
-    };
+    // const formatDateTimeForSQL = (dateTime) => {
+    //     const date = new Date(dateTime);
+    //     return date.toISOString().slice(0, 10);
+    // };
 
     const addSop = async (newSop) => {
         try {

@@ -6,6 +6,7 @@ import axios from 'axios'
 import Sidenav from "./Sidenav";
 import { useParams } from "react-router-dom";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
+import formatDateTimeForSQL from '../helpers/formatDateTimeForSQL';
 
 function TrainingList() {
     const [trainingList, setTrainingList] = useState([]);
@@ -38,10 +39,10 @@ function TrainingList() {
         navigate(`/training/details/${training.training_id}`, {state: {training}});
     }
 
-    const formatDateTimeForSQL = (dateTime) => {
-        const date = new Date(dateTime);
-        return date.toISOString().slice(0, 10);
-      };
+    // const formatDateTimeForSQL = (dateTime) => {
+    //     const date = new Date(dateTime);
+    //     return date.toISOString().slice(0, 10);
+    //   };
 
     const handleDelete = async (training) => {  
         try {

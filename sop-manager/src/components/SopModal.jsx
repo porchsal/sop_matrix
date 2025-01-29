@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Modal, TextField, Box, Typography, Button, TableContainer, TableBody, TableCell, TableRow, Select, MenuItem } from '@mui/material';
 import { FormControl, InputLabel } from '@mui/material';
 import axios from 'axios';
+import formatDateTimeForSQL from '../helpers/formatDateTimeForSQL';
 
 const style = {
   position: 'absolute',
@@ -29,10 +30,10 @@ const style = {
     const [link, setLink] = useState([]);
     const [sopComment, setSopComment] = useState([]);
 
-    const formatDateTimeForSQL = (dateTime) => {
-        const date = new Date(dateTime);
-        return date.toISOString().slice(0, 10);
-    };
+    // const formatDateTimeForSQL = (dateTime) => {
+    //     const date = new Date(dateTime);
+    //     return date.toISOString().slice(0, 10);
+    // };
 
     useEffect(() => {
         const fetchData = async () => {

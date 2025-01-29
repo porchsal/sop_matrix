@@ -1,6 +1,10 @@
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 // eslint-disable-next-line react/prop-types
 const Navbar = ({ username, onLogout }) => {
+
+  const navigate = useNavigate();
+
   return (
     <>
     
@@ -17,11 +21,11 @@ const Navbar = ({ username, onLogout }) => {
             alt="Logo"
             backgroundColor='transparent'
             sx={{
-              height: 60, // Ajusta el tamaño de la imagen
-              
-              marginLeft: 25, // Ajusta el margen izquierdo
+              height: 60, 
+              marginLeft: 25,
+              cursor: 'pointer' 
             }}
-            onClick={() => window.location.href = '/'}
+            onClick={() =>  navigate('/') }
           />
 
         <Typography variant="h6" sx={{ flexGrow: 1 }}>

@@ -13,6 +13,7 @@ import { Button, List, TextField } from "@mui/material";
 import TablePagination from '@mui/material/TablePagination';
 import { useNavigate } from "react-router-dom";
 import SopModal from './SopModal';
+import formatDateTimeForSQL from '../helpers/formatDateTimeForSQL';
 
    function Sop() {
     const [sopList, setSopList] = useState([]); 
@@ -132,10 +133,10 @@ import SopModal from './SopModal';
        onPageChange={handleChangePage}
        onRowsPerPageChange={handleChangeRowsPerPage} />;
 
-    const formatDateTimeForSQL = (dateTime) => {
-      const date = new Date(dateTime);
-      return date.toISOString().slice(0, 10);
-    };
+    // const formatDateTimeForSQL = (dateTime) => {
+    //   const date = new Date(dateTime);
+    //   return date.toISOString().slice(0, 10);
+    // };
 
     const formatAged = (dateTime) => {  
       const date = new Date(dateTime);

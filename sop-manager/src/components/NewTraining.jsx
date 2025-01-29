@@ -5,6 +5,7 @@ import { Box, Paper, Typography, Table, TableCell, TextField, TableBody, TableRo
 import { Checkbox, FormControlLabel, Button, MenuItem  } from '@mui/material';
 import DatePickerComponent from './DatePickerComponent';
 import axios from 'axios';
+import formatDateTimeForSQL from '../helpers/formatDateTimeForSQL';
 
 const NewTraining = () =>{
     
@@ -103,12 +104,12 @@ useEffect(() => {
     }, [selectedSites, selectedPosition, selectedDepartment]);
 
     const versionLabel = `
-    Chief Medical Supplies ltd.
-    Document No.
-    CF-B2-002
-    Version 6.0
-    Effective Date: 2025-01-31
-    `.replace(/\n/g, '<br>');
+    Chief Medical Supplies Ltd./n
+    Document No./n
+    CF-B2-002/n
+    Version 6.0/n
+    Effective Date: 2025-01-31/n
+    `;
 
 
     const handleSiteChange = (event) => {
@@ -142,11 +143,6 @@ useEffect(() => {
     const handleTrainerChange = (event) => {
         const trainerId = Number(event.target.value);
         setSelectedTrainer(trainerId);
-    };
-
-    const formatDateTimeForSQL = (dateTime) => {
-        const date = new Date(dateTime);
-        return date.toISOString().slice(0, 10);
     };
 
     const handleSave = async () => {
@@ -332,8 +328,7 @@ useEffect(() => {
                             <Paper sx={{ p: 2 }}>
                             <Typography variant="h4" gutterBottom>Select Employees</Typography>
                             <Box sx={{ display: 'flex', flexDirection: 'row', gap: '16px' }}>
-                                {/* <Typography variant="h6">Related to:</Typography> */}
-                                    <FormControl component="fieldset">
+                                  <FormControl component="fieldset">
                                         <FormLabel component="legend">Main Site</FormLabel>
                                         <FormGroup  >
                                             {sites.map((site) => (

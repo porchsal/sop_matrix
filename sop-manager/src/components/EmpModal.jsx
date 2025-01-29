@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { Modal, TextField, Box, Typography, Button, TableContainer, TableBody, TableCell, TableRow, Select, MenuItem } from '@mui/material';
 import axios from 'axios';
+import formatDateTimeForSQL from '../utils/formatDateTimeForSQL';
 
 const style = {
   position: 'absolute',
@@ -46,10 +47,10 @@ const EmpModal = ({ open, handleClose, employee, updatedEmployeeData }) => {
         fetchData();
     }, []);
     
-    const formatDateTimeForSQL = (dateTime) => {
-        const date = new Date(dateTime);
-        return date.toISOString().slice(0, 10);
-    };
+    // const formatDateTimeForSQL = (dateTime) => {
+    //     const date = new Date(dateTime);
+    //     return date.toISOString().slice(0, 10);
+    // };
 
     useEffect(() => {
         setName(employee.name);
