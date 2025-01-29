@@ -1,7 +1,7 @@
 const db = require('../connection.js');
 const bcrypt = require('bcryptjs');
 
-const addUser = (username, first_name, last_name, password) => {
+const addUser = (username, first_name, last_name, password, profile) => {
 
     return new Promise((resolve, reject) => {
         bcrypt.hash(password, 10, (err, hash) => {
@@ -9,7 +9,7 @@ const addUser = (username, first_name, last_name, password) => {
                 console.error('Error hashing password:', err);
                 return reject(err);
             }
-            db.query('INSERT INTO users (username, first_name, last_name, password) VALUES (?, ?, ?, ?)', [username, first_name, last_name, hash], (err, rows) => {
+            db.query('INSERT INTO users (username, first_name, last_name, password, profile) VALUES (?, ?, ?, ?, ?)', [username, first_name, last_name, hash, profile], (err, rows) => {
                 if (err) {
                     console.error('Database query error:', err);
                     return reject(err);

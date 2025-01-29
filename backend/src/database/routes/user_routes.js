@@ -5,15 +5,15 @@ const session = require("express-session");
 const jwt = require("jsonwebtoken");
 
 router.post("/users/add", (req, res) => {
-    const { username, first_name, last_name, password } = req.body;
+    const { username, first_name, last_name, password, profile } = req.body;
     // Check if all required fields are provided
-    if (!username || !first_name || !last_name || !password) {
+    if (!username || !first_name || !last_name || !password || !profile) {
         return res.status(400).json({
             success: false,
             message: "Please provide all required fields",
         });
     }
-    userQueries.addUser(username, first_name, last_name, password).then((addedUser) => {
+    userQueries.addUser(username, first_name, last_name, password, profile).then((addedUser) => {
         if (!addedUser) {
             return res.status(500).json({
                 success: false,
@@ -57,7 +57,7 @@ router.post("/signin", async (req, res) => {
                 message: "Invalid credentials. Please try again.",
             });
         }
-        const token = jwt.sign({ id: foundUser.id }, process.env.JWT_SECRET, { expiresIn: "2h" });  
+        const token = jwt.sign({ id: foundUser.id }, process.env.JWT_SECRET, { expiresIn: "1h" });  
         res.cookie("token", token, { httpOnly: true, secure: false });
         
         res.status(200).json({
