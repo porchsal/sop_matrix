@@ -27,32 +27,75 @@ const style = {
     const [networkError, setNetworkError] = useState("");
     const [profile, setProfile] = useState("");
 
+    // const handleSave = async () => {
+    //     if (!username || !firstName || !lastName || !password || !profile) {
+    //         setError("All fields are required");
+    //         return;
+    //     }
+    //     setLoading(true);
+    //     setError("");
+    //     try {
+    //         const newUser = { username, first_name: firstName, last_name: lastName, password, profile };
+    //         console.log(newUser);
+    //         const response = await axios.post('http://localhost:3010/api/users/add', newUser);
+    //         if (response.data) {
+    //             setUsername("");
+    //             setFirstName("");
+    //             setLastName("");
+    //             setPassword("");
+    //             setProfile("");
+    //             handleClose();
+    //         } else {
+    //             setNetworkError("Error adding user", error);
+    //         }
+    //     } catch (error) {
+    //         console.error('Error adding user:', error);
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // }
+
     const handleSave = async () => {
-        if (!username || !firstName || !lastName || !password || !profile) {
-            setError("All fields are required");
-            return;
-        }
-        setLoading(true);
-        setError("");
-        try {
-            const newUser = { username, first_name: firstName, last_name: lastName, password, profile };
-            const response = await axios.post('http://localhost:3010/api/users/add', newUser);
-            if (response.data) {
-                setUsername("");
-                setFirstName("");
-                setLastName("");
-                setPassword("");
-                setProfile("");
-                handleClose();
-            } else {
-                setNetworkError("Error adding user", error);
-            }
-        } catch (error) {
-            console.error('Error adding user:', error);
-        } finally {
-            setLoading(false);
-        }
+    if (!username || !firstName || !lastName || !password || !profile) {
+        setError("All fields are required");
+        return;
     }
+
+    setLoading(true);
+    setError("");
+    setNetworkError("");
+
+    try {
+        const newUser = { username, first_name: firstName, last_name: lastName, password, profile };
+        const response = await axios.post('http://localhost:3010/api/users/add', newUser);
+
+        if (response.data.success) {
+            setUsername("");
+            setFirstName("");
+            setLastName("");
+            setPassword("");
+            setProfile("");
+            handleClose();
+            alert("User added successfully");
+        } else {
+            setError(response.data.message || "Error adding user");
+        }
+    } catch (error) {
+        if (error.response) {
+            // ⚠️ Error del servidor con respuesta JSON
+            setError(error.response.data.message || "Server error occurred.");
+        } else if (error.request) {
+            // ⚠️ Error de red
+            setNetworkError("Network error. Please check your connection.");
+        } else {
+            // ⚠️ Otro tipo de error
+            setError("Unexpected error occurred.");
+        }
+    } finally {
+        setLoading(false);
+    }
+};
+
 
     return (
         <Modal

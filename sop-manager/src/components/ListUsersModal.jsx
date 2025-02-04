@@ -37,6 +37,7 @@ useEffect(() => {
 }, []);
 
 const handleChangePassword = async (userId) => {
+    setError("");
     const newPassword = newPasswords[userId];
     if (!newPassword) {
         setError("New password is required");
@@ -46,15 +47,22 @@ const handleChangePassword = async (userId) => {
     setError("");
     try {
         const response = await axios.post('http://localhost:3010/api/change-password', { userId, newPassword });
-        console.log('Change Password Response:', response.data);
-        if (response.data) {
+        if (response.data.success   ) {
             setNewPasswords("");
             handleClose();
+            alert("Password updated successfully");
         } else {
-            setError("Error changing password", error);
+            setError(response.data.message || "Error updating password.");
+            
         }
     } catch (error) {
-        console.error('Error changing password:', error);
+        if (error.response) {
+            setError(error.response.data.message || "Error updating password.");
+        } else if (error.request) {
+            setError("Network error. Please try again.");
+        } else {
+            setError("An error occurred. Please try again.");
+        }
     } finally {
         setLoading(false);
     }
@@ -111,6 +119,7 @@ return (
                                         helperText={error}
                                         required
                                         fullWidth
+                                        type="password"
                                         variant="outlined"
                                         sx={{ mb: 3}}
                                     />

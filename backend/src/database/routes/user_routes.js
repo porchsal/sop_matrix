@@ -4,26 +4,38 @@ const userQueries = require("../queries/user_queries");
 const session = require("express-session");
 const jwt = require("jsonwebtoken");
 
-router.post("/users/add", (req, res) => {
+router.post("/users/add", async (req, res) => {
     const { username, first_name, last_name, password, profile } = req.body;
-    // Check if all required fields are provided
+
+    // Validate fields complete
     if (!username || !first_name || !last_name || !password || !profile) {
         return res.status(400).json({
             success: false,
             message: "Please provide all required fields",
         });
     }
-    userQueries.addUser(username, first_name, last_name, password, profile).then((addedUser) => {
-        if (!addedUser) {
-            return res.status(500).json({
+
+    try {
+        const addedUser = await userQueries.addUser(username, first_name, last_name, password, profile);
+
+        if (addedUser.success === false) {
+            return res.status(400).json({
                 success: false,
-                message: "Error adding user",
+                message: addedUser.message, 
             });
         }
 
-        res.status(200).json(addedUser);
-    });
-})
+        res.status(200).json({ success: true, message: "User added successfully" });
+
+    } catch (error) {
+        console.error("Error in /users/add route:", error);
+        res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+        });
+    }
+});
+
 
 router.get("/user/:id", (req, res) => {
     const { id } = req.params;
@@ -91,8 +103,9 @@ router.get("/users", (req, res) => {
     });
 });
 
-router.post("/change-password", (req, res) => {
+router.post("/change-password", async (req, res) => {
     const {userId, newPassword} = req.body;
+    console.log("Change Password Request:", req.body);
     // Check if all required fields are provided
     if (!userId || !newPassword) {
         return res.status(400).json({
@@ -101,21 +114,20 @@ router.post("/change-password", (req, res) => {
         });
     }
     try {
-        userQueries.changePassword(userId, newPassword).then((result) => {
-            if (!result) {
-                return res.status(500).json({
-                    success: false,
-                    message: "Error changing password",
-                });
-            }
-
-            res.status(200).json(result);
+        const result = await userQueries.changePassword(userId, newPassword);
+        if (!result.success) {
+            return res.status(400).json(result);
+        }
+        res.status(200).json({
+            success: true,
+            message: "Password updated successfully.",
         });
+        
     } catch (error) {
         console.error("Error changing password:", error);
         res.status(500).json({
             success: false,
-            message: "Error changing password",
+            message: error.message,
         });
     }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react'
 import Sidenav from './Sidenav'
 
@@ -10,7 +11,7 @@ function Home() {
     const fetchData = async () => {
       const token = localStorage.getItem('token');
       try {
-        const response = await fetch('http://localhost:3010/api/protected-route', {
+        const response = await fetch('http://localhost:3010/api/protected_route', {
           method: 'GET',
           headers: {
              Authorization: `Bearer ${token}`,

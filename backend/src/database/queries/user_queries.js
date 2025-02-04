@@ -1,24 +1,71 @@
 const db = require('../connection.js');
 const bcrypt = require('bcryptjs');
 
-const addUser = (username, first_name, last_name, password, profile) => {
+// const addUser = (username, first_name, last_name, password, profile) => {
 
-    return new Promise((resolve, reject) => {
-        bcrypt.hash(password, 10, (err, hash) => {
-            if (err) {
-                console.error('Error hashing password:', err);
-                return reject(err);
-            }
-            db.query('INSERT INTO users (username, first_name, last_name, password, profile) VALUES (?, ?, ?, ?, ?)', [username, first_name, last_name, hash, profile], (err, rows) => {
-                if (err) {
-                    console.error('Database query error:', err);
-                    return reject(err);
-                }
-                resolve(rows);
-            });
-        });
-    });
-}
+//     return new Promise((resolve, reject) => {
+//         bcrypt.hash(password, 10, (err, hash) => {
+//             if (err) {
+//                 console.error('Error hashing password:', err);
+//                 return reject(err);
+//             }
+//             db.query('INSERT INTO users (username, first_name, last_name, password, profile) VALUES (?, ?, ?, ?, ?)', [username, first_name, last_name, hash, profile], (err, rows) => {
+//                 if (err) {
+//                     console.error('Database query error:', err);
+//                     return reject(err);
+//                 }
+//                 resolve(rows);
+//             });
+//         });
+//     });
+// }
+
+
+// Validates username
+const validateUsername = (username) => {
+    const usernameRegex = /^(?![_\.])[a-zA-Z0-9._]{5,}(?<![_\.])$/;
+    return usernameRegex.test(username);
+};
+
+// Validates password
+const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    return passwordRegex.test(password);
+};
+
+// Verifies if username exists
+const usernameExists = async (username) => {
+    const [rows] = await db.promise().query('SELECT COUNT(*) as count FROM users WHERE username = ?', [username]);
+    return rows[0].count > 0; 
+};
+
+const addUser = async (username, first_name, last_name, password, profile) => {
+    try {
+        if (!validateUsername(username)) {
+            return { success: false, message: "Username must be at least 5 characters, letters, numbers." };
+        }
+
+        if (await usernameExists(username)) {
+            return { success: false, message: "Username already in use, choose a different." };
+        }
+
+        if (!validatePassword(password)) {
+            return { success: false, message: "Password must be at least 8 characters, include capital letters, small letters and numbers." };
+        }
+
+        const hash = await bcrypt.hash(password, 10);
+
+        const [rows] = await db.promise().query(
+            'INSERT INTO users (username, first_name, last_name, password, profile) VALUES (?, ?, ?, ?, ?)',
+            [username, first_name, last_name, hash, profile]
+        );
+
+        return rows;
+    } catch (err) {
+        console.error('Error en addUser:', err.message);
+        throw err; 
+    }
+};
 
 const getUserByUsername = (username) => {
   return new Promise((resolve, reject) => {
@@ -57,7 +104,12 @@ const getUsers = () => {
 }
 
 const changePassword = (userId, password) => {
-   return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
+        if (!validatePassword(password)) {
+            return reject({ success: false, message: "Password must be at least 8 characters, include capital letters, small letters and numbers." });
+        }
+
+   
       bcrypt.hash(password, 10, (err, hash) => {
           if (err) {
               console.error('Error hashing password:', err);
@@ -66,9 +118,12 @@ const changePassword = (userId, password) => {
           db.query('UPDATE users SET password = ? WHERE id = ?', [hash, userId], (err, rows) => {
               if (err) {
                   console.error('Database query error:', err);
-                  return reject(err);
+                  return reject({ success: false, message: "Database error while updating password." });
               }
-              resolve(rows);
+              if (rows.affectedRows === 0) {
+                return reject({ success: false, message: "User ID not found or password not updated." });
+            }
+              resolve({ success: true, message: "Password updated successfully." });
           });
       });
   });
