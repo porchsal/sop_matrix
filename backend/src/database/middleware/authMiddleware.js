@@ -3,7 +3,7 @@ const db = require("../connection");
 require('dotenv').config();
 const secretKey = process.env.JWT_SECRET;
 
-const auth_middleware = (req, res, next) => {
+const auth_middleware = async (req, res, next) => {
     const token = req.headers.authorization?.split(' ')[1];
     if (!token) {
         return res.status(401).json({ error: "Unauthorized" });

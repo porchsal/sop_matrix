@@ -5,10 +5,20 @@ const session = require("express-session");
 const jwt = require("jsonwebtoken");
 
 router.post("/users/add", async (req, res) => {
-    const { username, first_name, last_name, password, profile } = req.body;
+    const { username, first_name, last_name, password, role_id } = req.body;
+
+
+    // Role Based Access Control: Only allow admins to add users
+    const allowedRoles = ['Administrator', 'Manager']; // Define roles that can add users
+    if (!allowedRoles.includes(req.user.role)) {
+        return res.status(403).json({
+            success: false,
+            message: "Forbidden: You do not have permission to add users",
+        });
+    }
 
     // Validate fields complete
-    if (!username || !first_name || !last_name || !password || !profile) {
+    if (!username || !first_name || !last_name || !password || !role_id) {
         return res.status(400).json({
             success: false,
             message: "Please provide all required fields",
@@ -16,7 +26,12 @@ router.post("/users/add", async (req, res) => {
     }
 
     try {
-        const addedUser = await userQueries.addUser(username, first_name, last_name, password, profile);
+        const addedUser = await userQueries.addUser(
+            username, 
+            first_name, 
+            last_name, 
+            password, 
+            role_id);
 
         if (addedUser.success === false) {
             return res.status(400).json({
