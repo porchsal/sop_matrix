@@ -389,8 +389,8 @@ function TrainingDetails() {
                     <TableBody>
                         {empList.map((employee) => (
                             <TableRow key={employee.employee_id}>
-                                <TableCell>{employee.employee_id}</TableCell>
                                 <TableCell>{employee.name}</TableCell>
+                                <TableCell> </TableCell>
                                 <TableCell></TableCell>
                             </TableRow>
                         ))}

@@ -145,7 +145,10 @@ const style = {
                     sx={{ mb: 2 }}
                 >
                     <option value="admin">Administrator</option>
-                    <option value="user">User</option>
+                    <option value="Manager">Manager</option>
+                    <option value="editor">Contributor</option>
+                    <option value="viewer">Viewer</option>
+
                 </Select> 
 
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
