@@ -84,226 +84,334 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
+// function Sidenav() {
+//   const theme = useTheme();
+//   const [open, setOpen] = React.useState(false);
+//   const [employeeSubMenuOpen, setEmployeeSubMenuOpen] = React.useState(false);
+//   const [sopSubMenuOpen, setSopSubMenuOpen] = React.useState(false);
+//   const navigate = useNavigate();
+//   const role = localStorage.getItem('role');
+
+//   const handleEmployeeSubMenuClick = () => {
+//     setOpen(!open);
+//     setEmployeeSubMenuOpen(!employeeSubMenuOpen);
+//   }
+
+//   const handleSopSubMenuClick = () => {
+//     setOpen(!open);
+//     setSopSubMenuOpen(!sopSubMenuOpen);
+//   }
+
+//   const canSeeAdminOptions = role === "Manager" || role === "Administrator";
+
+//   return (
+//     <Box sx={{ display: 'flex' }}>
+//       <CssBaseline />
+
+//       <Drawer 
+//         variant="permanent" open={open}>
+//         <DrawerHeader>
+//           <IconButton onClick={() => setOpen(!open)}>
+//             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+//           </IconButton>
+//         </DrawerHeader>
+//         <Divider />
+        
+//         <Divider />
+//         <List>
+//           {/* SOP submenu */}
+//         <ListItem disablePadding sx={{ display: 'block' }} onClick={handleSopSubMenuClick}>
+//               <ListItemButton
+
+//                 sx={[
+//                   { minHeight: 48, px: 2.5, },
+//                   open ? { justifyContent: 'initial', } : { justifyContent: 'center', },
+//                 ]}
+//               >
+//                 <ListItemIcon
+//                   sx={[
+//                     { minWidth: 0, justifyContent: 'center', },
+//                     open ? { mr: 3, } : { mr: 'auto', },
+//                   ]}
+//                 >
+//                   {<LibraryBooksIcon />}
+//                 </ListItemIcon>
+//                 <ListItemText primary="SOP" sx={[open ? { opacity: 1, } : { opacity: 0, },]} />
+//                 {sopSubMenuOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+//               </ListItemButton>
+//             </ListItem>
+//             {/* Submenu Content*/}
+//             <Collapse in={sopSubMenuOpen} timeout="auto" unmountOnExit>
+//               <List component="div" disablePadding>
+//                 <ListItemButton disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/sop")}} >
+//                   <ListItemText primary="SOP List" />
+//                 </ListItemButton>
+//                 <ListItemButton disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/sop/inactive")}} >
+//                   <ListItemText primary="Inactive SOP" />
+//                 </ListItemButton>
+//               </List>
+//             </Collapse>
+         
+//             <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/training")}}>
+//               <ListItemButton
+//                 sx={[
+//                   {
+//                     minHeight: 48,
+//                     px: 2.5,
+//                   },
+//                   open
+//                     ? {
+//                         justifyContent: 'initial',
+//                       }
+//                     : {
+//                         justifyContent: 'center',
+//                       },
+//                 ]}
+//               >
+//                 <ListItemIcon
+//                   sx={[
+//                     {
+//                       minWidth: 0,
+//                       justifyContent: 'center',
+//                     },
+//                     open
+//                       ? {
+//                           mr: 3,
+//                         }
+//                       : {
+//                           mr: 'auto',
+//                         },
+//                   ]}
+//                 >
+//                   {<SystemUpdateAltIcon />} 
+//                 </ListItemIcon>
+//                 <ListItemText primary="Training" sx={[open ? { opacity: 1, } : { opacity: 0, },]} />
+//               </ListItemButton>
+//             </ListItem>
+
+//             {/* Employee submenu */}
+//             <ListItem disablePadding sx={{ display: 'block' }} onClick={handleEmployeeSubMenuClick}>
+//               <ListItemButton
+
+//                 sx={[
+//                   { minHeight: 48, px: 2.5, },
+//                   open ? { justifyContent: 'initial', } : { justifyContent: 'center', },
+//                 ]}
+//               >
+//                 <ListItemIcon
+//                   sx={[
+//                     { minWidth: 0, justifyContent: 'center', },
+//                     open ? { mr: 3, } : { mr: 'auto', },
+//                   ]}
+//                 >
+//                   {<GroupIcon />}
+//                 </ListItemIcon>
+//                 <ListItemText primary="Employees" sx={[open ? { opacity: 1, } : { opacity: 0, },]} />
+//                 {employeeSubMenuOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+//               </ListItemButton>
+//             </ListItem>
+
+//             {/* Submenu Content*/}
+//             <Collapse in={employeeSubMenuOpen} timeout="auto" unmountOnExit>
+//               <List component="div" disablePadding>
+//                 <ListItemButton disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/employee")}} >
+//                   <ListItemText primary="Employee List" />
+//                 </ListItemButton>
+//                 <ListItemButton disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/employee/inactive")}} >
+//                   <ListItemText primary="Inactive Employees" />
+//                 </ListItemButton>
+//               </List>
+//             </Collapse>
+//                   {/* ========== Admin Options - Only for Manager and Administrator =========== */}
+//           {canSeeAdminOptions && (
+//             <>
+//               <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/settings")}} >
+//                 <ListItemButton
+//                   sx={[
+//                     {
+//                       minHeight: 48,
+//                       px: 2.5,
+//                     },
+//                     open
+//                       ? {
+//                           justifyContent: 'initial',
+//                         }
+//                       : {
+//                           justifyContent: 'center',
+//                         },
+//                   ]}
+//                 >
+//                   <ListItemIcon
+//                     sx={[
+//                       {
+//                         minWidth: 0,
+//                         justifyContent: 'center',
+//                       },
+//                       open
+//                         ? {
+//                             mr: 3,
+//                           }
+//                         : {
+//                             mr: 'auto',
+//                           },
+//                     ]}
+//                   >
+//                     {<SettingsIcon />} 
+//                   </ListItemIcon>
+//                   <ListItemText primary="Settings" sx={[open ? { opacity: 1, } : { opacity: 0, },]} />
+//                 </ListItemButton>
+//               </ListItem>
+//               <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/users")}} >
+//                 <ListItemButton
+//                   sx={[
+//                     {
+//                       minHeight: 48,
+//                       px: 2.5,
+//                     },
+//                     open
+//                       ? {
+//                           justifyContent: 'initial',
+//                         }
+//                       : {
+//                           justifyContent: 'center',
+//                         },
+//                   ]}
+//                 >
+//                   <ListItemIcon
+//                     sx={[
+//                       {
+//                         minWidth: 0,
+//                         justifyContent: 'center',
+//                       },
+//                       open
+//                         ? {
+//                             mr: 3,
+//                           }
+//                         : {
+//                             mr: 'auto',
+//                           },
+//                     ]}
+//                   >
+//                     {<ManageAccountsIcon />} 
+//                   </ListItemIcon>
+//                   <ListItemText primary="Users" sx={[open ? { opacity: 1, } : { opacity: 0, },]} />
+//                 </ListItemButton>
+//               </ListItem>  
+//             </>
+//           )} 
+//         </List>
+//       </Drawer>
+  
+//     </Box>
+//   );
+// }
+
+
+// export default Sidenav;
+
 function Sidenav() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-  const [employeeSubMenuOpen, setEmployeeSubMenuOpen] = React.useState(false);
-  const [sopSubMenuOpen, setSopSubMenuOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false); // Drawer abierto por defecto
+  const [openSubMenu, setOpenSubMenu] = React.useState(null); // "sop" | "employee" | null
   const navigate = useNavigate();
-  const role = localStorage.getItem('role');
-
-  const handleEmployeeSubMenuClick = () => {
-    setOpen(!open);
-    setEmployeeSubMenuOpen(!employeeSubMenuOpen);
-  }
-
-  const handleSopSubMenuClick = () => {
-    setOpen(!open);
-    setSopSubMenuOpen(!sopSubMenuOpen);
-  }
-
+  const role = localStorage.getItem("role");
   const canSeeAdminOptions = role === "Manager" || role === "Administrator";
 
-  return (
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
+  const toggleSubMenu = (menu) => {
+    setOpenSubMenu((prev) => (prev === menu ? null : menu));
+  };
 
+  return (
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={() => setOpen(!open)}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            {theme.direction === "rtl" ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
         <Divider />
-        
-        <Divider />
+
         <List>
-          {/* SOP submenu */}
-        <ListItem disablePadding sx={{ display: 'block' }} onClick={handleSopSubMenuClick}>
-              <ListItemButton
-
-                sx={[
-                  { minHeight: 48, px: 2.5, },
-                  open ? { justifyContent: 'initial', } : { justifyContent: 'center', },
-                ]}
-              >
-                <ListItemIcon
-                  sx={[
-                    { minWidth: 0, justifyContent: 'center', },
-                    open ? { mr: 3, } : { mr: 'auto', },
-                  ]}
-                >
-                  {<LibraryBooksIcon />}
-                </ListItemIcon>
-                <ListItemText primary="SOP" sx={[open ? { opacity: 1, } : { opacity: 0, },]} />
-                {sopSubMenuOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          {/* SOP */}
+          <ListItem 
+            disablePadding 
+            sx={{ display: "block" }} 
+            onClick={() => {
+              toggleSubMenu("sop")
+              open || setOpen(true);
+              }}>
+            <ListItemButton>
+              <ListItemIcon><LibraryBooksIcon /></ListItemIcon>
+              <ListItemText primary="SOP" sx={{ opacity: open ? 1 : 0 }} />
+              {openSubMenu === "sop" ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            </ListItemButton>
+          </ListItem>
+          <Collapse in={openSubMenu === "sop"} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItemButton onClick={() => navigate("/sop")}>
+                <ListItemText primary="SOP List" />
               </ListItemButton>
-            </ListItem>
-            {/* Submenu Content*/}
-            <Collapse in={sopSubMenuOpen} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                <ListItemButton disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/sop")}} >
-                  <ListItemText primary="SOP List" />
-                </ListItemButton>
-                <ListItemButton disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/sop/inactive")}} >
-                  <ListItemText primary="Inactive SOP" />
-                </ListItemButton>
-              </List>
-            </Collapse>
-         
-            <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/training")}}>
-              <ListItemButton
-                sx={[
-                  {
-                    minHeight: 48,
-                    px: 2.5,
-                  },
-                  open
-                    ? {
-                        justifyContent: 'initial',
-                      }
-                    : {
-                        justifyContent: 'center',
-                      },
-                ]}
-              >
-                <ListItemIcon
-                  sx={[
-                    {
-                      minWidth: 0,
-                      justifyContent: 'center',
-                    },
-                    open
-                      ? {
-                          mr: 3,
-                        }
-                      : {
-                          mr: 'auto',
-                        },
-                  ]}
-                >
-                  {<SystemUpdateAltIcon />} 
-                </ListItemIcon>
-                <ListItemText primary="Training" sx={[open ? { opacity: 1, } : { opacity: 0, },]} />
+              <ListItemButton onClick={() => navigate("/sop/inactive")}>
+                <ListItemText primary="Inactive SOP" />
               </ListItemButton>
-            </ListItem>
+            </List>
+          </Collapse>
 
-            {/* Employee submenu */}
-            <ListItem disablePadding sx={{ display: 'block' }} onClick={handleEmployeeSubMenuClick}>
-              <ListItemButton
+          {/* Training */}
+          <ListItem disablePadding sx={{ display: "block" }} onClick={() => navigate("/training")}>
+            <ListItemButton>
+              <ListItemIcon><SystemUpdateAltIcon /></ListItemIcon>
+              <ListItemText primary="Training" sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          </ListItem>
 
-                sx={[
-                  { minHeight: 48, px: 2.5, },
-                  open ? { justifyContent: 'initial', } : { justifyContent: 'center', },
-                ]}
-              >
-                <ListItemIcon
-                  sx={[
-                    { minWidth: 0, justifyContent: 'center', },
-                    open ? { mr: 3, } : { mr: 'auto', },
-                  ]}
-                >
-                  {<GroupIcon />}
-                </ListItemIcon>
-                <ListItemText primary="Employees" sx={[open ? { opacity: 1, } : { opacity: 0, },]} />
-                {employeeSubMenuOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          {/* Employee */}
+          <ListItem 
+            disablePadding 
+            sx={{ display: "block" }} 
+            onClick={() => {
+              toggleSubMenu("employee")
+              open || setOpen(true);
+              }}>
+            <ListItemButton>
+              <ListItemIcon><GroupIcon /></ListItemIcon>
+              <ListItemText primary="Employees" sx={{ opacity: open ? 1 : 0 }} />
+              {openSubMenu === "employee" ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            </ListItemButton>
+          </ListItem>
+          <Collapse in={openSubMenu === "employee"} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItemButton onClick={() => navigate("/employee")}>
+                <ListItemText primary="Employee List" />
               </ListItemButton>
-            </ListItem>
+              <ListItemButton onClick={() => navigate("/employee/inactive")}>
+                <ListItemText primary="Inactive Employees" />
+              </ListItemButton>
+            </List>
+          </Collapse>
 
-            {/* Submenu Content*/}
-            <Collapse in={employeeSubMenuOpen} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                <ListItemButton disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/employee")}} >
-                  <ListItemText primary="Employee List" />
-                </ListItemButton>
-                <ListItemButton disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/employee/inactive")}} >
-                  <ListItemText primary="Inactive Employees" />
-                </ListItemButton>
-              </List>
-            </Collapse>
-                  ========== Admin Options - Only for Manager and Administrator ===========
+          {/* Settings & Users (solo admin/manager) */}
           {canSeeAdminOptions && (
             <>
-              <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/settings")}} >
-                <ListItemButton
-                  sx={[
-                    {
-                      minHeight: 48,
-                      px: 2.5,
-                    },
-                    open
-                      ? {
-                          justifyContent: 'initial',
-                        }
-                      : {
-                          justifyContent: 'center',
-                        },
-                  ]}
-                >
-                  <ListItemIcon
-                    sx={[
-                      {
-                        minWidth: 0,
-                        justifyContent: 'center',
-                      },
-                      open
-                        ? {
-                            mr: 3,
-                          }
-                        : {
-                            mr: 'auto',
-                          },
-                    ]}
-                  >
-                    {<SettingsIcon />} 
-                  </ListItemIcon>
-                  <ListItemText primary="Settings" sx={[open ? { opacity: 1, } : { opacity: 0, },]} />
+              <ListItem disablePadding sx={{ display: "block" }} onClick={() => navigate("/settings")}>
+                <ListItemButton>
+                  <ListItemIcon><SettingsIcon /></ListItemIcon>
+                  <ListItemText primary="Settings" sx={{ opacity: open ? 1 : 0 }} />
                 </ListItemButton>
               </ListItem>
-              <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/users")}} >
-                <ListItemButton
-                  sx={[
-                    {
-                      minHeight: 48,
-                      px: 2.5,
-                    },
-                    open
-                      ? {
-                          justifyContent: 'initial',
-                        }
-                      : {
-                          justifyContent: 'center',
-                        },
-                  ]}
-                >
-                  <ListItemIcon
-                    sx={[
-                      {
-                        minWidth: 0,
-                        justifyContent: 'center',
-                      },
-                      open
-                        ? {
-                            mr: 3,
-                          }
-                        : {
-                            mr: 'auto',
-                          },
-                    ]}
-                  >
-                    {<ManageAccountsIcon />} 
-                  </ListItemIcon>
-                  <ListItemText primary="Users" sx={[open ? { opacity: 1, } : { opacity: 0, },]} />
+              <ListItem disablePadding sx={{ display: "block" }} onClick={() => navigate("/users")}>
+                <ListItemButton>
+                  <ListItemIcon><ManageAccountsIcon /></ListItemIcon>
+                  <ListItemText primary="Users" sx={{ opacity: open ? 1 : 0 }} />
                 </ListItemButton>
-              </ListItem>  
+              </ListItem>
             </>
-          )} 
+          )}
         </List>
       </Drawer>
-  
     </Box>
   );
 }
-
 
 export default Sidenav;
