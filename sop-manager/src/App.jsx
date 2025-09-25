@@ -26,6 +26,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import NotAuthorized from './pages/NotAuthorized'
 function App() {
   const [username, setUsername] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [role, setRole] = useState(null);
 
   useEffect(() => {
@@ -152,7 +153,12 @@ function App() {
           />
           <Route
             path="/users"
-            element={username ? <Users /> : <Navigate to="/" />}
+            //element={username ? <Users /> : <Navigate to="/" />}
+            element={
+              <ProtectedRoute roles={['Administrator', 'Manager']}>
+                <Users />
+              </ProtectedRoute >
+            }
           />
           <Route
             path="/training/sopnumber/:sopNumber"

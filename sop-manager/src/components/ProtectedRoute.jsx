@@ -7,7 +7,7 @@ const ProtectedRoute = ({children, roles}) => {
     const userRole = localStorage.getItem('role');
     console.log("🔐 ProtectedRoute check:", { token, userRole, roles });
     if (!token) {
-        return <Navigate to="/home" replace />;
+        return <Navigate to="/" replace />;
     }
    
     if (roles && !roles.includes(userRole)) {

@@ -90,6 +90,7 @@ function Sidenav() {
   const [employeeSubMenuOpen, setEmployeeSubMenuOpen] = React.useState(false);
   const [sopSubMenuOpen, setSopSubMenuOpen] = React.useState(false);
   const navigate = useNavigate();
+  const role = localStorage.getItem('role');
 
   const handleEmployeeSubMenuClick = () => {
     setOpen(!open);
@@ -100,6 +101,8 @@ function Sidenav() {
     setOpen(!open);
     setSopSubMenuOpen(!sopSubMenuOpen);
   }
+
+  const canSeeAdminOptions = role === "Manager" || role === "Administrator";
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -218,79 +221,83 @@ function Sidenav() {
                 </ListItemButton>
               </List>
             </Collapse>
-
-            <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/settings")}} >
-              <ListItemButton
-                sx={[
-                  {
-                    minHeight: 48,
-                    px: 2.5,
-                  },
-                  open
-                    ? {
-                        justifyContent: 'initial',
-                      }
-                    : {
-                        justifyContent: 'center',
-                      },
-                ]}
-              >
-                <ListItemIcon
+                  ========== Admin Options - Only for Manager and Administrator ===========
+          {canSeeAdminOptions && (
+            <>
+              <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/settings")}} >
+                <ListItemButton
                   sx={[
                     {
-                      minWidth: 0,
-                      justifyContent: 'center',
+                      minHeight: 48,
+                      px: 2.5,
                     },
                     open
                       ? {
-                          mr: 3,
+                          justifyContent: 'initial',
                         }
                       : {
-                          mr: 'auto',
+                          justifyContent: 'center',
                         },
                   ]}
                 >
-                  {<SettingsIcon />} 
-                </ListItemIcon>
-                <ListItemText primary="Settings" sx={[open ? { opacity: 1, } : { opacity: 0, },]} />
-              </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/users")}} >
-              <ListItemButton
-                sx={[
-                  {
-                    minHeight: 48,
-                    px: 2.5,
-                  },
-                  open
-                    ? {
-                        justifyContent: 'initial',
-                      }
-                    : {
+                  <ListItemIcon
+                    sx={[
+                      {
+                        minWidth: 0,
                         justifyContent: 'center',
                       },
-                ]}
-              >
-                <ListItemIcon
+                      open
+                        ? {
+                            mr: 3,
+                          }
+                        : {
+                            mr: 'auto',
+                          },
+                    ]}
+                  >
+                    {<SettingsIcon />} 
+                  </ListItemIcon>
+                  <ListItemText primary="Settings" sx={[open ? { opacity: 1, } : { opacity: 0, },]} />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding sx={{ display: 'block' }} onClick={()=>{navigate("/users")}} >
+                <ListItemButton
                   sx={[
                     {
-                      minWidth: 0,
-                      justifyContent: 'center',
+                      minHeight: 48,
+                      px: 2.5,
                     },
                     open
                       ? {
-                          mr: 3,
+                          justifyContent: 'initial',
                         }
                       : {
-                          mr: 'auto',
+                          justifyContent: 'center',
                         },
                   ]}
                 >
-                  {<ManageAccountsIcon />} 
-                </ListItemIcon>
-                <ListItemText primary="Users" sx={[open ? { opacity: 1, } : { opacity: 0, },]} />
-              </ListItemButton>
-            </ListItem>   
+                  <ListItemIcon
+                    sx={[
+                      {
+                        minWidth: 0,
+                        justifyContent: 'center',
+                      },
+                      open
+                        ? {
+                            mr: 3,
+                          }
+                        : {
+                            mr: 'auto',
+                          },
+                    ]}
+                  >
+                    {<ManageAccountsIcon />} 
+                  </ListItemIcon>
+                  <ListItemText primary="Users" sx={[open ? { opacity: 1, } : { opacity: 0, },]} />
+                </ListItemButton>
+              </ListItem>  
+            </>
+          )} 
         </List>
       </Drawer>
   
