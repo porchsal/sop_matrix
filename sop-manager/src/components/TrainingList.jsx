@@ -5,7 +5,7 @@ import React from 'react'
 import axios from 'axios'
 import Sidenav from "./Sidenav";
 import { useParams } from "react-router-dom";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Box } from "@mui/material";
 import formatDateTimeForSQL from '../helpers/formatDateTimeForSQL';
 
 function TrainingList() {
@@ -14,6 +14,7 @@ function TrainingList() {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
     const {sopNumber} = useParams();
+    const role = localStorage.getItem('role');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -86,12 +87,29 @@ function TrainingList() {
                     <Button variant='contained' color='primary' onClick={() => handleDetails(training)}>Details</Button>
                 </TableCell>
                 <TableCell>
-                    <Button variant='contained' color='secondary' onClick={() => handleDelete(training)}>Delete</Button>
+                    {role !== 'Viewer' && (
+                        <>
+                        <Button variant='contained' color='secondary' onClick={() => handleDelete(training)}>Delete</Button>
+                        </>
+                    )}
                 </TableCell>
                 </TableRow>
             ))}
             </TableBody>
+           
         </Table>
+        <TableCell >
+            <Box sx={{ display: 'flex', justifyContent: 'center' }} >
+                <Button
+                  variant="contained"
+                  
+                  color="primary"
+                  onClick={() => window.history.back()}
+                >
+                  Go Back
+              </Button>
+              </Box>
+        </TableCell>
     </TableContainer>
     </>
   )

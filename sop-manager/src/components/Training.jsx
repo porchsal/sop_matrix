@@ -23,7 +23,7 @@ function Training() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const navigate = useNavigate();
-
+  const role = localStorage.getItem('role');
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -128,14 +128,19 @@ function Training() {
                     }
                 >
                       List</Button></TableCell>
-                <TableCell><Button 
-                  onClick={ ()=>{
-                    handleNewTraining(training)
-                    }
-                    } 
-                >
-                  New Training</Button></TableCell>
+                  {role !== 'Viewer' && (
+                  <>
+                    <TableCell><Button 
+                      onClick={ ()=>{
+                        handleNewTraining(training)
+                        }
+                        } 
+                    >
+                      New Training</Button></TableCell>
+                  </>
+                  )}
               </TableRow>
+
             ))}
           </TableBody>
           <TableFooter>
@@ -150,7 +155,13 @@ function Training() {
                 />
               </TableRow>
             </TableFooter>
-            
+              <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => window.history.back()}
+                >
+                  Go Back
+              </Button>
 
         </Table>
         {/* {tablePaginationComponent} */}

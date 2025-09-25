@@ -119,7 +119,11 @@ const getUserById = (id) => {
 
 const getUsers = () => {
   return new Promise((resolve, reject) => {
-      db.query('SELECT * FROM users where id>1', (err, rows) => {
+      //db.query('SELECT * FROM users where id>1', (err, rows) => {
+        db.query(`SELECT users.id, users.username, users.first_name, users.last_name, roles.name AS role
+                  FROM users
+                  JOIN roles ON users.role_id = roles.id
+                  WHERE users.id > 1`, (err, rows) => { 
           if (err) {
               console.error('Database query error:', err);
               return reject(err);

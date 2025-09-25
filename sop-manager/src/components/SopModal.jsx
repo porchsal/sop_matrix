@@ -177,23 +177,27 @@ useEffect(() => {
 
                     </TableBody>
                 </TableContainer>
-                <Button
-                    onClick={handleSave}
-                    variant="contained"
-                    color="primary"
-                    sx={{ mt: 2
-                    }}
-                >
-                    Save
-                </Button>
-                <Button 
-                    onClick={handleClose}
-                    variant="contained" 
-                    color="secondary" 
-                    sx={{ mt: 2 }} 
-                >
-                Close
-                </Button>
+                    <TableCell
+                        sx={{ display: 'flex', justifyContent: 'center', gap: 2, mb: 4, mt: 2  }}
+                    >
+                        <Button
+                            onClick={handleSave}
+                            variant="contained"
+                            color="primary"
+                            sx={{ mt: 2
+                            }}
+                        >
+                            Save
+                        </Button>
+                        <Button 
+                            onClick={handleClose}
+                            variant="contained" 
+                            color="secondary" 
+                            sx={{ mt: 2 }} 
+                        >
+                        Close
+                        </Button>
+                    </TableCell>
             </Box>
         </Modal>
     );

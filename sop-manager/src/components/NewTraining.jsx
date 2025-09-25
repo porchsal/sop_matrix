@@ -428,9 +428,22 @@ useEffect(() => {
         </Box>
         <TableBody>
             <TableRow>
-                <TableCell>
-                    <Button variant="contained" color="primary" onClick={handleSave}>Save</Button>
-                        {/* <Button variant="contained" color="secondary" onClick={() => navigate(-1)}>Cancel</Button> */}
+                <TableCell
+                    sx={{ display: 'flex', justifyContent: 'center', gap: 2, mb: 4, mt: 2 }}
+                >
+                    <Button 
+                        variant="contained" 
+                        color="primary" 
+                        onClick={handleSave}
+                        >Save
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => window.history.back()}
+                        >
+                        Cancel
+                    </Button>
                 </TableCell>
             </TableRow>
         </TableBody>

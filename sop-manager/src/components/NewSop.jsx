@@ -150,26 +150,28 @@ return (
                     justifyContent="space-between"
                     fullWidth 
                     component={Paper}>    
-                        <Button
-                            variant="contained"
-                            sx={{ mt: 2 }}
-                            onClick={async () => {
-                                const formattedEffectiveDate = formatDateTimeForSQL(sopEffectiveDate);
-                                const newSop = {
-                                    sop_number: sopNumber,
-                                    sop_name: sopTittle,
-                                    topic: sopTopic,
-                                    effective_date: formattedEffectiveDate,
-                                    link: sopLink,
-                                    comment: sopComment,
-                                    active: sopStatus,
-                                };
-                                addSop(newSop);
-                            }}
-                        >
-                            Save
-                        </Button>
-                        <Button variant="contained" color="secondary" sx={{ mt: 2 }} onClick={() => navigate(-1)} >Close</Button>
+                        <Box sx={{ display: 'flex', justifyContent: 'center' }} >
+                            <Button
+                                variant="contained"
+                                sx={{ mt: 2 }}
+                                onClick={async () => {
+                                    const formattedEffectiveDate = formatDateTimeForSQL(sopEffectiveDate);
+                                    const newSop = {
+                                        sop_number: sopNumber,
+                                        sop_name: sopTittle,
+                                        topic: sopTopic,
+                                        effective_date: formattedEffectiveDate,
+                                        link: sopLink,
+                                        comment: sopComment,
+                                        active: sopStatus,
+                                    };
+                                    addSop(newSop);
+                                }}
+                            >
+                                Save
+                            </Button>
+                            <Button variant="contained" color="secondary" sx={{ mt: 2 }} onClick={() => navigate(-1)} >Close</Button>
+                        </Box>
                     </TableContainer>
                 </Table>
             </Box>

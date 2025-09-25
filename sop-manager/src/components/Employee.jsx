@@ -41,6 +41,7 @@ function Employee() {
   const [printDialogOpen, setPrintDialogOpen] = useState(false);
   const [selectedTrainings, setSelectedTrainings] = useState([]);
 
+  const role = localStorage.getItem('role');
   useEffect(() => {
     const fetchData = async () => {
         try {
@@ -384,10 +385,18 @@ return (
                             ))}
                             <TableRow>
                               <TableCell>
-                                <Button variant="contained" color="primary" onClick={() => 
-                                  handleEditEmployee(selectedEmployee)
-                                  }>Edit
-                                </Button>
+                              <Box>
+                                {role !== 'Viewer' && (
+                                  <>
+                                  <Button 
+                                     variant="contained" color="primary" onClick={() => 
+                                    handleEditEmployee(selectedEmployee)
+                                    }>Edit
+                                  </Button>
+                                  </>
+                                )}
+                              </Box>
+
                               </TableCell>
                             </TableRow>
                         </TableBody>
@@ -440,7 +449,20 @@ return (
                 )}
              </Paper>
             </Box>
-            <Button variant="contained" color="primary" onClick={() => setOpenNew(true)}>Add Employee</Button>
+            <Box>
+
+            {role !== 'Viewer' && (
+              <>
+              <Button 
+                variant="contained" 
+                color="primary" 
+                onClick={() => setOpenNew(true)}
+                >
+                  Add Employee
+                </Button>
+              </>
+            )}
+            </Box>
             {selectedEmployee && (
               <EmpModal open={open} handleClose={handleClose} employee={selectedEmployee} updatedEmployeeData={updatedEmployeeData}/>
             )}

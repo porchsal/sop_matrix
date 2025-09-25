@@ -17,6 +17,7 @@ const style = {
 
 // eslint-disable-next-line react/prop-types
 const ListUsersModal = ({ open, handleClose}) => {
+    
 const [data, setData] = useState([]); // Almacena los datos de la lista actual
 const [newPasswords, setNewPasswords] = useState('');
 const [loading, setLoading] = useState(false);
@@ -80,10 +81,6 @@ const handleChangePassword = async (userId) => {
     }
 }
 
-// const handlePasswordChange = (userId, value) => {
-//     setNewPasswords({ ...newPasswords, [userId]: value });
-// };
-
 const handleChangePage = (event, newPage) => {
     setPage(newPage);
   }  
@@ -134,7 +131,6 @@ return (
                             <TableCell >Username</TableCell>
                             <TableCell>First Name</TableCell>
                             <TableCell>Last Name</TableCell>
-                            {/* <TableCell>New Password</TableCell> */}
                             <TableCell>Actions</TableCell>
                         </TableRow>
                     </TableHead>
@@ -144,27 +140,11 @@ return (
                                 <TableCell>{user.username}</TableCell>
                                 <TableCell>{user.first_name}</TableCell>
                                 <TableCell>{user.last_name}</TableCell>
-                                {/* <TableCell>    
-                                    <TextField
-                                        label="New Password"
-                                        value={newPasswords[user.id] || ''}
-                                        onChange={(e) => handlePasswordChange(user.id, e.target.value)}
-                                        error={!!error}
-                                        helperText={error}
-                                        required
-                                        fullWidth
-                                        type="password"
-                                        variant="outlined"
-                                        sx={{ mb: 3}}
-                                    />
-                                </TableCell> */}
                                 <TableCell>
                                     <Button
                                         variant="contained"
                                         color="primary"
-                                        // onClick={() => handleChangePassword(user.id)}
                                         onClick={() => handleOpenUpdateModal(user)}
-
                                         disabled={loading}
                                     >
                                         {loading ? <CircularProgress size={24} /> : 'Update Info'}
@@ -227,6 +207,18 @@ return (
                 //     setSelectedUser({ ...selectedUser, last_name: e.target.value })
                 //   }
                 />
+                <TextField
+                label="Role"
+                fullWidth   
+                margin="normal"
+                value={selectedUser.role}   
+                //   onChange={(e) =>
+                //     setSelectedUser({ ...selectedUser, role: e.target.value })
+                //   }
+                />  
+                    
+
+
                 <TextField
                     label="New Password"
                     fullWidth

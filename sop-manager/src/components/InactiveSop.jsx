@@ -27,7 +27,7 @@ import SopModal from './SopModal';
     const [currentSop, setCurrentSop] = useState(null);
     const [topics, setTopics] = useState([]);
     const navigate = useNavigate();
-
+    const role = localStorage.getItem('role');
     useEffect(() => {
         const fetchTopics = async () => {
           try {
@@ -218,12 +218,17 @@ import SopModal from './SopModal';
                             </TableCell>
                             
                             <TableCell align="center">
-                              <Button 
-                                align="right" 
-                                onClick={() => handleEdit(sopL)} 
-                              >
-                                Edit
-                                </Button>
+                              {role !== 'Viewer' && (
+                                <>
+                                  <Button 
+                                  align="right" 
+                                  onClick={() => handleEdit(sopL)} 
+                                >
+                                  Edit
+                                  </Button>
+                                </>
+                              )}
+
                             </TableCell>
                             </TableRow>
                             </TableRow>

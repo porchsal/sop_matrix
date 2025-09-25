@@ -28,6 +28,7 @@ import formatDateTimeForSQL from '../helpers/formatDateTimeForSQL';
     const [currentSop, setCurrentSop] = useState(null);
     const [topics, setTopics] = useState([]);
     const navigate = useNavigate();
+    const role = localStorage.getItem('role');
 
     useEffect(() => {
       const fetchTopics = async () => {
@@ -229,20 +230,29 @@ import formatDateTimeForSQL from '../helpers/formatDateTimeForSQL';
                                 </Button>
                             </TableCell>
                             <TableCell align="center">
-                              <Button 
-                                align="right" 
-                                onClick={() => handleSelectNew(sopL)} 
-                              >
-                                New Training
-                                </Button>
+                              {role !== 'Viewer' && (
+                                <>
+                                <Button 
+                                  align="right" 
+                                  onClick={() => handleSelectNew(sopL)} 
+                                >
+                                  New Training
+                                  </Button>
+                                  </>
+                              )}
                             </TableCell>
                             <TableCell align="center">
-                              <Button 
-                                align="right" 
-                                onClick={() => handleEdit(sopL)} 
-                              >
-                                Edit
-                                </Button>
+                              {role !== 'Viewer' && (
+                                <>
+                                  
+                                <Button 
+                                  align="right" 
+                                  onClick={() => handleEdit(sopL)} 
+                                >
+                                  Edit
+                                  </Button>
+                                  </>
+                              )}
                             </TableCell>
                             </TableRow>
                             </TableRow>
@@ -252,7 +262,16 @@ import formatDateTimeForSQL from '../helpers/formatDateTimeForSQL';
                   </TableContainer>
                   {tablePaginationComponent}
 |                </Paper>
-                <Button variant="contained" color="primary" onClick={()=>{navigate("/sop/newsop")}} >New SOP</Button>
+                  {role !== 'Viewer' && (
+                    <>
+                    <Button 
+                      variant="contained" 
+                      color="primary" 
+                      onClick={()=>{navigate("/sop/newsop")}} 
+                      >New SOP
+                    </Button>
+                    </>
+                  )}
               </List>
               <SopModal 
                 open={Boolean(currentSop)} 
