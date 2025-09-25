@@ -39,7 +39,7 @@ const usernameExists = async (username) => {
     return rows[0].count > 0; 
 };
 
-const addUser = async (username, first_name, last_name, password, profile) => {
+const addUser = async (username, first_name, last_name, password, role_id) => {
     try {
         if (!validateUsername(username)) {
             return { success: false, message: "Username must be at least 5 characters, letters, numbers." };
@@ -55,9 +55,13 @@ const addUser = async (username, first_name, last_name, password, profile) => {
 
         const hash = await bcrypt.hash(password, 10);
 
+        if(!role_id || isNaN(role_id)) {
+            return { success: false, message: "Invalid role ID." };
+        }
+
         const [rows] = await db.promise().query(
-            'INSERT INTO users (username, first_name, last_name, password, profile) VALUES (?, ?, ?, ?, ?)',
-            [username, first_name, last_name, hash, profile]
+            'INSERT INTO users (username, first_name, last_name, password, role_id) VALUES (?, ?, ?, ?, ?)',
+            [username, first_name, last_name, hash, role_id]
         );
 
         return rows;
@@ -79,17 +83,39 @@ const getUserByUsername = (username) => {
   });
 }
 
+// const getUserById = (id) => {
+//     return new Promise((resolve, reject) => {
+//         db.query('SELECT username FROM users WHERE id = ?', [id], (err, rows) => {
+//             if (err) {
+//                 console.error('Database query error:', err);
+//                 return reject(err);
+//             }
+//             resolve(rows[0]);
+//         });
+//     });
+// }
+
 const getUserById = (id) => {
     return new Promise((resolve, reject) => {
-        db.query('SELECT username FROM users WHERE id = ?', [id], (err, rows) => {
-            if (err) {
-                console.error('Database query error:', err);
-                return reject(err);
+        db.query(
+            `SELECT u.username, r.name AS profile
+             FROM users u
+             JOIN roles r ON u.role_id = r.id
+             WHERE u.id = ?`,
+            [id],
+            (err, rows) => {
+                if (err) {
+                    console.error('Database query error:', err);
+                    return reject(err);
+                }
+                if (rows.length === 0) {
+                    return resolve(null); // User not found
+                }
+                resolve(rows[0]); // { username: '...', profile: '...' }
             }
-            resolve(rows[0]);
-        });
+        );
     });
-}
+};
 
 const getUsers = () => {
   return new Promise((resolve, reject) => {

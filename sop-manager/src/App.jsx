@@ -22,8 +22,11 @@ import TrainingList from './components/TrainingList'
 import TrainingDetails from './components/TrainingDetails'
 import InactiveSop from './components/InactiveSop'
 import { useState, useEffect } from 'react'
+import ProtectedRoute from './components/ProtectedRoute'
+import NotAuthorized from './pages/NotAuthorized'
 function App() {
   const [username, setUsername] = useState(null);
+  const [role, setRole] = useState(null);
 
   useEffect(() => {
       const token = localStorage.getItem('token');
@@ -51,14 +54,22 @@ function App() {
 
   useEffect(() => {
     const storedUsername = localStorage.getItem('username');
+    const storedRole = localStorage.getItem('role');
+    if (storedRole) {
+        setRole(storedRole);
+        console.log("Role from storage:", storedRole);
+    }
     if (storedUsername) {
         setUsername(storedUsername);
     }
 }, []);
 
+  
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
+    localStorage.removeItem('role');
       setUsername(null);
   }
   
@@ -126,8 +137,18 @@ function App() {
             element={username ? <NewSop /> : <Navigate to="/" />}
           />
           <Route
+          
             path="/settings"
-            element={username ? <Settings /> : <Navigate to="/" />}
+          //  element={username ? <Settings /> : <Navigate to="/" />}
+              element={
+                <ProtectedRoute roles={['Administrator', 'Manager']}>
+                  <Settings />
+                </ProtectedRoute >
+              }
+          />
+          <Route
+            path="/not-authorized"
+            element={<NotAuthorized />}
           />
           <Route
             path="/users"

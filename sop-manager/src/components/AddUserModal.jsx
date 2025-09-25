@@ -81,6 +81,7 @@ const style = {
             setError(response.data.message || "Error adding user");
         }
     } catch (error) {
+        console.error('Error adding user:', error);
         if (error.response) {
             // ⚠️ Error del servidor con respuesta JSON
             setError(error.response.data.message || "Server error occurred.");
@@ -144,10 +145,10 @@ const style = {
                     fullWidth
                     sx={{ mb: 2 }}
                 >
-                    <option value="admin">Administrator</option>
-                    <option value="Manager">Manager</option>
-                    <option value="editor">Contributor</option>
-                    <option value="viewer">Viewer</option>
+                    <option value="1">Administrator</option>
+                    <option value="2">Manager</option>
+                    <option value="3">Contributor</option>
+                    <option value="4">Viewer</option>
 
                 </Select> 
 

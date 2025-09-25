@@ -9,6 +9,7 @@ const SignIn = ({setUsername}) => {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [role, setRole] = useState('');
 
     const navigate = useNavigate();
 
@@ -23,7 +24,9 @@ const SignIn = ({setUsername}) => {
                 throw new Error('Not authorized');
             }
             const userData = await response.json();
-            return userData.username;
+            //console.log("Fetched user data:", userData);
+            //return userData.username;
+            return userData;
         } catch (error) {
             console.error('Error fetching user:', error);
             return null;
@@ -51,13 +54,16 @@ const SignIn = ({setUsername}) => {
               const { token } = await response.json();
               localStorage.setItem('token', token);
               const decodedToken = jwtDecode(token);
-              const fetchedUsername = await fetchUser(decodedToken.id, token);
+              const fetchedUserdata = await fetchUser(decodedToken.id, token);
               
-              if (!fetchedUsername) {
+              if (!fetchedUserdata) {
                   throw new Error('Error fetching user');
               }
-                localStorage.setItem('username', fetchedUsername);
-                setUsername(fetchedUsername);
+                localStorage.setItem('username', fetchedUserdata.username);
+                setUsername(fetchedUserdata.username);
+                setRole(fetchedUserdata.profile);
+                localStorage.setItem('role', fetchedUserdata.profile);
+                console.log("Logged in as:", fetchedUserdata.username, "with role:", fetchedUserdata.profile);
                 navigate('/home', { replace: true });
           } catch (err) {
               setError('Login failed. Please try again.');

@@ -10,6 +10,14 @@ function Home() {
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem('token');
+      // console.log(localStorage.getItem('username'));
+      // console.log("Token:", token);
+      // console.log("Role:", localStorage.getItem('role'));
+      if (!token) {
+        setError('No token found. Please log in.');
+        return;
+      }
+
       try {
         const response = await fetch('http://localhost:3010/api/protected_route', {
           method: 'GET',
