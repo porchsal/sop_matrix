@@ -9,7 +9,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Button, List, TextField } from "@mui/material";
+import { Box, Button, List, TextField } from "@mui/material";
 import TablePagination from '@mui/material/TablePagination';
 import { useNavigate } from "react-router-dom";
 import SopModal from './SopModal';
@@ -263,14 +263,23 @@ import formatDateTimeForSQL from '../helpers/formatDateTimeForSQL';
                   {tablePaginationComponent}
 |                </Paper>
                   {role !== 'Viewer' && (
-                    <>
+                    
+                  <Box sx={{ display: 'flex', justifyContent: 'space-evenly', marginTop: 2 }} >  
                     <Button 
                       variant="contained" 
                       color="primary" 
                       onClick={()=>{navigate("/sop/newsop")}} 
                       >New SOP
                     </Button>
-                    </>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => window.history.back()}
+                    >
+                      Go Back
+                    </Button>
+                  </Box>
+                    
                   )}
               </List>
               <SopModal 

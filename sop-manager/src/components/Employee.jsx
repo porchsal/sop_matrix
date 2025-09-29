@@ -452,7 +452,7 @@ return (
             <Box>
 
             {role !== 'Viewer' && (
-              <>
+              <Box sx={{ display: 'flex', justifyContent: 'space-evenly', marginTop: 2 }}>
               <Button 
                 variant="contained" 
                 color="primary" 
@@ -460,7 +460,15 @@ return (
                 >
                   Add Employee
                 </Button>
-              </>
+                <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => window.history.back()}
+                    >
+                      Go Back
+                </Button>
+
+              </Box>
             )}
             </Box>
             {selectedEmployee && (

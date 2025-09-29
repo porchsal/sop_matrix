@@ -19,7 +19,7 @@ function Home() {
       }
 
       try {
-        const response = await fetch('http://localhost:3010/api/protected_route', {
+        const response = await fetch('${import.meta.env.VITE_API_URL}/api/protected_route', {
           method: 'GET',
           headers: {
              Authorization: `Bearer ${token}`,

@@ -3,31 +3,16 @@ import axios from 'axios';
 import { Box, Typography } from '@mui/material';
 import { response } from 'express';
 
+// eslint-disable-next-line react/prop-types
 export default function FilterEmp({sites, positions}) {
     const [filteredEmployees, setFilteredEmployees] = useState([]);
 
     useEffect(() => {
         const fetchEmployees = async () => {
-    //         if (sites.length === 0 && positions.length === 0) {
-    //             setFilteredEmployees([]);
-    //             return;
-    //         }
-    //         try {
-    //             const response = await axios.post(
-    //                 'http://localhost:3010/api/employee/filter',
-    //                 {
-    //                     site_id: sites,
-    //                     position_id: positions,
-    //                 }
-    //             );
-    //             setFilteredEmployees(response.data);
-    //         } catch (error) {
-    //             console.error("Error fetching employees:",error);
-    //             alert('Faild to load employees, please try again.');
-    //             }
-    // };
+
 
             console.log('Filtered employees:', response.data);
+    // eslint-disable-next-line react/prop-types
     if (sites.length > 0 || positions.length > 0) { 
         try { const response = await axios.get('http://localhost:3010/api/employee/filter', {
              params: { 

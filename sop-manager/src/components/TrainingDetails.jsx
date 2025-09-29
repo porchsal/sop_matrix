@@ -398,14 +398,23 @@ function TrainingDetails() {
                 </Table>
             </TableContainer>
             {/* Button to open print dialog */}
-                <Button
+                <Box sx={{ display: 'flex', justifyContent: 'space-evenly', marginTop: 2 }}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => setOpenPrintDialog(true)}
+                        
+                    >
+                        Print
+                    </Button>
+                    <Button
                     variant="contained"
                     color="primary"
-                    onClick={() => setOpenPrintDialog(true)}
-                    sx={{ marginY: 2 }}
-                >
-                    Print
-                </Button>
+                    onClick={() => window.history.back()}
+                    >
+                    Go Back
+                    </Button>
+                </Box>
             </Box>
 
         {/* Diálogo de impresión */}
