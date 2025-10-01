@@ -7,6 +7,7 @@ import ListUsersModal from './ListUsersModal';
 export default function Users() {
     const [openUser, setOpenUser] = useState(false);
     const [openList, setOpenList] = useState(false);
+    // eslint-disable-next-line no-unused-vars
     const [data, setData] = useState([]); // Almacena los datos de la lista actual
 
     const handleOpenUser = () => {

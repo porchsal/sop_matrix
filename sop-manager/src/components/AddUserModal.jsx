@@ -27,34 +27,6 @@ const style = {
     const [networkError, setNetworkError] = useState("");
     const [profile, setProfile] = useState("");
 
-    // const handleSave = async () => {
-    //     if (!username || !firstName || !lastName || !password || !profile) {
-    //         setError("All fields are required");
-    //         return;
-    //     }
-    //     setLoading(true);
-    //     setError("");
-    //     try {
-    //         const newUser = { username, first_name: firstName, last_name: lastName, password, profile };
-    //         console.log(newUser);
-    //         const response = await axios.post('http://localhost:3010/api/users/add', newUser);
-    //         if (response.data) {
-    //             setUsername("");
-    //             setFirstName("");
-    //             setLastName("");
-    //             setPassword("");
-    //             setProfile("");
-    //             handleClose();
-    //         } else {
-    //             setNetworkError("Error adding user", error);
-    //         }
-    //     } catch (error) {
-    //         console.error('Error adding user:', error);
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // }
-
     const handleSave = async () => {
     if (!username || !firstName || !lastName || !password || !profile) {
         setError("All fields are required");

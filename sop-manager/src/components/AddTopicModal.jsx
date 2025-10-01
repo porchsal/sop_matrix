@@ -33,7 +33,6 @@ const AddTopicModal = ({ open, handleClose, newTopic }) => {
         try {
             const newTopic = { topic_name: nameTopic };
             const response = await axios.post('http://localhost:3010/api/topics/add', newTopic);
-            console.log('Add Topic Response:', response.data);
             if (response.data) {
                 setNameTopic("");
                 handleClose();

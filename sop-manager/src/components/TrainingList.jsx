@@ -15,7 +15,7 @@ function TrainingList() {
     const navigate = useNavigate();
     const {sopNumber} = useParams();
     const role = localStorage.getItem('role');
-
+    
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -40,15 +40,9 @@ function TrainingList() {
         navigate(`/training/details/${training.training_id}`, {state: {training}});
     }
 
-    // const formatDateTimeForSQL = (dateTime) => {
-    //     const date = new Date(dateTime);
-    //     return date.toISOString().slice(0, 10);
-    //   };
-
     const handleDelete = async (training) => {  
         try {
             const response = await axios.delete('http://localhost:3010/api/training/delete/' + training.training_id);
-            console.log(response);
             const updatedTrainingList = trainingList.filter((t) => t.training_id !== training.training_id);
             setTrainingList(updatedTrainingList);
             
@@ -56,8 +50,6 @@ function TrainingList() {
             console.error('Error deleting training:', error);
         }
     }
-
-
   return (
     <>
     <Sidenav />
@@ -69,7 +61,6 @@ function TrainingList() {
                 <TableCell>Training Name</TableCell>
                 <TableCell>SOP Number</TableCell>
                 <TableCell>SOP Name</TableCell>
-                {/* <TableCell>Trainer Name</TableCell> */}
                 <TableCell>Training Date</TableCell>
                 <TableCell>Actions</TableCell>
             </TableRow>
@@ -81,7 +72,6 @@ function TrainingList() {
                 <TableCell>{training.training_name}</TableCell>
                 <TableCell>{training.sop_number}</TableCell>
                 <TableCell>{training.sop_name}</TableCell>
-                {/* <TableCell>{training.trainer_name}</TableCell> */}
                 <TableCell>{formatDateTimeForSQL(training.training_date)}</TableCell>
                 <TableCell>
                     <Button variant='contained' color='primary' onClick={() => handleDetails(training)}>Details</Button>

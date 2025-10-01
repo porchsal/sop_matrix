@@ -71,7 +71,6 @@ router.get("/employee/:id", (req, res) => {
 router.put('/employee/:id', async (req, res) => {
     const { id } = req.params;
     const { name, date_of_hire, active, trainer, position_id, department_id, site_id } = req.body;
-    //employeeQueries.updateEmployee(id, name, date_of_hire, active, trainer, position_id, department_id, site_id)
     try {
         const result = await employeeQueries.updateEmployee(id, name, date_of_hire, active, trainer, position_id, department_id, site_id);
         res.status(200).send({ message: 'Employee updated successfully', result });

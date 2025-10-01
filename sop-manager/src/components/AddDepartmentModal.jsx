@@ -15,12 +15,12 @@ const style = {
     p: 4,
   };
 
-// eslint-disable-next-line react/prop-types
+// eslint-disable-next-line react/prop-types, no-unused-vars
 const AddDepartmentModal = ({ open, handleClose, newDepartment }) => {
     const [nameDepartment, setNameDepartment] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    const [networkError, setNetworkError] = useState("");
+    const [, setNetworkError] = useState("");
 
     const handleSave = async () => {
         if (!nameDepartment) {
@@ -31,9 +31,7 @@ const AddDepartmentModal = ({ open, handleClose, newDepartment }) => {
         setError("");
         try {
             const newDepartment = { dep_name: nameDepartment };
-            console.log('New Department:', newDepartment);
             const response = await axios.post('http://localhost:3010/api/department/add', newDepartment);
-            console.log('Add Department Response:', response.data);
             if (response.data) {
                 setNameDepartment("");
                 handleClose();

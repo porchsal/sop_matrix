@@ -77,15 +77,6 @@ function Training() {
       page * rowsPerPage + rowsPerPage
     );
 
-    // const tablePaginationComponent = <TablePagination
-    //    rowsPerPageOptions={[5, 10, 25]}
-    //    component="div"
-    //    count={trainingList.length}
-    //    rowsPerPage={rowsPerPage}
-    //    page={page}
-    //    onPageChange={handleChangePage}
-    //    onRowsPerPageChange={handleChangeRowsPerPage} />;
-
   return (
     <>
     <Sidenav />

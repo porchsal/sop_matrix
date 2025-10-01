@@ -152,12 +152,9 @@ return (
                                     {error && <Typography variant="body1" color="error">{error}</Typography>}
                                 </TableCell>
                             </TableRow>
-                        ))}
-                    
-                    </TableBody>
-                    
-                </Table>
-                
+                        ))}                   
+                    </TableBody>                 
+                </Table>               
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 25]}
                     component="div"
@@ -185,57 +182,37 @@ return (
                 fullWidth
                 margin="normal"
                 value={selectedUser.username}
-                //   onChange={(e) =>
-                //     setSelectedUser({ ...selectedUser, username: e.target.value })
-                //   }
                 />
                 <TextField
                 label="First Name"
                 fullWidth
                 margin="normal"
                 value={selectedUser.first_name}
-                //   onChange={(e) =>
-                //     setSelectedUser({ ...selectedUser, first_name: e.target.value })
-                //   }
                 />
                 <TextField
                 label="Last Name"
                 fullWidth
                 margin="normal"
                 value={selectedUser.last_name}
-                //   onChange={(e) =>
-                //     setSelectedUser({ ...selectedUser, last_name: e.target.value })
-                //   }
                 />
                 <TextField
                 label="Role"
                 fullWidth   
                 margin="normal"
                 value={selectedUser.role}   
-                //   onChange={(e) =>
-                //     setSelectedUser({ ...selectedUser, role: e.target.value })
-                //   }
                 />  
-                    
-
-
                 <TextField
                     label="New Password"
                     fullWidth
                     margin="normal"
                     type="password"
-                    //   onChange={(e) =>
-                    //     setSelectedUser({ ...selectedUser, password: e.target.value })
-                    //   }
                     value={newPasswords[selectedUser.id] || ''}
                     onChange={(e) => setNewPasswords({ ...newPasswords, [selectedUser.id]: e.target.value })}
                     error={!!error}
                     helperText={error}
                     required
                     variant="outlined"
-                    sx={{ mb: 3}}
-                    
-
+                    sx={{ mb: 3}}                   
                 />
                 <Button 
                     onClick={() => handleChangePassword(selectedUser.id)}

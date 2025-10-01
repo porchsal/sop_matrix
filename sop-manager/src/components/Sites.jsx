@@ -30,7 +30,6 @@ function Sites() {
      <div> <h2>List of Sites</h2> 
             <ul> 
               {sites.map(site => ( 
-                //console.log(site),
                 <li key={site.id}>{site.site_name}</li> 
               ))}
               

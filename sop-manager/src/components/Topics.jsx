@@ -30,7 +30,6 @@ function Topics() {
      <div> <h2>List of Topics</h2> 
             <ul> 
               {topics.map(topics => ( 
-                //console.log(site),
                 <li key={topics.id}>{topics.topic_name}</li> 
               ))}
               

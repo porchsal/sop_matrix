@@ -11,7 +11,6 @@ import Training from './components/Training'
 import NewTraining from './components/NewTraining'
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import SignIn from './components/SignIn'
-import Dashboard from './components/Dashboard'
 import Settings from './components/Settings'
 import Topics from './components/Topics'
 import Home from './components/Home'
@@ -58,7 +57,6 @@ function App() {
     const storedRole = localStorage.getItem('role');
     if (storedRole) {
         setRole(storedRole);
-        console.log("Role from storage:", storedRole);
     }
     if (storedUsername) {
         setUsername(storedUsername);
@@ -92,10 +90,6 @@ function App() {
             <Route
             path="/home"
             element={username ? <Home /> : <Navigate to="/" />}
-          />
-          <Route
-            path="/dashboard"
-            element={username ? <Dashboard /> : <Navigate to="/" />}
           />
           <Route
             path="/sites"
@@ -140,7 +134,6 @@ function App() {
           <Route
           
             path="/settings"
-          //  element={username ? <Settings /> : <Navigate to="/" />}
               element={
                 <ProtectedRoute roles={['Administrator', 'Manager']}>
                   <Settings />
@@ -153,7 +146,6 @@ function App() {
           />
           <Route
             path="/users"
-            //element={username ? <Users /> : <Navigate to="/" />}
             element={
               <ProtectedRoute roles={['Administrator', 'Manager']}>
                 <Users />

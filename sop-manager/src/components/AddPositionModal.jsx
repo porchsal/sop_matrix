@@ -46,9 +46,7 @@ const AddPositionModal = ({ open, handleClose, addPosition }) => {
         setError("");
         try {
             const newPosition = { position_name: positionName, department_id: selectedDepartmentId };
-            console.log('New Position:', newPosition);
             const response = await axios.post('http://localhost:3010/api/position/add', newPosition);
-            console.log('Add Position Response:', response.data);
             if (response.data) {
                 setPositionName("");
                 setSelectedDepartmentId(null);

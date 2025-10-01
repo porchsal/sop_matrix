@@ -8,8 +8,7 @@ const db = require('../connection');
      
     // Llamada a la función de prueba 
     const employees = await getTrainingByEmployeeId(employeeId); 
-    // Mostrar resultados 
-    console.log('Employees fetched:', employees);
+
  } catch (error) { console.error('Error during test:', error); 
 
  } finally { // Cerrar la conexión a la base de datos 

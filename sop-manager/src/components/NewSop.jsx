@@ -36,15 +36,10 @@ const NewSop = () => {
         fetchData();
     }, []);
 
-    // const formatDateTimeForSQL = (dateTime) => {
-    //     const date = new Date(dateTime);
-    //     return date.toISOString().slice(0, 10);
-    // };
 
     const addSop = async (newSop) => {
         try {
             const response = await axios.post('http://localhost:3010/api/sop/newsop', newSop);
-            console.log('New response:', response.data);
             navigate('/sop');
         } catch (error) {
             console.error('Error adding SOP:', error);

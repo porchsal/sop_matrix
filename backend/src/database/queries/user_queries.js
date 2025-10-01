@@ -1,26 +1,6 @@
 const db = require('../connection.js');
 const bcrypt = require('bcryptjs');
 
-// const addUser = (username, first_name, last_name, password, profile) => {
-
-//     return new Promise((resolve, reject) => {
-//         bcrypt.hash(password, 10, (err, hash) => {
-//             if (err) {
-//                 console.error('Error hashing password:', err);
-//                 return reject(err);
-//             }
-//             db.query('INSERT INTO users (username, first_name, last_name, password, profile) VALUES (?, ?, ?, ?, ?)', [username, first_name, last_name, hash, profile], (err, rows) => {
-//                 if (err) {
-//                     console.error('Database query error:', err);
-//                     return reject(err);
-//                 }
-//                 resolve(rows);
-//             });
-//         });
-//     });
-// }
-
-
 // Validates username
 const validateUsername = (username) => {
     const usernameRegex = /^(?![_\.])[a-zA-Z0-9._]{5,}(?<![_\.])$/;
@@ -82,18 +62,6 @@ const getUserByUsername = (username) => {
       });
   });
 }
-
-// const getUserById = (id) => {
-//     return new Promise((resolve, reject) => {
-//         db.query('SELECT username FROM users WHERE id = ?', [id], (err, rows) => {
-//             if (err) {
-//                 console.error('Database query error:', err);
-//                 return reject(err);
-//             }
-//             resolve(rows[0]);
-//         });
-//     });
-// }
 
 const getUserById = (id) => {
     return new Promise((resolve, reject) => {

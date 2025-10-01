@@ -32,7 +32,6 @@ const AddSiteModal = ({ open, handleClose, newSite }) => {
         try {
             const newSite = { site_name: nameSite };
             const response = await axios.post('http://localhost:3010/api/sites/add', newSite);
-            console.log('Add Site Response:', response.data);
             if (response.data) {
                 setNameSite("");
                 handleClose();

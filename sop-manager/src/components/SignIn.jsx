@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import { TextField, Button, Container, Typography, Box, CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -24,7 +26,6 @@ const SignIn = ({setUsername}) => {
                 throw new Error('Not authorized');
             }
             const userData = await response.json();
-            //console.log("Fetched user data:", userData);
             //return userData.username;
             return userData;
         } catch (error) {
@@ -63,7 +64,6 @@ const SignIn = ({setUsername}) => {
                 setUsername(fetchedUserdata.username);
                 setRole(fetchedUserdata.profile);
                 localStorage.setItem('role', fetchedUserdata.profile);
-                console.log("Logged in as:", fetchedUserdata.username, "with role:", fetchedUserdata.profile);
                 navigate('/home', { replace: true });
           } catch (err) {
               setError('Login failed. Please try again.');

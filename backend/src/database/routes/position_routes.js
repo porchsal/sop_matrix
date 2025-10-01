@@ -21,15 +21,6 @@ router.get("/position/name", (req, res) => {
     });
 });
 
-// router.get("/positionsbydep", (req, res) => {
-//     positionQueries.getAllPositionsByDep()    
-//     .then((position) => {
-//         console.log(position);
-//         res.json(position);
-//     return;
-//     });
-// });
-
 router.post('/positionsbydep', async (req, res) => {
     const { departments } = req.body;
     if (!departments || departments.length === 0) {

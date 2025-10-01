@@ -37,7 +37,6 @@ router.post("/users/add", async (req, res) => {
             password, 
             profile
         );
-        console.log("Added User Result:", addedUser);
         if (addedUser.success === false) {
             return res.status(400).json({
                 success: false,
@@ -89,7 +88,7 @@ router.post("/signin", async (req, res) => {
                 message: "Invalid credentials. Please try again.",
             });
         }
-        //console.log("User authenticated:", foundUser);
+
         const token = jwt.sign({ id: foundUser.id }, process.env.JWT_SECRET, { expiresIn: "1h" });  
         res.cookie("token", token, { httpOnly: true, secure: false });
         
@@ -126,7 +125,6 @@ router.get("/users", (req, res) => {
 
 router.post("/change-password", async (req, res) => {
     const {userId, newPassword} = req.body;
-    console.log("Change Password Request:", req.body);
     // Check if all required fields are provided
     if (!userId || !newPassword) {
         return res.status(400).json({

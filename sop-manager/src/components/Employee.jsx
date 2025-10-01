@@ -40,7 +40,7 @@ function Employee() {
   const [filteredEmployees, setFilteredEmployees] = useState([]);
   const [printDialogOpen, setPrintDialogOpen] = useState(false);
   const [selectedTrainings, setSelectedTrainings] = useState([]);
-
+  
   const role = localStorage.getItem('role');
   useEffect(() => {
     const fetchData = async () => {

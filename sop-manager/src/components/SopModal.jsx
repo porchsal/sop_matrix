@@ -30,11 +30,6 @@ const style = {
     const [link, setLink] = useState([]);
     const [sopComment, setSopComment] = useState([]);
 
-    // const formatDateTimeForSQL = (dateTime) => {
-    //     const date = new Date(dateTime);
-    //     return date.toISOString().slice(0, 10);
-    // };
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -72,9 +67,9 @@ useEffect(() => {
         };
         try {
             const response = await axios.put(`http://localhost:3010/api/sop/${currentSop.id}`, updatedSop);
+            console.log('Response:', response);
             updatedSopData(updatedSop, currentSop.id);
             handleClose();
-            console.log('SOP updated successfully:', response.data);
         } catch (error) {
             console.error('Error updating SOP:', error);
         }

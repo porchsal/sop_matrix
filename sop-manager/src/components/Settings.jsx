@@ -20,10 +20,9 @@ function Settings() {
 
     const fetchData = async (endpoint) => {
         try {
-            console.log('Fetching data from:', endpoint);
+            ('Fetching data from:', endpoint);
             const response = await axios.get(`http://localhost:3010/api/${endpoint}`);
             setData(response.data); // Actualiza los datos de la lista
-            console.log('Data fetched:', response.data);
         } catch (error) {
             console.error('Error fetching data:', error);
         }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Box, Typography } from '@mui/material';
-import { response } from 'express';
+//import { response } from 'express';
 
 // eslint-disable-next-line react/prop-types
 export default function FilterEmp({sites, positions}) {
@@ -10,8 +10,6 @@ export default function FilterEmp({sites, positions}) {
     useEffect(() => {
         const fetchEmployees = async () => {
 
-
-            console.log('Filtered employees:', response.data);
     // eslint-disable-next-line react/prop-types
     if (sites.length > 0 || positions.length > 0) { 
         try { const response = await axios.get('http://localhost:3010/api/employee/filter', {
@@ -21,7 +19,7 @@ export default function FilterEmp({sites, positions}) {
             },
          }); 
          setFilteredEmployees(response.data); 
-         console.log(response.data);
+
         } catch (error) { 
             console.error("Error fetching employees:", error); 
             alert('Failed to load employees, please try again.'); 

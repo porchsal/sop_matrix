@@ -29,7 +29,7 @@ import formatDateTimeForSQL from '../helpers/formatDateTimeForSQL';
     const [topics, setTopics] = useState([]);
     const navigate = useNavigate();
     const role = localStorage.getItem('role');
-
+    
     useEffect(() => {
       const fetchTopics = async () => {
         try {
@@ -108,8 +108,6 @@ import formatDateTimeForSQL from '../helpers/formatDateTimeForSQL';
       }
      setCurrentSop(sop);
       setOpen(true);
-      console.log("Origin SOP", sop);
-      console.log("Edit SOP", currentSop);
     }
 
       const handleClose = () => {
@@ -134,11 +132,6 @@ import formatDateTimeForSQL from '../helpers/formatDateTimeForSQL';
        onPageChange={handleChangePage}
        onRowsPerPageChange={handleChangeRowsPerPage} />;
 
-    // const formatDateTimeForSQL = (dateTime) => {
-    //   const date = new Date(dateTime);
-    //   return date.toISOString().slice(0, 10);
-    // };
-
     const formatAged = (dateTime) => {  
       const date = new Date(dateTime);
       const currentDate = new Date();
@@ -161,9 +154,7 @@ import formatDateTimeForSQL from '../helpers/formatDateTimeForSQL';
         console.error("Error updating SOP data", error);
 
       }
-    };
-
-    
+    };  
 
     return (
       <div>

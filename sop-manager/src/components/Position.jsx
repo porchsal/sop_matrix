@@ -30,7 +30,6 @@ function Position() {
      <div> <h2>List of Positions</h2> 
             <ul> 
               {positions.map(position => ( 
-                console.log(position),
                 <li key={position.id}>{position.position_name}</li> 
               ))}
               

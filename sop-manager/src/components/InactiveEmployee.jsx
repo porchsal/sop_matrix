@@ -94,7 +94,6 @@ useEffect(() => {
     try { const response = await axios.get('http://localhost:3010/api/employee/inactive'); 
       setEmployees(response.data); 
       setLoading(false);
-      console.log(response.data);
     } catch (error) { 
       setError(error); 
       setLoading(false); 
@@ -359,11 +358,8 @@ const handleChangeRowsPerPage = (event) => {
                         <TableRow 
                         key={employee.ID} 
                         hover onClick={() => handleSelectEmployee(employee)}>
-                          {/* <TableCell component="th" scope="row">{employee.name}</TableCell> */}
                           <TableCell>{employee.name}</TableCell>
                           <TableCell>{getPositionName(employee.position_id)}</TableCell>
-                          {/* <TableCell>{getDepartmentName(employee.department_id)}</TableCell> */}
-                          {/* <TableCell>{getSiteName(employee.site_id)}</TableCell> */}
                         </TableRow>
                       ))}
                     </TableBody>
@@ -382,7 +378,6 @@ const handleChangeRowsPerPage = (event) => {
                           .map(([key, value]) => (
                             <TableRow key={key}>
                               <TableCell>{columnNames[key] || key}</TableCell>
-                              {/* <TableCell>{value}</TableCell> */}
                               <TableCell>
                               {
                                   key === 'date_of_hire'

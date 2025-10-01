@@ -71,7 +71,6 @@ const addTraining = async (training_name, sop_number, sop_name, trainer_name, co
         throw new Error('employee_ids must be a non-empty array');
     }
     try {
-        console.log('Data from db',training_name, sop_number, sop_name, trainer_name, comments, training_date, employee_ids, type_training, description, assessment, control, version);
         const currentMaxTrainingId = await maxTrainingId();
         let training_id = currentMaxTrainingId + 1;
         // Fetch site_id, position_id, and department_id for each employee_id

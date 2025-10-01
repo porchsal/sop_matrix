@@ -46,11 +46,6 @@ useEffect(() => {
     };
         fetchData();
 }, []);
-    
-    // const formatDateTimeForSQL = (dateTime) => {
-    //     const date = new Date(dateTime);
-    //     return date.toISOString().slice(0, 10);
-    // };
 
     const handleSave = async () => {
         const formattedDateOfHire = formatDateTimeForSQL(date_of_hire);
@@ -71,8 +66,7 @@ useEffect(() => {
          } catch (error) {
                 console.error('Error adding employee:', error);
             }
-
-            
+          
         };
 
     return (
