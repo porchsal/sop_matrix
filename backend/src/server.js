@@ -13,6 +13,7 @@ const trainingRouter = require("./database/routes/training_routes.js"); // Impor
 const topicRouter = require("./database/routes/topic_routes.js"); // Import our topic router
 const protectedRoutes = require("./database/routes/protected_routes.js"); // Import our protected routes
 const userRouter = require("./database/routes/user_routes.js"); // Import our user router
+const auditRouter = require("./database/routes/audit_routes.js"); // Import our audit router
 const session = require("express-session");
 //Configurate cors
 
@@ -40,7 +41,7 @@ app.use("/api", trainingRouter); // Use our training router
 app.use("/api", topicRouter); // Use our topic router
 app.use("/api", protectedRoutes); // Use our protected routes
 app.use("/api", userRouter); // Use our user router
-
+app.use("/api", auditRouter); // Use our audit router
 
 app.listen(port, function () {
   console.log(`Server running on port ${port}`); // Tell yourself the port number to prevent mistakes in the future.

@@ -13,6 +13,8 @@ import { Button, List, TextField } from "@mui/material";
 import TablePagination from '@mui/material/TablePagination';
 import { useNavigate } from "react-router-dom";
 import SopModal from './SopModal';
+import { Box, Typography } from '@mui/material';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 
    function InactiveSop() {
     const [sopList, setSopList] = useState([]); 
@@ -154,7 +156,15 @@ import SopModal from './SopModal';
     return (
       <div>
        <Sidenav /> 
-      <h1>Inactive SOP</h1>
+       <Box sx={{ p: 4 }}>
+          {/* Header */}
+          <Box display="flex" alignItems="center" mb={3}>
+            <LibraryBooksIcon sx={{ fontSize: 40, color: 'primary.main', mr: 1 }} />
+            <Typography variant="h5" fontWeight="bold">
+              Inactive SOP
+            </Typography>
+          </Box>
+        </Box>
        <TextField
         label="Search SOP"
         variant="outlined"

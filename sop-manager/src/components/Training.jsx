@@ -13,6 +13,7 @@ import { Button, TableFooter } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import TablePagination from '@mui/material/TablePagination';
 import Box from '@mui/material/Box';
+import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
 
 function Training() {
 
@@ -80,9 +81,20 @@ function Training() {
   return (
     <>
     <Sidenav />
+    
+
     <Box 
       sx={{ mt: 8 }}>
-        <TableHead >
+        <Box sx={{ p: 4 }}>
+          {/* Header */}
+          <Box display="flex" alignItems="center" mb={3}>
+            <SystemUpdateAltIcon sx={{ fontSize: 40, color: 'primary.main', mr: 1 }} />
+            <Typography variant="h5" fontWeight="bold">
+              Trainings
+            </Typography>
+          </Box>
+    </Box>
+        {/* <TableHead >
           <Typography
             variant="h4"
             sx={{
@@ -94,7 +106,7 @@ function Training() {
           >
             Training List
           </Typography>
-        </TableHead>
+        </TableHead> */}
       <TableContainer component={Paper} sx={{ width: '100%', maxWidth: 1200, margin: '0 auto' }}>
         <Table>
           <TableHead>

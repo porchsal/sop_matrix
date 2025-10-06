@@ -4,6 +4,7 @@ import Sidenav from './Sidenav'
 import { Paper, Box, Table, TableBody, TableCell, Typography, Button } from '@mui/material'
 import AddUserModal from './AddUserModal';
 import ListUsersModal from './ListUsersModal';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 export default function Users() {
     const [openUser, setOpenUser] = useState(false);
     const [openList, setOpenList] = useState(false);
@@ -30,7 +31,16 @@ export default function Users() {
         <Sidenav />
         <Paper>
             <Box p={2}>
-                <Typography variant="h4">Users</Typography>
+           
+                <Box sx={{ p: 4 }}>
+                    {/* Header */}
+                    <Box display="flex" alignItems="center" mb={3}>
+                        <ManageAccountsIcon sx={{ fontSize: 40, color: 'primary.main', mr: 1 }} />
+                        <Typography variant="h5" fontWeight="bold">
+                        Users
+                        </Typography>
+                    </Box>
+                </Box>
                 <Table>
                     <TableBody>
                         <TableCell>

@@ -29,6 +29,18 @@ router.get("/employee/filterbydep", async (req, res) => {
     }
 });
 
+router.get("/employee/filterbydepinactive", async (req, res) => {
+    const { site_id, department_id } = req.query;
+    try {
+        const result = await employeeQueries.getInactiveEmployeeBySiteAndDepartment(site_id, department_id);
+        res.json(result);
+    } catch (error) {
+        console.error('Error getting employee:', error);
+        res.status(500).send({ message: 'Error getting employee', error });
+    }
+});
+
+
 router.get('/employee/trainer', (req, res) => {
     try {
         employeeQueries.getEmployeesTrainers()

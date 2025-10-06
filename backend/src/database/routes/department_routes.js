@@ -8,7 +8,7 @@ router.get("/department", (req, res) => {
     departmentQueries.getAllDepartments()    
     .then((departments) => {
        res.json(departments);
-    return;88
+    return;
     });
 });
 

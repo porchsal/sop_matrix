@@ -14,7 +14,8 @@ import TablePagination from '@mui/material/TablePagination';
 import { useNavigate } from "react-router-dom";
 import SopModal from './SopModal';
 import formatDateTimeForSQL from '../helpers/formatDateTimeForSQL';
-
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import Typography from '@mui/material/Typography';
    function Sop() {
     const [sopList, setSopList] = useState([]); 
     const [loading, setLoading] = useState(true); 
@@ -159,7 +160,15 @@ import formatDateTimeForSQL from '../helpers/formatDateTimeForSQL';
     return (
       <div>
        <Sidenav /> 
-      <h1>SOP</h1>
+        <Box sx={{ p: 4 }}>
+          {/* Header */}
+          <Box display="flex" alignItems="center" mb={3}>
+            <LibraryBooksIcon sx={{ fontSize: 40, color: 'primary.main', mr: 1 }} />
+            <Typography variant="h5" fontWeight="bold">
+              SOP
+            </Typography>
+          </Box>
+        </Box>
        <TextField
         label="Search SOP"
         variant="outlined"

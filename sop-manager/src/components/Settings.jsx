@@ -7,6 +7,7 @@ import AddSiteModal from './AddSiteModal'
 import AddTopicModal from './AddTopicModal'
 import AddDepartmentModal from './AddDepartmentModal'
 import AddPositionModal from './AddPositionModal'
+import SettingsIcon from '@mui/icons-material/Settings';
 
 function Settings() {
  
@@ -128,9 +129,15 @@ function Settings() {
     <Sidenav />
     <Paper elevation={3} sx={{ padding: 4, margin: 4 }}>
     <Box>
-        <Typography variant="h4" align="center" gutterBottom>
-            Settings
-        </Typography>
+      <Box sx={{ p: 4 }}>
+          {/* Header */}
+          <Box display="flex" alignItems="center" mb={3}>
+            <SettingsIcon sx={{ fontSize: 40, color: 'primary.main', mr: 1 }} />
+            <Typography variant="h5" fontWeight="bold">
+              Settings
+            </Typography>
+          </Box>
+      </Box>
         <Table>
             <TableBody>
                 {settingsConfig.map((config, index) => (

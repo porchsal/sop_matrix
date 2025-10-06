@@ -146,6 +146,29 @@ const getEmployeeBySiteAndDepartment = (site_ids = [], department_ids = []) => {
     });
 };
 
+const getInactiveEmployeeBySiteAndDepartment = (site_ids = [], department_ids = []) => {
+    return new Promise((resolve, reject) => {
+        let query = 'SELECT * FROM employee WHERE active="No"'; // Base query
+        const params = [];  
+        if (site_ids.length > 0) {
+            query += ' AND site_id IN (?)';
+            params.push(site_ids);
+        }
+        if (department_ids.length > 0) {
+            query += ' AND department_id IN (?)';
+            params.push(department_ids);
+        }
+        db.query(query, params, (err, rows) => {
+            if (err) {
+                console.error('Database query error:', err);
+                return reject(err);
+            }
+            resolve(rows);
+        });
+    });
+}
+
+
 const getEmployeesTrainers = () => {
     return new Promise((resolve, reject) => {
         db.query('SELECT * FROM employee WHERE trainer = "Yes"', (err, rows) => {
@@ -168,5 +191,6 @@ module.exports = {
     getEmployeeBySiteAndPosition,
     getEmployeesTrainers,
     getEmployeeBySiteAndDepartment,
-    getEmployeesFiltered
+    getEmployeesFiltered,
+    getInactiveEmployeeBySiteAndDepartment
 };

@@ -10,6 +10,7 @@ import EmpModal from './EmpModal';
 import formatDateTimeForSQL from '../helpers/formatDateTimeForSQL';
 import logo from '../assets/logo.png';
 import { useNavigate } from 'react-router-dom';
+import GroupIcon from '@mui/icons-material/Group';
 
 function InactiveEmployee() {
 
@@ -67,7 +68,7 @@ function InactiveEmployee() {
 useEffect(() => {
   if (selectedSites.length > 0 || selectedDepartment.length > 0) {
     axios
-      .get('http://localhost:3010/api/employee/filterbydep', {
+      .get('http://localhost:3010/api/employee/filterbydepinactive', {
         params: {
           site_id: selectedSites,
           department_id: selectedDepartment,
@@ -84,7 +85,7 @@ useEffect(() => {
         setLoading(false);
       });
   } else {
-    setFilteredEmployees(employees);
+    setFilteredEmployees([]); // Reset filtered employees if no filters are selected
   }
 }, [selectedSites, selectedDepartment, employees]);
 
@@ -208,7 +209,7 @@ const handleChangeRowsPerPage = (event) => {
   const tablePaginationComponent = <TablePagination
     rowsPerPageOptions={[5, 10, 25]}
     component="div"
-    count={employees.length}
+    count={filteredEmployees.length}
     rowsPerPage={rowsPerPage}
     page={page}
     onPageChange={handleChangePage}
@@ -298,7 +299,15 @@ const handleChangeRowsPerPage = (event) => {
    return (
    <>
       <Sidenav />
-      <h1>Employee Management</h1>
+      <Box sx={{ p: 4 }}>
+          {/* Header */}
+          <Box display="flex" alignItems="center" mb={3}>
+            <GroupIcon sx={{ fontSize: 40, color: 'primary.main', mr: 1 }} />
+            <Typography variant="h5" fontWeight="bold">
+              Inactive Employees
+            </Typography>
+          </Box>
+      </Box>
         
           <Container>  
             <Box display="flex" justifyContent="space-between" mt={2}>
@@ -352,7 +361,7 @@ const handleChangeRowsPerPage = (event) => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {(filteredEmployees.length > 0 ? filteredEmployees : employees)
+                      {(filteredEmployees.length > 0 ? filteredEmployees : selectedSites.length > 0 || selectedDepartment.length > 0 ? [] : employees)
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((employee) => (
                         <TableRow 
@@ -362,6 +371,11 @@ const handleChangeRowsPerPage = (event) => {
                           <TableCell>{getPositionName(employee.position_id)}</TableCell>
                         </TableRow>
                       ))}
+                      {filteredEmployees.length === 0 && (selectedSites.length > 0 || selectedDepartment.length > 0) && (
+                        <TableRow>
+                          <TableCell colSpan={2}>No employees found for the selected filters.</TableCell>
+                        </TableRow>
+                      )}
                     </TableBody>
                   </Table>
                 </TableContainer>

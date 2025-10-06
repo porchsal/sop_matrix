@@ -9,6 +9,7 @@ import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material
 import EmpModal from './EmpModal';
 import NewEmpModal from './NewEmpModal';
 import formatDateTimeForSQL from '../helpers/formatDateTimeForSQL';
+import GroupIcon from '@mui/icons-material/Group';
 
 function Employee() {
 
@@ -202,7 +203,7 @@ const handleAddEmployee = (newEmployee) => {
   const tablePaginationComponent = <TablePagination
     rowsPerPageOptions={[5, 10, 25]}
     component="div"
-    count={employees.length}
+    count={filteredEmployees.length}
     rowsPerPage={rowsPerPage}
     page={page}
     onPageChange={handleChangePage}
@@ -287,7 +288,15 @@ const handleAddEmployee = (newEmployee) => {
 return (
    <>
       <Sidenav />
-      <h1>Employee Management</h1>
+      <Box sx={{ p: 4 }}>
+          {/* Header */}
+          <Box display="flex" alignItems="center" mb={3}>
+            <GroupIcon sx={{ fontSize: 40, color: 'primary.main', mr: 1 }} />
+            <Typography variant="h5" fontWeight="bold">
+              Employees
+            </Typography>
+          </Box>
+      </Box>  
         
           <Container>  
             <Box display="flex" justifyContent="space-between" mt={2}>
@@ -341,16 +350,21 @@ return (
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {(filteredEmployees.length > 0 ? filteredEmployees : employees)
+                      {(filteredEmployees.length > 0 ? filteredEmployees : selectedSites.length > 0 || selectedDepartment.length > 0 ? [] : employees)
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((employee) => (
                         <TableRow 
-                        key={employee.ID} 
-                        hover onClick={() => handleSelectEmployee(employee)}>
+                          key={employee.ID} 
+                          hover onClick={() => handleSelectEmployee(employee)}>
                           <TableCell>{employee.name}</TableCell>
                           <TableCell>{getPositionName(employee.position_id)}</TableCell>
                         </TableRow>
-                      ))}
+                        ))}
+                        {filteredEmployees.length === 0 && (selectedSites.length > 0 || selectedDepartment.length > 0) && (
+                        <TableRow>
+                          <TableCell colSpan={2}>No employees found for the selected filters.</TableCell>
+                        </TableRow>
+                       )}
                     </TableBody>
                   </Table>
                 </TableContainer>

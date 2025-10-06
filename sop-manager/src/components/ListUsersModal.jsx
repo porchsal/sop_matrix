@@ -159,7 +159,7 @@ return (
                                         onClick={() => handleOpenUpdateModal(user)}
                                         disabled={loading}
                                     >
-                                        {loading ? <CircularProgress size={24} /> : 'Update Info'}
+                                        {loading ? <CircularProgress size={24} /> : 'Update Password'}
                                     </Button>
                                     {error && <Typography variant="body1" color="error">{error}</Typography>}
                                 </TableCell>
@@ -186,7 +186,7 @@ return (
         aria-labelledby="update-user-modal"
         >
         <Box sx={style}>
-            <Typography variant="h6">Update User Info</Typography>
+            <Typography variant="h6">Update User Password</Typography>
             {selectedUser && (
             <Box component="form" onSubmit={(e) => handleUpdateUser(e)}>
                 <TextField
