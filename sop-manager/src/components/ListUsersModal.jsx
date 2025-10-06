@@ -52,6 +52,11 @@ const handleOpenUpdateModal = (user) => {
 const handleChangePassword = async (userId) => {
     setError("");
     const newPassword = newPasswords[userId];
+    const token = localStorage.getItem('token');
+    if (!token) {
+        setError("User is not authenticated");
+        return;
+    }
     if (!newPassword) {
         setError("New password is required");
         return;
@@ -59,7 +64,14 @@ const handleChangePassword = async (userId) => {
     setLoading(true);
     setError("");
     try {
-        const response = await axios.post('http://localhost:3010/api/change-password', { userId, newPassword });
+        const response = await axios.post('http://localhost:3010/api/change-password',
+             { userId, newPassword },
+            { headers: {
+                Authorization : `Bearer ${token}`,
+                'Content-Type': 'application/json'
+             } 
+            }
+            );
         if (response.data.success   ) {
             setNewPasswords("");
             handleCloseUpdateModal();

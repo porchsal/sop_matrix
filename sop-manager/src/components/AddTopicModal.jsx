@@ -24,6 +24,7 @@ const AddTopicModal = ({ open, handleClose, newTopic }) => {
     const [networkError, setNetworkError] = useState("");
     
     const handleSave = async () => {
+        const token = localStorage.getItem('token');
         if (!nameTopic) {
             setError("Name is required");
             return;
@@ -32,7 +33,15 @@ const AddTopicModal = ({ open, handleClose, newTopic }) => {
         setError("");
         try {
             const newTopic = { topic_name: nameTopic };
-            const response = await axios.post('http://localhost:3010/api/topics/add', newTopic);
+            const response = await axios.post(
+                'http://localhost:3010/api/topics/add', 
+                newTopic,
+                { headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                 } 
+                }
+            );
             if (response.data) {
                 setNameTopic("");
                 handleClose();

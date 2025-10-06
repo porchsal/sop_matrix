@@ -25,6 +25,8 @@ import { useNavigate } from 'react-router-dom';
 import Collapse from '@mui/material/Collapse';  // Para el submenú
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'; 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ManageHistoryIcon from '@mui/icons-material/ManageHistory';
+
 
 const drawerWidth = 240;
 
@@ -179,6 +181,12 @@ function Sidenav() {
                 <ListItemButton>
                   <ListItemIcon><ManageAccountsIcon /></ListItemIcon>
                   <ListItemText primary="Users" sx={{ opacity: open ? 1 : 0 }} />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding sx={{ display: "block" }} onClick={() => navigate("/audit-trail")}>
+                <ListItemButton>
+                  <ListItemIcon><ManageHistoryIcon /></ListItemIcon>
+                  <ListItemText primary="Audit Trail" sx={{ opacity: open ? 1 : 0 }} />
                 </ListItemButton>
               </ListItem>
             </>

@@ -23,6 +23,7 @@ const AddSiteModal = ({ open, handleClose, newSite }) => {
     const [error, setError] = useState("");
     const [networkError, setNetworkError] = useState("");
     const handleSave = async () => {
+        const token = localStorage.getItem('token');
         if (!nameSite) {
             setError("Name is required");
             return;
@@ -31,7 +32,16 @@ const AddSiteModal = ({ open, handleClose, newSite }) => {
         setError("");
         try {
             const newSite = { site_name: nameSite };
-            const response = await axios.post('http://localhost:3010/api/sites/add', newSite);
+            const response = await axios.post(
+                'http://localhost:3010/api/sites/add',
+                 newSite,
+                { headers: {
+                    Authorization : `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                 } 
+                }
+                
+                );
             if (response.data) {
                 setNameSite("");
                 handleClose();

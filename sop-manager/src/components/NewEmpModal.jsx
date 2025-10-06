@@ -49,6 +49,7 @@ useEffect(() => {
 
     const handleSave = async () => {
         const formattedDateOfHire = formatDateTimeForSQL(date_of_hire);
+        const token = localStorage.getItem('token');
         const newEmployee = {
             name,
             date_of_hire: formattedDateOfHire,
@@ -60,7 +61,16 @@ useEffect(() => {
         };
         try {
             // eslint-disable-next-line no-unused-vars
-            const response = await axios.post('http://localhost:3010/api/employee/new', newEmployee);
+            const response = await axios.post(
+                'http://localhost:3010/api/employee/new', 
+                newEmployee,
+                {
+                    headers: {
+                        Authorization : `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }}
+            
+            );
             addEmployee(newEmployee);
             handleClose();
          } catch (error) {

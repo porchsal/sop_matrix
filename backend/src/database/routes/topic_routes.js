@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const topicQueries = require("../queries/topic_queries");
+const auditLogger = require("../middleware/auditLogger");
+const auth_middleware = require("../middleware/authMiddleware");
 
 router.get("/topics", (req, res) => {
     topicQueries.getAllTopics()    
@@ -10,7 +12,10 @@ router.get("/topics", (req, res) => {
     });
 });
 
-router.post("/topics/add", async (req, res) => {
+router.post("/topics/add",
+    auth_middleware,
+    auditLogger('CREATE', 'TOPIC', (req) => req.body.topic_name ),
+    async (req, res) => {
     const { topic_name } = req.body;
     try {
         const result = await topicQueries.addTopic(topic_name);

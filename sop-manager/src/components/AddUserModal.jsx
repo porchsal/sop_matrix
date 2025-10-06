@@ -28,10 +28,11 @@ const style = {
     const [profile, setProfile] = useState("");
 
     const handleSave = async () => {
-    if (!username || !firstName || !lastName || !password || !profile) {
-        setError("All fields are required");
-        return;
-    }
+        const token = localStorage.getItem('token');
+        if (!username || !firstName || !lastName || !password || !profile) {
+            setError("All fields are required");
+            return;
+        }
 
     setLoading(true);
     setError("");
@@ -39,7 +40,15 @@ const style = {
 
     try {
         const newUser = { username, first_name: firstName, last_name: lastName, password, profile };
-        const response = await axios.post('http://localhost:3010/api/users/add', newUser);
+        const response = await axios.post(
+            'http://localhost:3010/api/users/add',
+             newUser,
+            { headers: {
+                Authorization : `Bearer ${token}`,
+                'Content-Type': 'application/json'
+             } 
+            }    
+            );
 
         if (response.data.success) {
             setUsername("");

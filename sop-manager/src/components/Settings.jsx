@@ -105,6 +105,8 @@ function Settings() {
             onAddClick: handleOpenTopic,
         },
     ]
+    
+
     const addSite = (newSite) => {
         setData((prevData) => [...prevData, newSite]);
     };
@@ -115,6 +117,10 @@ function Settings() {
 
     const addDepartment = (newDepartment) => {
         setData((prevData) => [...prevData, newDepartment]);
+    };
+
+    const addPosition = (newPosition) => {
+        setData((prevData) => [...prevData, newPosition]);
     };
 
   return (
@@ -232,6 +238,7 @@ function Settings() {
     <AddPositionModal
         open={openPosition}
         handleClose={handleClosePosition}
+        addPosition={addPosition}
     />
 
     </>

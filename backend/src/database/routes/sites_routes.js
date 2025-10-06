@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const sitesQueries = require("../queries/sites_queries");
-
+const auditLogger = require("../middleware/auditLogger");
+const auth_middleware = require("../middleware/authMiddleware");
 router.get("/sites", (req, res) => {
     sitesQueries.getAllSites()    
     .then((sites) => {
@@ -10,7 +11,11 @@ router.get("/sites", (req, res) => {
     });
 });
 
-router.post("/sites/add", async (req, res) => {
+router.post("/sites/add",
+    auth_middleware, 
+    auditLogger('CREATE', 'SITE', (req) => req.body.site_name ),
+    
+    async (req, res) => {
     const { site_name } = req.body;
     
 

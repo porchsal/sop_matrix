@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const positionQueries = require("../queries/position_queries");
+const auditLogger = require("../middleware/auditLogger");
+const auth_middleware = require("../middleware/authMiddleware");
 
 router.get("/position", (req, res) => {
     positionQueries.getAllPositions()    
@@ -35,9 +37,12 @@ router.post('/positionsbydep', async (req, res) => {
     }
 })
 
-router.post('/position/add', async (req, res) => {
+router.post('/position/add',
+    auth_middleware,
+    auditLogger('CREATE', 'POSITION', (req) => req.body.position_name ),
+    async (req, res) => {
     const { position_name, department_id } = req.body;
-  
+        console.log("req.body:",req.body);
     try {
         const result = await positionQueries.addPosition(position_name, department_id);
         res.status(200).send({ message: 'Position added successfully', result });

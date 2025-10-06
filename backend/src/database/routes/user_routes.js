@@ -3,12 +3,15 @@ const router = express.Router();
 const userQueries = require("../queries/user_queries");
 const session = require("express-session");
 const jwt = require("jsonwebtoken");
-//const auth_middleware = require("../middleware/authMiddleware");
-
+const auth_middleware = require("../middleware/authMiddleware");
+const auditLogger = require("../middleware/auditLogger");
 // Apply authentication middleware to all routes in this router
 // router.use(auth_middleware);
 
-router.post("/users/add", async (req, res) => {
+router.post("/users/add", 
+    auth_middleware,
+    auditLogger('CREATE', 'USER', (req) => req.body.username ),
+    async (req, res) => {
     const { username, first_name, last_name, password, profile } = req.body;
 
 
@@ -89,8 +92,22 @@ router.post("/signin", async (req, res) => {
             });
         }
 
-        const token = jwt.sign({ id: foundUser.id }, process.env.JWT_SECRET, { expiresIn: "1h" });  
-        res.cookie("token", token, { httpOnly: true, secure: false });
+        //const token = jwt.sign({ id: foundUser.id }, process.env.JWT_SECRET, { expiresIn: "1h" });  
+        const token = jwt.sign(
+            {
+                id: foundUser.id,
+                username: foundUser.username,
+                role: foundUser.role
+            }, 
+            process.env.JWT_SECRET, 
+            { expiresIn: "1h" }
+        );
+        //res.json({ token });
+        // Set token in HTTP-only cookie
+        //res.cookie("token", token, { httpOnly: true, secure: true }); // Use 'secure: true' in production with HTTPS
+        
+        
+//        res.cookie("token", token, { httpOnly: true, secure: false });
         
         res.status(200).json({
             success: true,  
@@ -123,7 +140,10 @@ router.get("/users", (req, res) => {
     });
 });
 
-router.post("/change-password", async (req, res) => {
+router.post("/change-password", 
+    auth_middleware,
+    auditLogger('UPDATE', 'USER PASSWORD', (req) => req.body.userId ),
+    async (req, res) => {
     const {userId, newPassword} = req.body;
     // Check if all required fields are provided
     if (!userId || !newPassword) {

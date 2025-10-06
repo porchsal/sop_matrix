@@ -40,9 +40,22 @@ function TrainingList() {
         navigate(`/training/details/${training.training_id}`, {state: {training}});
     }
 
-    const handleDelete = async (training) => {  
+    const handleDelete = async (training) => { 
+        const token = localStorage.getItem('token'); 
+        const confirmDelete = window.confirm(`Are you sure you want to delete training: ${training.training_name}?`);
+        if (!confirmDelete) return;
+        
         try {
-            const response = await axios.delete('http://localhost:3010/api/training/delete/' + training.training_id);
+            const response = await axios.delete(
+                'http://localhost:3010/api/training/delete/' + training.training_id,
+                {
+                    headers: { 
+                        Authorization : `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+
+            );
             const updatedTrainingList = trainingList.filter((t) => t.training_id !== training.training_id);
             setTrainingList(updatedTrainingList);
             

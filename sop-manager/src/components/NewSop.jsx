@@ -39,9 +39,23 @@ const NewSop = () => {
 
     const addSop = async (newSop) => {
         try {
-            const response = await axios.post('http://localhost:3010/api/sop/newsop', newSop);
+            const token = localStorage.getItem('token');
+            const response = await axios.post(
+                'http://localhost:3010/api/sop/newsop', 
+                newSop,
+                {
+                    headers: {
+                        Authorization : `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            
+            );
+
+            console.log('SOP added successfully:', response.data);
             navigate('/sop');
         } catch (error) {
+            
             console.error('Error adding SOP:', error);
         }
     }

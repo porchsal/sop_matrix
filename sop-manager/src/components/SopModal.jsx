@@ -66,7 +66,18 @@ useEffect(() => {
             comment: sopComment,
         };
         try {
-            const response = await axios.put(`http://localhost:3010/api/sop/${currentSop.id}`, updatedSop);
+            const token = localStorage.getItem('token');
+            const response = await axios.put(
+                `http://localhost:3010/api/sop/${currentSop.id}`,
+                 updatedSop,
+                {
+                    headers: {
+                        Authorization : `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    } 
+                }
+                );
+
             console.log('Response:', response);
             updatedSopData(updatedSop, currentSop.id);
             handleClose();

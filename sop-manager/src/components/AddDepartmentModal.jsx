@@ -31,7 +31,17 @@ const AddDepartmentModal = ({ open, handleClose, newDepartment }) => {
         setError("");
         try {
             const newDepartment = { dep_name: nameDepartment };
-            const response = await axios.post('http://localhost:3010/api/department/add', newDepartment);
+            const token = localStorage.getItem('token');
+            const response = await axios.post(
+                'http://localhost:3010/api/department/add',
+                 newDepartment,
+                { headers: { 
+                    Authorization : `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                 }
+                }
+                
+                );
             if (response.data) {
                 setNameDepartment("");
                 handleClose();

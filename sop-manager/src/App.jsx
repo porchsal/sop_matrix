@@ -23,6 +23,7 @@ import InactiveSop from './components/InactiveSop'
 import { useState, useEffect } from 'react'
 import ProtectedRoute from './components/ProtectedRoute'
 import NotAuthorized from './pages/NotAuthorized'
+import AuditTrail from './components/AuditTrail'
 function App() {
   const [username, setUsername] = useState(null);
   // eslint-disable-next-line no-unused-vars
@@ -167,6 +168,14 @@ function App() {
           <Route
           path="/sop/inactive"
           element={username ? <InactiveSop /> : <Navigate to="/sop/inactive" />}
+          />
+          <Route
+          path="/audit-trail"
+          element={
+            <ProtectedRoute roles={['Administrator', 'Manager']}>
+              <AuditTrail />
+            </ProtectedRoute >
+          }
           />
       </Routes>
     </BrowserRouter>  

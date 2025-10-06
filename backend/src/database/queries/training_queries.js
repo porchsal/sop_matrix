@@ -147,7 +147,7 @@ const getTrainingEmployeeByTrainingId = (trainingId) => {
     });
 }
 
-const deleteTrainingByID = (trainingId) => {
+const deleteTrainingById = (trainingId) => {
     return new Promise((resolve, reject) => {
         db.query('DELETE FROM training WHERE training_id = ?', [trainingId], (err, rows) => {
             if (err) {
@@ -168,5 +168,5 @@ module.exports = {
   getTrainingByEmployeeId,
   getTrainingBySopNumber,   
   getTrainingEmployeeByTrainingId,
-  deleteTrainingByID
+  deleteTrainingById
 };

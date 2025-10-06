@@ -167,8 +167,19 @@ useEffect(() => {
         };
        
         try {
+            const token = localStorage.getItem('token');
             // eslint-disable-next-line no-unused-vars
-            const response = await axios.post('http://localhost:3010/api/training/newtraining', newTraining);
+            const response = await axios.post(
+                'http://localhost:3010/api/training/newtraining',
+                 newTraining
+                , {
+                    headers: {  
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+                    
             alert('Training added successfully');
             navigate('/Training');
         } catch (error) {

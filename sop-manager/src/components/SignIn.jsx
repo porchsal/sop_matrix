@@ -34,43 +34,77 @@ const SignIn = ({setUsername}) => {
         }
     };
 
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     setLoading(true);
+    //     setError('');
+
+    //     try {
+    //         const response = await fetch('http://localhost:3010/api/signin',  {
+    //         method: 'POST',
+    //         headers: {
+    //           'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({ username: usernameInput, password })
+    //         });
+    //         if (!response.ok) {
+                
+    //             throw new Error('Login failed');
+    //         }
+
+    //           const { token } = await response.json();
+    //           localStorage.setItem('token', token);
+    //           const decodedToken = jwtDecode(token);
+    //           const fetchedUserdata = await fetchUser(decodedToken.id, token);
+              
+    //           if (!fetchedUserdata) {
+    //               throw new Error('Error fetching user');
+    //           }
+    //             localStorage.setItem('username', fetchedUserdata.username);
+    //             setUsername(fetchedUserdata.username);
+    //             setRole(fetchedUserdata.profile);
+    //             localStorage.setItem('role', fetchedUserdata.profile);
+    //             navigate('/home', { replace: true });
+    //       } catch (err) {
+    //           setError('Login failed. Please try again.');
+    //       } finally {
+    //           setLoading(false);
+    //       }
+    // };
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError('');
-
+      
         try {
-            const response = await fetch('http://localhost:3010/api/signin',  {
+          const response = await fetch('http://localhost:3010/api/signin', {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username: usernameInput, password })
-            });
-            if (!response.ok) {
-                
-                throw new Error('Login failed');
-            }
+          });
+      
+          if (!response.ok) throw new Error('Login failed');
+      
+          const { token } = await response.json();
+          localStorage.setItem('token', token);
+      
+          const decodedToken = jwtDecode(token);
+          
+          // Store username and role in localStorage
+          localStorage.setItem('username', decodedToken.username);
+          localStorage.setItem('role', decodedToken.role);
+          
+          setUsername(decodedToken.username);
+          setRole(decodedToken.role);
+          navigate('/home', { replace: true });
+        } catch (err) {
+          setError('Login failed. Please try again.');
+        } finally {
+          setLoading(false);
+        }
+      };
+      
 
-              const { token } = await response.json();
-              localStorage.setItem('token', token);
-              const decodedToken = jwtDecode(token);
-              const fetchedUserdata = await fetchUser(decodedToken.id, token);
-              
-              if (!fetchedUserdata) {
-                  throw new Error('Error fetching user');
-              }
-                localStorage.setItem('username', fetchedUserdata.username);
-                setUsername(fetchedUserdata.username);
-                setRole(fetchedUserdata.profile);
-                localStorage.setItem('role', fetchedUserdata.profile);
-                navigate('/home', { replace: true });
-          } catch (err) {
-              setError('Login failed. Please try again.');
-          } finally {
-              setLoading(false);
-          }
-    };
 
     return (
         <Container component="main" maxWidth="xs">

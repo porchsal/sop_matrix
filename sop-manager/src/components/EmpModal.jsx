@@ -29,7 +29,7 @@ const EmpModal = ({ open, handleClose, employee, updatedEmployeeData }) => {
     const [departments, setDepartments] = useState([]); 
     const [positions, setPositions] = useState([]);
     const [sites, SetSites] = useState([]);
-    
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -69,9 +69,20 @@ const EmpModal = ({ open, handleClose, employee, updatedEmployeeData }) => {
             department_id: departmentId,
             site_id: siteId
         };
+
         try {
-            const response = await axios.put(`http://localhost:3010/api/employee/${employee.id}`, updatedEmployee);
-            updatedEmployeeData(updatedEmployee, employee.id)
+            const token = localStorage.getItem('token');
+            const response = await axios.put(
+                `http://localhost:3010/api/employee/${employee.id}`, 
+                updatedEmployee
+                ,
+                {headers: {
+                    Authorization : `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }}
+            );
+            updatedEmployeeData(updatedEmployee, employee.id);
+            alert("✅ Employee updated successfully");
             handleClose();
         } catch (error) {
             console.error('Error updating employee:', error);

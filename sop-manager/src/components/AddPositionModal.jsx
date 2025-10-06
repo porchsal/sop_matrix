@@ -45,8 +45,17 @@ const AddPositionModal = ({ open, handleClose, addPosition }) => {
         setLoading(true);
         setError("");
         try {
+            const token = localStorage.getItem('token');
             const newPosition = { position_name: positionName, department_id: selectedDepartmentId };
-            const response = await axios.post('http://localhost:3010/api/position/add', newPosition);
+            const response = await axios.post(
+                'http://localhost:3010/api/position/add', 
+                newPosition,
+                { headers: {
+                    Authorization : `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                 } 
+                }    
+                );
             if (response.data) {
                 setPositionName("");
                 setSelectedDepartmentId(null);

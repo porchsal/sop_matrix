@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const employeeQueries = require("../queries/employee_queries");
 const bodyParser = require("body-parser");
+const auditLogger = require("../middleware/auditLogger");
+const auth_middleware = require("../middleware/authMiddleware");
 
 router.use(bodyParser.json());
 
@@ -68,7 +70,10 @@ router.get("/employee/:id", (req, res) => {
     });
 });
 
-router.put('/employee/:id', async (req, res) => {
+router.put('/employee/:id', 
+    auth_middleware, 
+    auditLogger('UPDATE', 'EMPLOYEE', (req) => `${req.params.id} - ${req.body.name}`),
+    async (req, res) => {
     const { id } = req.params;
     const { name, date_of_hire, active, trainer, position_id, department_id, site_id } = req.body;
     try {
@@ -80,7 +85,10 @@ router.put('/employee/:id', async (req, res) => {
     }
 });
 
-router.post('/employee/new', async (req, res) => {
+router.post('/employee/new',
+    auth_middleware,
+    auditLogger('CREATE', 'EMPLOYEE', (req) => req.body.name ),
+    async (req, res) => {
     const { name, date_of_hire, active, trainer, position_id, department_id, site_id } = req.body;
     try {
         const result = await employeeQueries.addEmployee(name, date_of_hire, active, trainer, position_id, department_id, site_id);

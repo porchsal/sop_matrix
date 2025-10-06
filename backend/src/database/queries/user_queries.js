@@ -129,7 +129,12 @@ const changePassword = (userId, password) => {
 
 const checkLoginCredentials = (username, password) => {
   return new Promise((resolve, reject) => {
-      db.query('SELECT * FROM users WHERE username = ?', [username], (err, rows) => {
+      //db.query('SELECT * FROM users WHERE username = ?', [username], (err, rows) => {
+        db.query(`SELECT users.id, users.username, users.password, roles.name AS role
+                 FROM users
+                 JOIN roles ON users.role_id = roles.id
+                 WHERE users.username = ?`, [username], (err, rows) => {
+          const user = rows[0];
           if (err) {
               console.error('Database query error:', err);
               return reject(err);
@@ -143,7 +148,9 @@ const checkLoginCredentials = (username, password) => {
                   return reject(err);
               }
               if (result) {
-                  resolve(rows[0]);
+                  //resolve(rows[0]);
+                  const { id, username, role } = user;
+                    resolve({ id, username, role });
                   
               } else {
                   resolve(null);
