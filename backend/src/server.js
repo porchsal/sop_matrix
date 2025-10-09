@@ -22,6 +22,24 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
   })); // Enable Cross-Origin Resource Sharing
+
+
+  app.options('*', (req, res) => {
+    res.set('Access-Control-Allow-Origin', 'http://localhost:5173');
+    res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.set('Access-Control-Allow-Credentials', 'true');
+    res.sendStatus(204);
+  });
+  
+  app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173'); // Opción más segura: especificar tu dominio
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    next(); // Pasa al siguiente middleware o ruta
+  });
+
 app.use(express.static("public")); // Serve static files from the public directory
 app.use(express.json()); // Enable JSON parsing
 app.use(cookieParser()); // Enable cookie parsing
