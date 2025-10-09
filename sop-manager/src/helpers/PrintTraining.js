@@ -2,12 +2,16 @@ import formatDateTimeForSQL from '/src/helpers/formatDateTimeForSQL';
 
 
 const PrintTraining = (training, trainer, empList) => {
+
     const printWindow = window.open("", "_blank");
+    if (!printWindow) {
+        alert("Pop-up blocked! Please allow pop-ups for this website to print the training details.");
+        return;
+    }
     const logoUrl = "http://localhost:5173/logo.png";
     const img = new Image();
     img.src = logoUrl;
-    img.onload = () => {
-    printWindow.document.write(`
+    const html =(`
   <html>
     <head>
         <meta charset="utf-8">
@@ -186,15 +190,20 @@ const PrintTraining = (training, trainer, empList) => {
                 clearly understood.</p>
   </html>
     `);
+        printWindow.document.open();
+        printWindow.document.write(html);
         printWindow.document.close();
         printWindow.onload = () => {
-            printWindow.print();
+            setTimeout(() => {
+                printWindow.focus();
+                printWindow.print();
+            }, 500);
         };
-    };
+    
     img.onerror = () => {
         console.error("Error loading image");
     };
 
-}
+};
 
 export default PrintTraining;
