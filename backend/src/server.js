@@ -64,3 +64,13 @@ app.use("/api", auditRouter); // Use our audit router
 app.listen(port, function () {
   console.log(`Server running on port ${port}`); // Tell yourself the port number to prevent mistakes in the future.
 });
+
+const path = require("path");
+
+// Catch-all: enviar index.html para cualquier ruta que no sea /api
+app.get("*", (req, res) => {
+  // Ignora las rutas de API
+  if (req.originalUrl.startsWith("/api")) return res.status(404).send("API route not found");
+
+  res.sendFile(path.join(__dirname, "../sop-manager/index.html"));
+});
