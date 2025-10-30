@@ -92,7 +92,6 @@ router.post("/signin", async (req, res) => {
             });
         }
 
-        //const token = jwt.sign({ id: foundUser.id }, process.env.JWT_SECRET, { expiresIn: "1h" });  
         const token = jwt.sign(
             {
                 id: foundUser.id,
@@ -102,12 +101,6 @@ router.post("/signin", async (req, res) => {
             process.env.JWT_SECRET, 
             { expiresIn: "1h" }
         );
-        //res.json({ token });
-        // Set token in HTTP-only cookie
-        //res.cookie("token", token, { httpOnly: true, secure: true }); // Use 'secure: true' in production with HTTPS
-        
-        
-//        res.cookie("token", token, { httpOnly: true, secure: false });
         
         res.status(200).json({
             success: true,  

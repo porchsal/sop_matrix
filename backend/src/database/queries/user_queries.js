@@ -51,17 +51,34 @@ const addUser = async (username, first_name, last_name, password, role_id) => {
     }
 };
 
-const getUserByUsername = (username) => {
-  return new Promise((resolve, reject) => {
-      db.query('SELECT * FROM users WHERE username = ?', [username], (err, rows) => {
-          if (err) {
-              console.error('Database query error:', err);
-              return reject(err);
-          }
-          resolve(rows[0]);
-      });
-  });
-}
+// const getUserByUsername = (username) => {
+//   return new Promise((resolve, reject) => {
+//       db.query('SELECT * FROM users WHERE username = ?', [username], (err, rows) => {
+//           if (err) {
+//               console.error('Database query error:', err);
+//               return reject(err);
+//           }
+//           resolve(rows[0]);
+//       });
+//   });
+// }
+
+const getUserByUsername = async (username) => {
+    try {
+      const [rows] = await db.query('SELECT * FROM users WHERE username = ?', [username]);
+  
+      if (!rows || rows.length === 0) {
+        console.warn(`⚠️ No user found for username: ${username}`);
+        return null; // o lanza un error si prefieres: throw new Error('User not found');
+      }
+  
+      return rows[0];
+    } catch (err) {
+      console.error('❌ Database query error:', err.message);
+      throw err;
+    }
+  };
+  
 
 const getUserById = (id) => {
     return new Promise((resolve, reject) => {
@@ -129,7 +146,7 @@ const changePassword = (userId, password) => {
 
 const checkLoginCredentials = (username, password) => {
   return new Promise((resolve, reject) => {
-      //db.query('SELECT * FROM users WHERE username = ?', [username], (err, rows) => {
+      
         db.query(`SELECT users.id, users.username, users.password, roles.name AS role
                  FROM users
                  JOIN roles ON users.role_id = roles.id
