@@ -328,6 +328,8 @@ return (
             <Button
               variant="contained"
               color="primary"
+              onClick={handleSaveSop}
+                
             //   onClick={() => {
             //     const formattedEffectiveDate =
             //       formatDateTimeForSQL(sopEffectiveDate);
@@ -347,9 +349,10 @@ return (
               Save
             </Button>
             <Button
-              variant="outlined"
+              variant="contained"
               color="secondary"
-              onClick={() => navigate(-1)}
+              onClick={() => window.history.back()}
+              
             >
               Close
             </Button>
