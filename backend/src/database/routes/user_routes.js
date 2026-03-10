@@ -172,6 +172,31 @@ router.post("/change-password",
 }
 );
 
+router.delete('/user/:id',
+    auth_middleware,
+    auditLogger('DELETE', 'USER', (req) => req.params.id ),
+    async (req, res) => {
+    const { id } = req.params;
+    try {
+        const result = await userQueries.deleteUser(id);
+        if (!result.success) {
+            return res.status(400).json(result);
+        }
+        res.status(200).json({
+            success: true,
+            message: "User deleted successfully.",
+        });
+    } catch (error) {
+        console.error("Error deleting user:", error);
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+});
+
+
+
 
 router.post('/logout', (req, res) => {
     res.clearCookie('token');

@@ -111,4 +111,21 @@ router.post('/employee/new',
     }
 });
 
+router.get('/employee/:id/pending-trainings', auth_middleware, async (req, res) => {
+    try {
+        const result = await employeeQueries.getPendingTrainingsByEmployee(req.params.id);
+        res.status(200).send(result);
+    } catch (error) {
+        console.error('Error getting pending trainings:', error);
+        res.status(500).send({
+            message: 'Error getting pending trainings',
+            error: {
+                message: error.message,
+                code: error.code,
+                sqlMessage: error.sqlMessage
+            }
+        });
+    }
+});
+
 module.exports = router;

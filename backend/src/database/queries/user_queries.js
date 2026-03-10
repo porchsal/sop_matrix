@@ -160,6 +160,18 @@ const checkLoginCredentials = (username, password) => {
   });
 }
 
+const deleteUser = (userId) => {
+    return new Promise((resolve, reject) => {
+        db.query('DELETE FROM users WHERE id = ?', [userId], (err, rows) => {
+            if (err) {
+                console.error('Database query error:', err);
+                return reject({ success: false, message: "Database error while deleting user." });
+            }   
+            resolve({ success: true, message: "User deleted successfully." });
+        });
+    });
+}
+
 module.exports = {
     addUser,
     getUserByUsername,
@@ -167,4 +179,5 @@ module.exports = {
     getUserById,
     changePassword,
     checkLoginCredentials,
+    deleteUser
   };

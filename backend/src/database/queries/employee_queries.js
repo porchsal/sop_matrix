@@ -181,6 +181,42 @@ const getEmployeesTrainers = () => {
     });
 }
 
+const getPendingTrainingsByEmployee = (employee_id) => {
+    return new Promise((resolve, reject) => {
+        db.query(`
+            SELECT
+                s.id,
+                s.sop_number,
+                s.sop_name
+            FROM
+                employee e
+                INNER JOIN sop_position sp
+                    on sp.position_id = e.position_id
+                INNER JOIN sop s
+                    on s.id = sp.sop_id
+                
+            WHERE e.id = ?
+                AND s.active = "Yes"
+                AND NOT EXISTS (
+                    SELECT 1
+                    FROM training t
+                    WHERE t.employee_id = e.id
+                        AND TRIM(LOWER(t.sop_number)) = TRIM(LOWER(s.sop_number))
+                )
+            ORDER BY s.sop_number
+        `, 
+        [employee_id], 
+        (err, rows) => {
+            if (err) {
+                console.error('Database query error:', err);
+                return reject(err);
+            }
+            resolve(rows);
+        });
+    });
+}
+
+
 
 module.exports = {
   getAllEmployees,
@@ -192,5 +228,6 @@ module.exports = {
     getEmployeesTrainers,
     getEmployeeBySiteAndDepartment,
     getEmployeesFiltered,
-    getInactiveEmployeeBySiteAndDepartment
+    getInactiveEmployeeBySiteAndDepartment,
+    getPendingTrainingsByEmployee
 };
