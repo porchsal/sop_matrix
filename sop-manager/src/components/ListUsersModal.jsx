@@ -121,6 +121,41 @@ const handleChangeRowsPerPage = (event) => {
         }
       };
 
+    
+    const disableUser = async (user) => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            setError("User is not authenticated");
+            return;
+        }
+        setLoading(true);
+        setError("");
+        console.log("Disable user function called for user:", user);
+        try {
+            const response = await axios.delete(`http://localhost:3010/api/user/${user.id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (response.data.success) {
+                alert("User disabled successfully");
+                // Optionally refresh user list here
+            } else {
+                setError(response.data.message || "Error disabling user.");
+            }
+        } catch (error) {
+            if (error.response) {
+                setError(error.response.data.message || "Error disabling user.");
+            } else if (error.request) {
+                setError("Network error. Please try again.");
+            } else {
+                setError("An error occurred. Please try again.");
+            }
+        } finally {
+            setLoading(false);
+        }
+    };
 
 const paginatedData = data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
@@ -157,10 +192,17 @@ return (
                                         variant="contained"
                                         color="primary"
                                         onClick={() => handleOpenUpdateModal(user)}
+                                        size=" "
                                         disabled={loading}
                                     >
                                         {loading ? <CircularProgress size={24} /> : 'Update Password'}
                                     </Button>
+                                    <Button variant="contained"
+                                        color="secondary"
+                                        onClick={() => disableUser(user.id)}
+                                        disabled={loading}
+                                    >
+                                        {loading ? <CircularProgress size={24} /> : 'Delete User'}</Button>
                                     {error && <Typography variant="body1" color="error">{error}</Typography>}
                                 </TableCell>
                             </TableRow>

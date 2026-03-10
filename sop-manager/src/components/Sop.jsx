@@ -74,10 +74,11 @@ import Typography from '@mui/material/Typography';
     }
 
     const filteredSopList = sopList.filter((sop) => 
-      sop.sop_number.toLowerCase().includes(searchTerm) || 
-      sop.sop_name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-      sop.topic.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+      sop.sop_number?.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      sop.sop_name?.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      sop.topic?.toLowerCase().includes(searchTerm.toLowerCase())
+);
+
 
     const handleSelectNew = (training) => {
       if (training) {

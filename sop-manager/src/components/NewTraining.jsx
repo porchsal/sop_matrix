@@ -27,6 +27,7 @@ const NewTraining = () =>{
     const [description, setDescription] = useState([]);
     const [assessment, setAssessment] = useState([]);
     const [changeControl, setChangeControl] = useState([]);
+    const [sopHasPositions, setSopHasPositions] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
     const originalTraining = location.state?.training;
@@ -64,17 +65,28 @@ useEffect(() => {
     
 }, []);
 
+    // useEffect(() => {
+    //     if( selectedDepartment.length > 0) {
+    //         const filtered = positions.filter(position =>{
+    //             return selectedDepartment.includes(position.department_id);
+    //             }
+    //         );
+    //         setFilteredPositions(filtered);
+    //     } else {
+    //         setFilteredPositions([])
+    //     }
+    // }, [selectedDepartment, positions]);
+
     useEffect(() => {
-        if( selectedDepartment.length > 0) {
-            const filtered = positions.filter(position =>{
-                return selectedDepartment.includes(position.department_id);
-                }
-            );
-            setFilteredPositions(filtered);
-        } else {
-            setFilteredPositions([])
-        }
-    }, [selectedDepartment, positions]);
+    if (selectedPosition.length > 0) {
+        const filtered = positions.filter((position) =>
+            selectedPosition.includes(Number(position.ID))
+        );
+        setFilteredPositions(filtered);
+    } else {
+        setFilteredPositions([]);
+    }
+}, [selectedPosition, positions]);
 
     useEffect(() => {
         const fetchEmployees = async () => {
@@ -102,6 +114,79 @@ useEffect(() => {
         };
         fetchEmployees();
     }, [selectedSites, selectedPosition, selectedDepartment]);
+
+//     useEffect(() => {
+//     const fetchSopPositions = async () => {
+//         if (!originalTraining?.id) return;
+
+//         try {
+//             const token = localStorage.getItem('token');
+//             const response = await axios.get(
+//                 `http://localhost:3010/api/sop/${originalTraining.id}/positions`,
+//                 {
+//                     headers: {
+//                         Authorization: `Bearer ${token}`
+//                     }
+//                 }
+//             );
+
+//             const sopPositions = response.data || [];
+
+//             const positionIds = sopPositions.map((p) => Number(p.position_id));
+//             const departmentIds = [...new Set(sopPositions.map((p) => Number(p.department_id)))];
+
+//             setSelectedPosition(positionIds);
+//             setSelectedDepartment(departmentIds);
+//             setFilteredPositions(
+//                 sopPositions.map((p) => ({
+//                     ID: Number(p.position_id),
+//                     Name: p.position_name,
+//                     department_id: Number(p.department_id)
+//                 }))
+//             );
+//         } catch (error) {
+//             console.error('Error fetching SOP positions:', error);
+//         }
+//     };
+
+//     fetchSopPositions();
+// }, [originalTraining]);
+    
+useEffect(() => {
+    const fetchSopPositions = async () => {
+        if (!originalTraining?.id) return;
+
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.get(
+                `http://localhost:3010/api/sop/${originalTraining.id}/positions`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+
+            const sopPositions = response.data || [];
+
+            if (sopPositions.length > 0) {
+                const positionIds = sopPositions.map((p) => Number(p.position_id));
+                const departmentIds = [...new Set(sopPositions.map((p) => Number(p.department_id)))];
+
+                setSelectedPosition(positionIds);
+                setSelectedDepartment(departmentIds);
+                setSopHasPositions(true);
+            } else {
+                setSopHasPositions(false);
+            }
+        } catch (error) {
+            console.error('Error fetching SOP positions:', error);
+            setSopHasPositions(false);
+        }
+    };
+
+    fetchSopPositions();
+}, [originalTraining]);
 
     const versionLabel = `
     Chief Medical Supplies Ltd./n
@@ -260,7 +345,7 @@ useEffect(() => {
                         <TableRow>
                             <TableCell>
                                 <TextField
-                                    label="SOP Tittle"
+                                    label="SOP Title"
                                     value={originalTraining.sop_name}
                                     fullWidth
                                     margin="normal"
@@ -370,14 +455,25 @@ useEffect(() => {
                                                             onChange={handleDepartmentChange}
                                                             value={department.ID}
                                                             name={department.Name}
+                                                            disabled={sopHasPositions}
                                                             />
                                                         }
                                                         label={department.Name}
                                                     />
                                                 ))}
+                                                 {/* {departments
+                                                    .filter((department) => selectedDepartment.includes(Number(department.ID)))
+                                                    .map((department) => (
+                                                        <FormControlLabel
+                                                            key={department.ID}
+                                                            control={<Checkbox checked disabled />}
+                                                            label={department.Name}
+                                                        />
+                                                    ))} */}
+
                                             </FormGroup>
                                     </FormControl>
-                                    {selectedDepartment.length > 0 && filteredPositions.length > 0 ? ( 
+                                    {/* {selectedDepartment.length > 0 && filteredPositions.length > 0 ? ( 
                                     <FormControl component="fieldset">
                                         <FormLabel component="legend">Position</FormLabel>
                                         <FormGroup>
@@ -401,7 +497,9 @@ useEffect(() => {
                                         <Box>
                                             <Typography variant="body1">Please select a department to view positions</Typography>
                                         </Box>
-                                    )}
+                                    )} */}
+                                   
+
                                     <Box sx={{mt:3}}>
                                         <Table sx={{ minWidth: 250 }} stickyHeader aria-label="sticky table">
                                             <FormLabel component="legend">Related Employees</FormLabel>

@@ -13,7 +13,7 @@ function Settings() {
  
     const [data, setData] = useState([]); // Almacena los datos de la lista actual
     const [open, setOpen] = useState(false);
-    const [modalTittle, setModalTittle] = useState('');
+    const [modalTitle, setModalTitle] = useState('');
     const [openSite, setOpenSite] = useState(false);
     const [openTopic, setOpenTopic] = useState(false);
     const [openDepartment, setOpenDepartment] = useState(false);
@@ -31,7 +31,7 @@ function Settings() {
     
    
     const handleOpenModal = (title, endpoint) => {
-        setModalTittle(title);
+        setModalTitle(title);
         fetchData(endpoint);
         setOpen(true);
     }
@@ -193,7 +193,7 @@ function Settings() {
 {/* Modal */}
 
 <Dialog open={open} onClose={handleCloseModal} maxWidth="5m">
-    <DialogTitle>{modalTittle} List</DialogTitle>
+    <DialogTitle>{modalTitle} List</DialogTitle>
     <DialogContent>
         {data.length > 0 ? (
             <Table>

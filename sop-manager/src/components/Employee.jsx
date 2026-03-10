@@ -41,6 +41,8 @@ function Employee() {
   const [filteredEmployees, setFilteredEmployees] = useState([]);
   const [printDialogOpen, setPrintDialogOpen] = useState(false);
   const [selectedTrainings, setSelectedTrainings] = useState([]);
+  const [pendingTrainings, setPendingTrainings] = useState([]);
+  const [pendingDialogOpen, setPendingDialogOpen] = useState(false);
   
   const role = localStorage.getItem('role');
   useEffect(() => {
@@ -229,6 +231,35 @@ const handleAddEmployee = (newEmployee) => {
     setPrintDialogOpen(false);
   };
 
+ const handlePendingTrainings = async () => {
+  if (!selectedEmployee?.id) {
+    alert('Please select an employee first.');
+    return;
+  }
+
+  try {
+    const token = localStorage.getItem('token');
+    const response = await axios.get(
+      `http://localhost:3010/api/employee/${selectedEmployee.id}/pending-trainings`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+
+    setPendingTrainings(response.data || []);
+    setPendingDialogOpen(true);
+  } catch (error) {
+    console.error('Error fetching pending trainings:', error);
+    alert('Failed to load pending trainings.');
+  }
+};
+
+const handleClosePendingDialog = () => {
+  setPendingDialogOpen(false);
+};
+
   const handlePrint = () => {
     const printWindow = window.open('', '_blank');
     printWindow.document.write(`
@@ -285,6 +316,65 @@ const handleAddEmployee = (newEmployee) => {
     printWindow.print();
   };
   
+const handlePrintPendingTrainings = () => {
+  const printWindow = window.open('', '_blank');
+
+  printWindow.document.write(`
+    <html>
+      <head>
+        <title>Pending Trainings</title>
+        <style>
+          body { font-family: Arial, sans-serif; margin: 20px; }
+          h1 { color: #333; text-align: center; }
+          table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+          }
+          th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+          }
+          th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+          }
+          tr:nth-child(even) { background-color: #f9f9f9; }
+        </style>
+      </head>
+      <body>
+        <h1>Pending Trainings</h1>
+        <p><strong>Employee:</strong> ${selectedEmployee?.name || ''}</p>
+        <p><strong>Position:</strong> ${getPositionName(selectedEmployee?.position_id)}</p>
+        <table>
+          <thead>
+            <tr>
+              <th>SOP Name</th>
+              <th>SOP Number</th>
+              <th>Effective Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${pendingTrainings.map(training => `
+              <tr>
+                <td>${training.sop_name}</td>
+                <td>${training.sop_number}</td>
+                <td>${formatDateTimeForSQL(training.effective_date)}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </body>
+    </html>
+  `);
+
+  printWindow.document.close();
+  printWindow.print();
+};
+
+
+
 return (
    <>
       <Sidenav />
@@ -444,6 +534,16 @@ return (
                                     Print Trainings
                                   </Button>
                                 </TableCell>
+                                <TableCell>
+                                  <Button 
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={handlePendingTrainings}
+                                  >
+                                    Pending Trainings
+                                  </Button>
+
+                                </TableCell>
                               </TableRow>
                             </TableBody>
                           ) : (
@@ -527,6 +627,58 @@ return (
               </Button>
             </DialogActions>
           </Dialog>
+          <Dialog open={pendingDialogOpen} onClose={handleClosePendingDialog} fullWidth maxWidth="sm">
+            <DialogTitle>Pending Trainings</DialogTitle>
+            <DialogContent>
+              <Typography variant="h6">Employee Details</Typography>
+              <Typography>Name: {selectedEmployee?.name}</Typography>
+              <Typography>Position: {getPositionName(selectedEmployee?.position_id)}</Typography>
+
+              <Typography variant="h6" sx={{ mt: 2 }}>Pending SOPs</Typography>
+
+              <TableContainer component={Paper} sx={{ mt: 2 }}>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>SOP Name</TableCell>
+                      <TableCell>SOP Number</TableCell>
+                      <TableCell>Effective Date</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {pendingTrainings.length > 0 ? (
+                      pendingTrainings.map((training, index) => (
+                        <TableRow key={index}>
+                          <TableCell>{training.sop_name}</TableCell>
+                          <TableCell>{training.sop_number}</TableCell>
+                          {/* <TableCell>{formatDateTimeForSQL(training.effective_date)}</TableCell> */}
+                        </TableRow>
+                      ))
+                    ) : (
+                      <TableRow>
+                        <TableCell colSpan={3}>No pending trainings found</TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClosePendingDialog} color="secondary">
+                Cancel
+              </Button>
+              <Button
+                onClick={() => {
+                  handlePrintPendingTrainings();
+                  handleClosePendingDialog();
+                }}
+                color="primary"
+              >
+                Confirm and Print
+              </Button>
+            </DialogActions>
+          </Dialog>
+
     </>
     )
   }
